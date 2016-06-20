@@ -14,21 +14,16 @@ public class Textures {
     private static Bitmap endpointTexture;
     private static Bitmap heroTexture;
     private static Bitmap grassTexture;
-    public final static char wall = 'W';
-    public final static char crate = '#';
-    public final static char ground = '.';
-    public final static char endpoint = 'X';
-    public final static char grass = '_';
 
     public static Bitmap tile(char tile) {
         switch (tile) {
-            case wall:
+            case Tile.wall:
                 return wallTexture;
-            case crate:
+            case Tile.crate:
                 return crateTexture;
-            case endpoint:
+            case Tile.endpoint:
                 return endpointTexture;
-            case grass:
+            case Tile.grass:
                 return grassTexture;
             default:
                 return groundTexture;

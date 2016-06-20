@@ -10,16 +10,14 @@ import java.util.Scanner;
 
 public class Level {
     private char[][] tiles;
-    private final int playerStartX;
-    private final int playerStartY;
+    private int playerX;
+    private int playerY;
 
-    public Level(int width, int height, int playerX, int playerY) {
+    private Level(int width, int height) {
         tiles = new char[height][];
         for (int i = 0; i < height; i++) {
             tiles[i] = new char[width];
         }
-        playerStartX = playerX;
-        playerStartY = playerY;
     }
 
     public char[][] tiles() {
@@ -42,25 +40,28 @@ public class Level {
         InputStream inputStream;
         inputStream = context.getAssets().open(filename);
         Scanner scanner = new Scanner(inputStream);
-        int pY = scanner.nextInt(), pX = scanner.nextInt();
         int height = scanner.nextInt(), width = scanner.nextInt();
-        Level result = new Level(width, height, pX, pY);
-        Log.d("Sokoban", width + " " + height + " " + pX + " " + pY);
+        Level result = new Level(width, height);
+        Log.d("Sokoban", width + " " + height);
         for (int i = 0; i < result.tiles().length; i++) {
             String line = scanner.next();
             Log.d("Sokonan", line);
             for (int j = 0; j < result.tiles()[i].length; j++) {
                 result.tiles()[i][j] = line.charAt(j);
+                if (Tile.isHero(line.charAt(j))) {
+                    result.playerX = j;
+                    result.playerY = i;
+                }
             }
         }
         return result;
     }
 
     public int playerX() {
-        return playerStartX;
+        return playerX;
     }
 
     public int playerY() {
-        return playerStartY;
+        return playerY;
     }
 }

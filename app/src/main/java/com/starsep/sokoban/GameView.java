@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.starsep.sokoban.sokoban.Level;
 import com.starsep.sokoban.sokoban.Textures;
+import com.starsep.sokoban.sokoban.Tile;
 
 import java.io.IOException;
 
@@ -26,7 +27,6 @@ public class GameView extends View {
             level = Level.load(getContext(), "levels/1.level");
         } catch (IOException e) {
             Log.e("Sokoban", "Load error (1.level) :<");
-            level = new Level(1, 1, 0, 0);
         }
     }
     @Override
@@ -36,7 +36,7 @@ public class GameView extends View {
         for (int y = 0; y < level.height(); y++) {
             for (int x = 0; x < level.width(); x++) {
                 dimension.set(x * size, y * size, (x + 1) * size, (y + 1) * size);
-                canvas.drawBitmap(Textures.tile(Textures.ground), null, dimension, null);
+                canvas.drawBitmap(Textures.tile(Tile.ground), null, dimension, null);
             }
         }
         for (int y = 0; y < level.height(); y++) {
