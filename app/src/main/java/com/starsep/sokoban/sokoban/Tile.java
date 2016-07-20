@@ -11,4 +11,7 @@ public class Tile {
     public static boolean isHero(char c) {
         return hero == c;
     }
+    public static boolean isMovable(char c) {
+        return c == grass || c == endpoint || c == ground;
+    }
 }

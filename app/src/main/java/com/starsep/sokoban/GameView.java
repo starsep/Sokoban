@@ -3,16 +3,21 @@ package com.starsep.sokoban;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.support.v4.view.GestureDetectorCompat;
 import android.text.method.KeyListener;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.starsep.sokoban.sokoban.Level;
 import com.starsep.sokoban.sokoban.Textures;
 import com.starsep.sokoban.sokoban.Tile;
 
 import java.io.IOException;
+import java.util.EventListener;
 
 public class GameView extends View {
     private Rect dimension;
@@ -28,7 +33,26 @@ public class GameView extends View {
         } catch (IOException e) {
             Log.e("Sokoban", "Load error (1.level) :<");
         }
+        level.setView(this);
+        setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+            public void onSwipeTop() {
+                level.moveUp();
+            }
+
+            public void onSwipeRight() {
+                level.moveRight();
+            }
+
+            public void onSwipeLeft() {
+                level.moveLeft();
+            }
+
+            public void onSwipeBottom() {
+                level.moveDown();
+            }
+        });
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
