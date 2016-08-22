@@ -116,7 +116,7 @@ public class GameView extends View {
 	}
 
 	public void showWinDialog(int levelNumber, int points, int totalPoints) {
-		new AlertDialog.Builder(getContext())
+		AlertDialog alertDialog = new AlertDialog.Builder(getContext())
 				.setTitle("Level " + levelNumber + " completed!")
 				.setMessage("Points: " + points + "\n" + "Total: " + totalPoints + "\nNext level?")
 				.setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
@@ -130,6 +130,13 @@ public class GameView extends View {
 					}
 				})
 				.setIcon(android.R.drawable.ic_dialog_info)
-				.show();
+				.create();
+		alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				gameplay.nextLevel();
+			}
+		});
+		alertDialog.show();
 	}
 }

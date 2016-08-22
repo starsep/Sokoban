@@ -69,12 +69,12 @@ public class Level {
 	}
 
 	private void move(int dx, int dy) {
-		if (won()) {
-			gameplay.onWin();
-		}
 		playerX += dx;
 		playerY += dy;
 		gameplay.onMove();
+		if (won()) {
+			gameplay.onWin();
+		}
 	}
 
 	private void moveCrate(int x, int y, int newX, int newY) {
