@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.starsep.sokoban.sokoban.Gameplay;
@@ -116,7 +117,7 @@ public class GameView extends View {
 	}
 
 	public void showWinDialog(int levelNumber, int points, int totalPoints) {
-		AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+		new AlertDialog.Builder(getContext())
 				.setTitle("Level " + levelNumber + " completed!")
 				.setMessage("Points: " + points + "\n" + "Total: " + totalPoints + "\nNext level?")
 				.setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
@@ -130,13 +131,7 @@ public class GameView extends View {
 					}
 				})
 				.setIcon(android.R.drawable.ic_dialog_info)
-				.create();
-		alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				gameplay.nextLevel();
-			}
-		});
-		alertDialog.show();
+				.setCancelable(false)
+				.show();
 	}
 }
