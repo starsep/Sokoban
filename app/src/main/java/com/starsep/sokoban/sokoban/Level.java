@@ -9,6 +9,7 @@ import com.starsep.sokoban.Sokoban;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Level {
@@ -159,5 +160,15 @@ public class Level {
 
 	public void moveDown() {
 		checkMove(0, 1);
+	}
+
+	@Override
+	public String toString() {
+		String result = "" + height() + ' ' + width() + '\n' +
+				player.y + ' ' + player.x + '\n';
+		for (char[] l : tiles) {
+			result += new String(l) + '\n';
+		}
+		return result;
 	}
 }
