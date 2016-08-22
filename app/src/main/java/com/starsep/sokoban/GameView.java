@@ -63,7 +63,7 @@ public class GameView extends View {
 	}
 
 	private void drawHero(Canvas canvas) {
-		dimension.set(level().playerX() * size, level().playerY() * size, (level().playerX() + 1) * size, (level().playerY() + 1) * size);
+		dimension.set(level().player().x * size, level().player().y * size, (level().player().x + 1) * size, (level().player().y + 1) * size);
 		canvas.drawBitmap(Textures.heroTexture(), null, dimension, null);
 	}
 

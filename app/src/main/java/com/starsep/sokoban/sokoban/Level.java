@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.starsep.sokoban.GameActivity;
 import com.starsep.sokoban.Sokoban;
 
 import java.io.IOException;
@@ -12,8 +13,7 @@ import java.util.Scanner;
 
 public class Level {
 	private char[][] tiles;
-	private int playerX;
-	private int playerY;
+	private Position player;
 	private Gameplay gameplay;
 
 	private Level(int width, int height) {
@@ -21,6 +21,18 @@ public class Level {
 		for (int i = 0; i < height; i++) {
 			tiles[i] = new char[width];
 		}
+	}
+
+	public void setPlayer(Position position) {
+		player = new Position(position.y, position.x);
+	}
+
+	public Level(char[][] data, Position player) {
+		this(data[0].length, data.length);
+		for (int i = 0; i < height(); i++) {
+			System.arraycopy(data[i], 0, tiles[i], 0, width());
+		}
+		setPlayer(player);
 	}
 
 	public char[][] tiles() {
@@ -39,15 +51,19 @@ public class Level {
 		return tiles[0].length;
 	}
 
+	public void setGameplay(Gameplay gameplay) {
+		this.gameplay = gameplay;
+	}
+
 	public static Level load(Context context, String filename, Gameplay gameplay) throws IOException {
 		InputStream inputStream;
 		inputStream = context.getAssets().open(filename);
 		Scanner scanner = new Scanner(inputStream);
 		int height = scanner.nextInt(), width = scanner.nextInt();
 		Level result = new Level(width, height);
-		result.playerY = scanner.nextInt();
-		result.playerX = scanner.nextInt();
-		result.gameplay = gameplay;
+		Position player = new Position(scanner.nextInt(), scanner.nextInt());
+		result.setPlayer(player);
+		result.setGameplay(gameplay);
 		for (int i = 0; i < result.tiles().length; i++) {
 			String line = scanner.next();
 			for (int j = 0; j < result.tiles()[i].length; j++) {
@@ -60,17 +76,11 @@ public class Level {
 		return result;
 	}
 
-	public int playerX() {
-		return playerX;
-	}
-
-	public int playerY() {
-		return playerY;
-	}
+	public Position player() { return player; }
 
 	private void move(int dx, int dy) {
-		playerX += dx;
-		playerY += dy;
+		player.x += dx;
+		player.y += dy;
 		gameplay.onMove();
 		if (won()) {
 			gameplay.onWin();
@@ -85,8 +95,8 @@ public class Level {
 	}
 
 	private void checkMove(int dx, int dy) {
-		int x = playerX() + dx;
-		int y = playerY() + dy;
+		int x = player.x + dx;
+		int y = player.y + dy;
 		if (isCrate(x, y) && canMove(x + dx, y + dy)) {
 			moveCrate(x, y, x + dx, y + dy);
 			move(dx, dy);
