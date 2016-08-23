@@ -117,8 +117,8 @@ public class GameView extends View {
 			size = newSize;
 			backgroundRect.set(0, 0, getWidth(), getHeight());
 			textPaint.setTextSize(size);
-			screenDelta.x = ((getWidth() / size - level().width()) * size + getWidth() % size) / 2;
-			screenDelta.y = ((getHeight() / size - level().height()) * size + getHeight() % size) / 2;
+			screenDelta.x = (getWidth() - level().width() * size) / 2;
+			screenDelta.y = (getHeight() - level().height() * size) / 2;
 		}
 	}
 
