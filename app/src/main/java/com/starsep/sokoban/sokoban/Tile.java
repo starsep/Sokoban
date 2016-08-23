@@ -6,7 +6,7 @@ import com.starsep.sokoban.Sokoban;
 
 public class Tile {
 	public final static int GRASS = 0;
-	public final static int MOVABLE = 0;
+	public final static int WALKABLE = 0;
 	public final static int SOLID = 1;
 	public final static int GROUND = 2;
 	public final static int ENDPOINT = 4;
@@ -21,8 +21,8 @@ public class Tile {
 
 	public final static int CRATE_MASK = SOLID | CRATE;
 
-	public static boolean isMovable(char c) {
-		return (mask(c) & SOLID) == MOVABLE;
+	public static boolean isWalkable(char c) {
+		return (mask(c) & SOLID) == WALKABLE;
 	}
 
 	public static boolean isCrate(char c) {
@@ -45,7 +45,7 @@ public class Tile {
 				return mask(endpoint) | mask(crate);
 			default: {
 				Log.e(Sokoban.TAG, "Tile.mask: " + "Unknown tile " + c);
-				return MOVABLE;
+				return WALKABLE;
 			}
 		}
 	}

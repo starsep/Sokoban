@@ -19,14 +19,14 @@ public class TileTest {
 	}
 
 	@Test
-	public void crateIsNotMovable() {
-		assertFalse(Tile.isMovable(Tile.crate));
+	public void crateIsNotWalkable() {
+		assertFalse(Tile.isWalkable(Tile.crate));
 	}
 
 	@Test
-	public void groundAndGrassIsMovable() {
-		assertTrue(Tile.isMovable(Tile.ground));
-		assertTrue(Tile.isMovable(Tile.grass));
+	public void groundAndGrassIsWalkable() {
+		assertTrue(Tile.isWalkable(Tile.ground));
+		assertTrue(Tile.isWalkable(Tile.grass));
 	}
 
 	@Test
@@ -39,9 +39,9 @@ public class TileTest {
 	}
 
 	@Test
-	public void defaultMaskMovable() {
+	public void defaultMaskWalkable() {
 		PowerMockito.mockStatic(Log.class);
-		assertEquals(Tile.mask('~'), Tile.MOVABLE);
+		assertEquals(Tile.mask('~'), Tile.WALKABLE);
 		PowerMockito.verifyStatic();
 	}
 

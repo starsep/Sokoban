@@ -4,12 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.starsep.sokoban.GameActivity;
 import com.starsep.sokoban.Sokoban;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Level {
@@ -111,7 +109,7 @@ public class Level {
 	}
 
 	private boolean canMove(int x, int y) {
-		return validTile(x, y) && Tile.isMovable(tiles()[y][x]);
+		return validTile(x, y) && Tile.isWalkable(tiles()[y][x]);
 	}
 
 	private boolean isCrate(int x, int y) {
