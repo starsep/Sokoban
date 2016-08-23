@@ -16,8 +16,7 @@
             android:value="@integer/google_play_services_version"/>
 
         <activity
-            android:name=".MainMenuActivity"
-            android:screenOrientation="landscape">
+            android:name=".MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,8 +26,7 @@
 
         <activity
             android:name=".GameActivity"
-            android:parentActivityName=".MainMenuActivity"
-            android:screenOrientation="landscape">
+            android:parentActivityName=".MainMenuActivity">
         </activity>
     </application>
 
