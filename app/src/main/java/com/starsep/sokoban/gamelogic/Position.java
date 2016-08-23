@@ -1,4 +1,4 @@
-package com.starsep.sokoban.sokoban;
+package com.starsep.sokoban.gamelogic;
 
 public class Position {
 	public int y;

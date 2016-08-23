@@ -10,10 +10,10 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.starsep.sokoban.sokoban.Gameplay;
-import com.starsep.sokoban.sokoban.Level;
-import com.starsep.sokoban.sokoban.Position;
-import com.starsep.sokoban.sokoban.Tile;
+import com.starsep.sokoban.gamelogic.Gameplay;
+import com.starsep.sokoban.gamelogic.Level;
+import com.starsep.sokoban.gamelogic.Position;
+import com.starsep.sokoban.gamelogic.Tile;
 
 public class GameView extends View {
 	private Rect dimension;

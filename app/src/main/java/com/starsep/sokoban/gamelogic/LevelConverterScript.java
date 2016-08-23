@@ -1,4 +1,4 @@
-package com.starsep.sokoban.sokoban;
+package com.starsep.sokoban.gamelogic;
 
 import java.util.ArrayList;
 import java.util.Scanner;

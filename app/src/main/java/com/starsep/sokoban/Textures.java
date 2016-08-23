@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.starsep.sokoban.sokoban.Tile;
+import com.starsep.sokoban.gamelogic.Tile;
 
 public class Textures {
 	private static Bitmap wallTexture;

@@ -1,4 +1,4 @@
-package com.starsep.sokoban.sokoban;
+package com.starsep.sokoban.gamelogic;
 
 import android.content.Context;
 import android.graphics.Bitmap;

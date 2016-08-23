@@ -1,4 +1,4 @@
-package com.starsep.sokoban.sokoban;
+package com.starsep.sokoban.gamelogic;
 
 import android.util.Log;
 
