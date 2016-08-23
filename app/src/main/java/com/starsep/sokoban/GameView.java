@@ -8,12 +8,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.starsep.sokoban.sokoban.Gameplay;
 import com.starsep.sokoban.sokoban.Level;
-import com.starsep.sokoban.sokoban.Textures;
+import com.starsep.sokoban.sokoban.Position;
 import com.starsep.sokoban.sokoban.Tile;
 
 public class GameView extends View {
@@ -22,9 +21,11 @@ public class GameView extends View {
 	private int size; // size of tile
 	private Paint textPaint;
 	private AchievementListener achievementListener;
+	private Position screenDelta;
 
 	public GameView(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
+		screenDelta = new Position(0, 0);
 		Textures.init(getContext());
 		int size = Math.min(getWidth(), getHeight()) / 10;
 		dimension = new Rect(0, 0, size, size);
@@ -54,24 +55,29 @@ public class GameView extends View {
 		return gameplay.currentLevel();
 	}
 
+	private void setDrawingDimension(int x, int y) {
+		dimension.set(screenDelta.x + x * size, screenDelta.y + y * size,
+				screenDelta.x + (x + 1) * size, screenDelta.y + (y + 1) * size);
+	}
+
 	private void drawBackground(Canvas canvas) {
 		for (int y = 0; y < level().height(); y++) {
 			for (int x = 0; x < level().width(); x++) {
-				dimension.set(x * size, y * size, (x + 1) * size, (y + 1) * size);
+				setDrawingDimension(x, y);
 				canvas.drawBitmap(Textures.tile(Tile.ground), null, dimension, null);
 			}
 		}
 	}
 
 	private void drawHero(Canvas canvas) {
-		dimension.set(level().player().x * size, level().player().y * size, (level().player().x + 1) * size, (level().player().y + 1) * size);
+		setDrawingDimension(level().player().x, level().player().y);
 		canvas.drawBitmap(Textures.heroTexture(), null, dimension, null);
 	}
 
 	private void drawTiles(Canvas canvas) {
 		for (int y = 0; y < level().height(); y++) {
 			for (int x = 0; x < level().width(); x++) {
-				dimension.set(x * size, y * size, (x + 1) * size, (y + 1) * size);
+				setDrawingDimension(x, y);
 				canvas.drawBitmap(level().texture(y, x), null, dimension, null);
 			}
 		}
@@ -94,6 +100,8 @@ public class GameView extends View {
 		if (newSize != size) {
 			size = newSize;
 			textPaint.setTextSize(size);
+			screenDelta.x = ((getWidth() / size - level().width()) * size + getWidth() % size) / 2;
+			screenDelta.y = ((getHeight() / size - level().height()) * size + getHeight() % size) / 2;
 		}
 	}
 
