@@ -113,7 +113,7 @@ public class GameView extends View {
 		drawBackground(canvas);
 		drawTiles(canvas);
 		drawHero(canvas);
-		drawStats(canvas);
+		// drawStats(canvas);
 		// achievementListener.onAchievementUnlock(R.string.achievement_leet);
 	}
 
