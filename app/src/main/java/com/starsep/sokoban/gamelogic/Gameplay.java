@@ -10,19 +10,19 @@ import java.io.IOException;
 public class Gameplay {
 	private final GameView gameView;
 
-	private int points;
 	private int moves;
-	private int totalPoints;
+	private int pushes;
+	private int time;
 
 	public Gameplay(GameView gameView) {
 		this.gameView = gameView;
-		totalPoints = 0;
 		loadLevel(1);
 	}
 
 	private void loadLevel(int number) {
 		moves = 0;
-		points = 0;
+		pushes = 0;
+		time = 0;
 		levelNumber = number;
 		try {
 			currentLevel = Level.load(gameView.getContext(), "levels/" + number + ".level", this);
@@ -43,20 +43,23 @@ public class Gameplay {
 		return moves;
 	}
 
-	public int points() {
-		return points;
+	public int pushes() {
+		return pushes;
 	}
 
-	public int totalPoints() { return points + totalPoints; }
+	public int time() { return time; }
 
 	public void onMove() {
 		moves++;
-		points += 50;
 		gameView.update();
 	}
 
+	public void onPush() {
+		pushes++;
+	}
+
 	public void onWin() {
-		gameView.showWinDialog(levelNumber, points, points + totalPoints);
+		gameView.showWinDialog(levelNumber, moves, pushes, time);
 	}
 
 	public void repeatLevel() {
@@ -64,7 +67,6 @@ public class Gameplay {
 	}
 
 	public void nextLevel() {
-		totalPoints += points;
 		loadLevel(++levelNumber);
 	}
 }

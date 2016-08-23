@@ -3,7 +3,6 @@ package com.starsep.sokoban;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -108,8 +107,8 @@ public class GameView extends View {
 
 	private void drawStats(Canvas canvas) {
 		drawTextOnRight(canvas, "Moves: " + gameplay.moves(), 1);
-		drawTextOnRight(canvas, "Points: " + gameplay.points(), 2);
-		drawTextOnRight(canvas, "Total Points: " + gameplay.totalPoints(), 3);
+		drawTextOnRight(canvas, "Pushes: " + gameplay.pushes(), 2);
+		drawTextOnRight(canvas, "Time: " + gameplay.time(), 3);
 	}
 
 	private void updateSize() {
@@ -142,10 +141,14 @@ public class GameView extends View {
 		invalidate();
 	}
 
-	public void showWinDialog(int levelNumber, int points, int totalPoints) {
+	public void showWinDialog(int levelNumber, int moves, int pushes, int time) {
+		String msg = "Moves: " + moves + "\n" +
+				"Pushes: " + pushes + "\n" +
+				"Time: " + time + "\n" +
+				"Next level?";
 		new AlertDialog.Builder(getContext())
 				.setTitle("Level " + levelNumber + " completed!")
-				.setMessage("Points: " + points + "\n" + "Total: " + totalPoints + "\nNext level?")
+				.setMessage(msg)
 				.setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						gameplay.nextLevel();

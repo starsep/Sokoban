@@ -87,18 +87,19 @@ public class Level {
 		}
 	}
 
-	private void moveCrate(int x, int y, int newX, int newY) {
+	private void push(int x, int y, int newX, int newY) {
 		char oldTile = tiles()[y][x];
 		char newTile = tiles()[newY][newX];
 		tiles()[newY][newX] = Tile.withCrate(newTile);
 		tiles()[y][x] = Tile.withoutCrate(oldTile);
+		gameplay.onPush();
 	}
 
 	private void checkMove(int dx, int dy) {
 		int x = player.x + dx;
 		int y = player.y + dy;
 		if (isCrate(x, y) && canMove(x + dx, y + dy)) {
-			moveCrate(x, y, x + dx, y + dy);
+			push(x, y, x + dx, y + dy);
 			move(dx, dy);
 		} else if (canMove(x, y)) {
 			move(dx, dy);
