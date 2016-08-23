@@ -50,4 +50,5 @@ public class Textures {
 	public static Bitmap heroTexture() {
 		return heroTexture;
 	}
+	public static Bitmap grassTexture() { return grassTexture; }
 }

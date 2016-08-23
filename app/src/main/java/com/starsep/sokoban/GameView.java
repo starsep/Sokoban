@@ -3,10 +3,14 @@ package com.starsep.sokoban;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -22,11 +26,26 @@ public class GameView extends View {
 	private Paint textPaint;
 	private AchievementListener achievementListener;
 	private Position screenDelta;
+	private BitmapShader grassShader;
+	private Paint grassPaint;
+	private Rect backgroundRect;
 
 	public GameView(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
+
 		screenDelta = new Position(0, 0);
+
 		Textures.init(getContext());
+
+		backgroundRect = new Rect();
+		grassShader = new BitmapShader(Textures.grassTexture(), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+		Matrix backgroundScaleMatrix = new Matrix();
+		backgroundScaleMatrix.setScale(0.5f, 0.5f);
+		grassShader.setLocalMatrix(backgroundScaleMatrix);
+		grassPaint = new Paint();
+		grassPaint.setStyle(Paint.Style.FILL);
+		grassPaint.setShader(grassShader);
+
 		int size = Math.min(getWidth(), getHeight()) / 10;
 		dimension = new Rect(0, 0, size, size);
 		gameplay = new Gameplay(this);
@@ -62,6 +81,7 @@ public class GameView extends View {
 
 	private void drawBackground(Canvas canvas) {
 		canvas.drawRGB(0, 200, 0);
+		canvas.drawRect(backgroundRect, grassPaint);
 	}
 
 	private void drawHero(Canvas canvas) {
@@ -73,7 +93,9 @@ public class GameView extends View {
 		for (int y = 0; y < level().height(); y++) {
 			for (int x = 0; x < level().width(); x++) {
 				setDrawingDimension(x, y);
-				canvas.drawBitmap(level().texture(y, x), null, dimension, null);
+				if (!Tile.isGrass(level().tiles()[y][x])) {
+					canvas.drawBitmap(level().texture(y, x), null, dimension, null);
+				}
 			}
 		}
 	}
@@ -94,6 +116,7 @@ public class GameView extends View {
 		int newSize = Math.min(getWidth() / level().width(), getHeight() / level().height());
 		if (newSize != size) {
 			size = newSize;
+			backgroundRect.set(0, 0, getWidth(), getHeight());
 			textPaint.setTextSize(size);
 			screenDelta.x = ((getWidth() / size - level().width()) * size + getWidth() % size) / 2;
 			screenDelta.y = ((getHeight() / size - level().height()) * size + getHeight() % size) / 2;
