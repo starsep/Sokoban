@@ -62,12 +62,6 @@ public class GameView extends View {
 
 	private void drawBackground(Canvas canvas) {
 		canvas.drawRGB(0, 200, 0);
-		for (int y = 0; y < level().height(); y++) {
-			for (int x = 0; x < level().width(); x++) {
-				setDrawingDimension(x, y);
-				canvas.drawBitmap(Textures.tile(Tile.ground), null, dimension, null);
-			}
-		}
 	}
 
 	private void drawHero(Canvas canvas) {
