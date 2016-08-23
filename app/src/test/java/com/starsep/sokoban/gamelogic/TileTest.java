@@ -41,7 +41,7 @@ public class TileTest {
 	@Test
 	public void defaultMaskWalkable() {
 		PowerMockito.mockStatic(Log.class);
-		assertEquals(Tile.mask('~'), Tile.WALKABLE);
+		assertEquals(Tile.mask('~'), Tile.WALKABLE_MASK);
 		PowerMockito.verifyStatic();
 	}
 

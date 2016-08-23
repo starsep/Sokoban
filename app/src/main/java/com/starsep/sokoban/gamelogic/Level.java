@@ -90,8 +90,8 @@ public class Level {
 	private void moveCrate(int x, int y, int newX, int newY) {
 		char oldTile = tiles()[y][x];
 		char newTile = tiles()[newY][newX];
-		tiles()[newY][newX] = Tile.maskToChar(Tile.mask(newTile) | Tile.CRATE_MASK);
-		tiles()[y][x] = Tile.maskToChar(Tile.mask(oldTile) ^ Tile.CRATE_MASK);
+		tiles()[newY][newX] = Tile.withCrate(newTile);
+		tiles()[y][x] = Tile.withoutCrate(oldTile);
 	}
 
 	private void checkMove(int dx, int dy) {
