@@ -1,12 +1,11 @@
-package com.starsep.sokoban.sokoban;
+package com.starsep.sokoban;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.starsep.sokoban.R;
-import com.starsep.sokoban.Sokoban;
+import com.starsep.sokoban.sokoban.Tile;
 
 public class Textures {
 	private static Bitmap wallTexture;

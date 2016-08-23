@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.starsep.sokoban.Sokoban;
+import com.starsep.sokoban.Textures;
 
 import java.io.IOException;
 import java.io.InputStream;
