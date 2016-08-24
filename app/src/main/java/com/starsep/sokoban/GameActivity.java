@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -11,6 +12,7 @@ import com.google.android.gms.games.Games;
 
 public class GameActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AchievementListener {
 	private GoogleApiClient googleApiClient;
+	private GameView gameView;
 
 	@Override
 	protected void onStop() {
@@ -29,7 +31,7 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
-		GameView gameView = (GameView) findViewById(R.id.gameView);
+		gameView = (GameView) findViewById(R.id.gameView);
 
 		googleApiClient = new GoogleApiClient.Builder(this)
 				.addConnectionCallbacks(this)
@@ -71,5 +73,9 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 		//		Games.Achievements.increment(googleApiClient, getResources().getString(id), 300);
 		//      startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), 9111);
 		// }
+	}
+
+	public void resetButtonClicked(View view) {
+		gameView.gameplay().repeatLevel();
 	}
 }

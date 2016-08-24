@@ -111,6 +111,10 @@ public class GameView extends View {
 		drawTextOnRight(canvas, "Time: " + gameplay.time(), 3);
 	}
 
+	public Gameplay gameplay() {
+		return gameplay;
+	}
+
 	private void updateSize() {
 		int newSize = Math.min(getWidth() / level().width(), getHeight() / level().height());
 		if (newSize != size) {
