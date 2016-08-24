@@ -12,27 +12,25 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class Level {
-	private char[][] tiles;
+	private final char[][] tiles;
 	private Position player;
 	private Gameplay gameplay;
+	private final int hash;
 
-	private Level(int width, int height) {
-		tiles = new char[height][];
-		for (int i = 0; i < height; i++) {
-			tiles[i] = new char[width];
-		}
-	}
-
-	public void setPlayer(Position position) {
+	private void setPlayer(Position position) {
 		player = new Position(position.y, position.x);
 	}
 
 	public Level(char[][] data, Position player) {
-		this(data[0].length, data.length);
+		tiles = new char[data.length][];
+		for (int i = 0; i < tiles.length; i++) {
+			tiles[i] = new char[data[0].length];
+		}
 		for (int i = 0; i < height(); i++) {
 			System.arraycopy(data[i], 0, tiles[i], 0, width());
 		}
 		setPlayer(player);
+		hash = toString().hashCode();
 	}
 
 	public char[][] tiles() {
@@ -60,16 +58,17 @@ public class Level {
 		inputStream = context.getAssets().open(filename);
 		Scanner scanner = new Scanner(inputStream);
 		int height = scanner.nextInt(), width = scanner.nextInt();
-		Level result = new Level(width, height);
 		Position player = new Position(scanner.nextInt(), scanner.nextInt());
-		result.setPlayer(player);
-		result.setGameplay(gameplay);
-		for (int i = 0; i < result.tiles().length; i++) {
+		char[][] data = new char[height][];
+		for (int i = 0; i < height; i++) {
 			String line = scanner.next();
-			for (int j = 0; j < result.tiles()[i].length; j++) {
-				result.tiles()[i][j] = line.charAt(j);
+			if (line.length() != width) {
+				Log.e(Sokoban.TAG, "Level line: " + line + " has bad length. Should have " + width);
 			}
+			data[i] = line.toCharArray();
 		}
+		Level result = new Level(data, player);
+		result.setGameplay(gameplay);
 		if (!result.valid()) {
 			Log.e(Sokoban.TAG, "Level.load: " + "Loaded level is invalid");
 		}
@@ -170,5 +169,18 @@ public class Level {
 			result += new String(l) + '\n';
 		}
 		return result;
+	}
+
+	public static Level getDefaultLevel() {
+		char[][] data = {
+			"###".toCharArray(),
+			"#.#".toCharArray(),
+			"###".toCharArray()
+		};
+		return new Level(data, new Position(1, 1));
+	}
+
+	public int hash() {
+		return hash;
 	}
 }
