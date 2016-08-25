@@ -12,63 +12,60 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class Level {
-	private final char[][] tiles;
+	private final char[] tiles;
+	private final int width;
 	private Position player;
-	private Gameplay gameplay;
+	private LevelEventsListener listener;
 	private final int hash;
 
 	private void setPlayer(Position position) {
 		player = new Position(position.y, position.x);
 	}
 
-	public Level(char[][] data, Position player) {
-		tiles = new char[data.length][];
-		for (int i = 0; i < tiles.length; i++) {
-			tiles[i] = new char[data[0].length];
-		}
-		for (int i = 0; i < height(); i++) {
-			System.arraycopy(data[i], 0, tiles[i], 0, width());
-		}
+	public Level(char[] data, int width, Position player) {
+		tiles = new char[data.length];
+		this.width = width;
+		System.arraycopy(data, 0, tiles, 0, data.length);
 		setPlayer(player);
 		hash = toString().hashCode();
 	}
 
-	public char[][] tiles() {
+	public char[] tiles() {
 		return tiles;
 	}
 
 	public Bitmap texture(int y, int x) {
-		return Textures.tile(tiles[y][x]);
+		return Textures.tile(tile(y, x));
 	}
 
 	public int height() {
-		return tiles.length;
+		return tiles.length / width();
 	}
 
 	public int width() {
-		return tiles[0].length;
+		return width;
 	}
 
-	public void setGameplay(Gameplay gameplay) {
-		this.gameplay = gameplay;
+	public void setLevelEventsListener(LevelEventsListener listener) {
+		this.listener = listener;
 	}
 
-	public static Level load(Context context, String filename, Gameplay gameplay) throws IOException {
+	public static Level load(Context context, String filename, LevelEventsListener listener) throws IOException {
 		InputStream inputStream;
 		inputStream = context.getAssets().open(filename);
 		Scanner scanner = new Scanner(inputStream);
 		int height = scanner.nextInt(), width = scanner.nextInt();
 		Position player = new Position(scanner.nextInt(), scanner.nextInt());
-		char[][] data = new char[height][];
+		char[] data = new char[width * height];
 		for (int i = 0; i < height; i++) {
 			String line = scanner.next();
 			if (line.length() != width) {
 				Log.e(Sokoban.TAG, "Level line: " + line + " has bad length. Should have " + width);
 			}
-			data[i] = line.toCharArray();
+			System.arraycopy(line.toCharArray(), 0, data, i * width, line.length());
 		}
-		Level result = new Level(data, player);
-		result.setGameplay(gameplay);
+		Level result = new Level(data, width, player);
+		result.setLevelEventsListener(listener);
 		if (!result.valid()) {
 			Log.e(Sokoban.TAG, "Level.load: " + "Loaded level is invalid");
 		}
@@ -80,18 +77,22 @@ public class Level {
 	private void move(int dx, int dy) {
 		player.x += dx;
 		player.y += dy;
-		gameplay.onMove();
+		listener.onMove();
 		if (won()) {
-			gameplay.onWin();
+			listener.onWin();
 		}
 	}
 
 	private void push(int x, int y, int newX, int newY) {
-		char oldTile = tiles()[y][x];
-		char newTile = tiles()[newY][newX];
-		tiles()[newY][newX] = Tile.withCrate(newTile);
-		tiles()[y][x] = Tile.withoutCrate(oldTile);
-		gameplay.onPush();
+		char oldTile = tile(y, x);
+		char newTile = tile(newY, newX);
+		setTile(newY, newX, Tile.withCrate(newTile));
+		setTile(y, x, Tile.withoutCrate(oldTile));
+		listener.onPush();
+	}
+
+	private void setTile(int y, int x, char c) {
+		tiles[tileIndex(y, x)] = c;
 	}
 
 	private void checkMove(int dx, int dy) {
@@ -110,11 +111,11 @@ public class Level {
 	}
 
 	private boolean canMove(int x, int y) {
-		return validTile(x, y) && Tile.isWalkable(tiles()[y][x]);
+		return validTile(x, y) && Tile.isWalkable(tile(y, x));
 	}
 
 	private boolean isCrate(int x, int y) {
-		return validTile(x, y) && Tile.isCrate(tiles()[y][x]);
+		return validTile(x, y) && Tile.isCrate(tile(y, x));
 	}
 
 	public boolean won() {
@@ -123,11 +124,9 @@ public class Level {
 
 	private int count(char tileType) {
 		int result = 0;
-		for (int i = 0; i < height(); i++) {
-			for (int j = 0; j < width(); j++) {
-				if (tiles[i][j] == tileType) {
-					result++;
-				}
+		for (char tile : tiles) {
+			if (tile == tileType) {
+				result++;
 			}
 		}
 		return result;
@@ -165,22 +164,29 @@ public class Level {
 	public String toString() {
 		String result = "" + height() + ' ' + width() + '\n' +
 				player.y + ' ' + player.x + '\n';
-		for (char[] l : tiles) {
-			result += new String(l) + '\n';
+		for (int i = 0; i < height(); i++) {
+			for (int j = 0; j < width(); j++) {
+				result += tile(i, j);
+			}
+			result += "\n";
 		}
 		return result;
 	}
 
 	public static Level getDefaultLevel() {
-		char[][] data = {
-			"###".toCharArray(),
-			"#.#".toCharArray(),
-			"###".toCharArray()
-		};
-		return new Level(data, new Position(1, 1));
+		char[] data = ("###" + "#.#" + "###").toCharArray();
+		return new Level(data, 3, new Position(1, 1));
 	}
 
 	public int hash() {
 		return hash;
+	}
+
+	private int tileIndex(int y, int x) {
+		return y * width() + x;
+	}
+
+	public char tile(int y, int x) {
+		return tiles[tileIndex(y, x)];
 	}
 }

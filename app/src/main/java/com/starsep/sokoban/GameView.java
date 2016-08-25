@@ -14,11 +14,12 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.starsep.sokoban.gamelogic.Gameplay;
+import com.starsep.sokoban.gamelogic.HighScore;
 import com.starsep.sokoban.gamelogic.Level;
 import com.starsep.sokoban.gamelogic.Position;
 import com.starsep.sokoban.gamelogic.Tile;
 
-public class GameView extends View {
+public class GameView extends View implements ViewUpdateListener {
 	private Rect dimension;
 	private Gameplay gameplay;
 	private int size; // size of tile
@@ -92,7 +93,7 @@ public class GameView extends View {
 		for (int y = 0; y < level().height(); y++) {
 			for (int x = 0; x < level().width(); x++) {
 				setDrawingDimension(x, y);
-				if (!Tile.isGrass(level().tiles()[y][x])) {
+				if (!Tile.isGrass(level().tile(y, x))) {
 					canvas.drawBitmap(level().texture(y, x), null, dimension, null);
 				}
 			}
@@ -106,9 +107,9 @@ public class GameView extends View {
 	}
 
 	private void drawStats(Canvas canvas) {
-		drawTextOnRight(canvas, "Moves: " + gameplay.moves(), 1);
-		drawTextOnRight(canvas, "Pushes: " + gameplay.pushes(), 2);
-		drawTextOnRight(canvas, "Time: " + gameplay.time(), 3);
+		drawTextOnRight(canvas, "Moves: " + gameplay.stats().moves, 1);
+		drawTextOnRight(canvas, "Pushes: " + gameplay.stats().pushes, 2);
+		drawTextOnRight(canvas, "Time: " + gameplay.stats().time, 3);
 	}
 
 	public Gameplay gameplay() {
@@ -145,10 +146,11 @@ public class GameView extends View {
 		invalidate();
 	}
 
-	public void showWinDialog(int levelNumber, int moves, int pushes, int time) {
-		String msg = "Moves: " + moves + "\n" +
-				"Pushes: " + pushes + "\n" +
-				"Time: " + time + "\n" +
+	@Override
+	public void showWinDialog(int levelNumber, HighScore levelStats) {
+		String msg = "Moves: " + levelStats.moves + "\n" +
+				"Pushes: " + levelStats.pushes + "\n" +
+				"Time: " + levelStats.time + "\n" +
 				"Next level?";
 		new AlertDialog.Builder(getContext())
 				.setTitle("Level " + levelNumber + " completed!")
@@ -166,5 +168,15 @@ public class GameView extends View {
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setCancelable(false)
 				.show();
+	}
+
+	@Override
+	public void onUpdate() {
+		invalidate();
+	}
+
+	@Override
+	public boolean editMode() {
+		return isInEditMode();
 	}
 }

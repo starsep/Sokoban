@@ -9,17 +9,15 @@ public class LevelConverter {
 
 	public static class UnknownTileException extends LevelConverterException {}
 
-	public static Level convert(char[][] data) throws LevelConverterException {
-		Position player = findPlayer(data);
+	public static Level convert(char[] data, int width) throws LevelConverterException {
+		Position player = findPlayer(data, width);
 		convertTiles(data);
-		return new Level(data, player);
+		return new Level(data, width, player);
 	}
 
-	private static void convertTiles(char[][] data) throws LevelConverterException {
+	private static void convertTiles(char[] data) throws LevelConverterException {
 		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[i].length; j++) {
-				data[i][j] = tileMapping(data[i][j]);
-			}
+			data[i] = tileMapping(data[i]);
 		}
 	}
 
@@ -65,17 +63,15 @@ public class LevelConverter {
 		return tileWithoutPlayer(tile) != tile;
 	}
 
-	private static Position findPlayer(char[][] data) throws NoPlayerTileException, ManyPlayerTilesException {
+	private static Position findPlayer(char[] data, int width) throws NoPlayerTileException, ManyPlayerTilesException {
 		Position result = null;
 		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[i].length; j++) {
-				if (isPlayerTile(data[i][j])) {
-					if (result != null) {
-						throw new ManyPlayerTilesException();
-					}
-					data[i][j] = tileWithoutPlayer(data[i][j]);
-					result = new Position(i, j);
+			if (isPlayerTile(data[i])) {
+				if (result != null) {
+					throw new ManyPlayerTilesException();
 				}
+				data[i] = tileWithoutPlayer(data[i]);
+				result = new Position(i / width, i % width);
 			}
 		}
 		if (result == null) {

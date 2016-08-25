@@ -1,8 +1,4 @@
-package com.starsep.sokoban.database;
-
-import android.content.Context;
-
-import com.starsep.sokoban.MainMenuActivity;
+package com.starsep.sokoban.gamelogic;
 
 public class HighScore {
 	public class DifferentLevelsException extends Exception {}
@@ -14,9 +10,7 @@ public class HighScore {
 
 	public HighScore(int hash, int time, int moves, int pushes) {
 		this.hash = hash;
-		this.time = time;
-		this.moves = moves;
-		this.pushes = pushes;
+		set(time, moves, pushes);
 	}
 
 	public void improve(HighScore another) throws DifferentLevelsException {
@@ -34,5 +28,11 @@ public class HighScore {
 				"time=" + time + ", " +
 				"moves=" + moves + ", " +
 				"pushes=" + pushes + ")";
+	}
+
+	public void set(int time, int moves, int pushes) {
+		this.time = time;
+		this.moves = moves;
+		this.pushes = pushes;
 	}
 }

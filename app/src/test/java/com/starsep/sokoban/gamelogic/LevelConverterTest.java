@@ -5,89 +5,49 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class LevelConverterTest {
-	public abstract class CheckThrow {
-		protected abstract void run() throws Throwable;
-
-		protected void check(boolean shouldThrow) {
-			Throwable r = null;
-			try {
-				run();
-			} catch (Throwable t) {
-				r = t;
-			}
-			assertTrue(r != null == shouldThrow);
-		}
-	}
-
-	public abstract class ShouldThrow extends CheckThrow {
-		public void check() {
-			check(true);
-		}
-	}
-
-	public abstract class ShouldNotThrow extends CheckThrow {
-		public void check() {
-			check(false);
-		}
-	}
 
 	@Test
 	public void convertTest() throws LevelConverter.LevelConverterException {
-		new ShouldNotThrow() {
-			@Override
-			protected void run() throws Throwable {
-				char[][] exampleLevel = {
-						"#####".toCharArray(),
-						"#+.*#".toCharArray(),
-						"#####".toCharArray(),
-				};
-				LevelConverter.convert(exampleLevel);
-			}
-		}.check();
+		char[] exampleLevel = ("#####" + "#+.*#" + "#####").toCharArray();
+		LevelConverter.convert(exampleLevel, 5);
 	}
 
 	@Test
 	public void convertTwoPlayersTest() throws LevelConverter.LevelConverterException {
-		new ShouldThrow() {
-			@Override
-			protected void run() throws Throwable {
-				char[][] exampleLevel = {
-						"#####".toCharArray(),
-						"#@$@#".toCharArray(),
-						"#####".toCharArray(),
-				};
-				LevelConverter.convert(exampleLevel);
-			}
-		}.check();
+		try {
+			char[] exampleLevel = ("#####" + "#@$@#" + "#####").toCharArray();
+			LevelConverter.convert(exampleLevel, 5);
+		} catch (LevelConverter.ManyPlayerTilesException e) {
+			return;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		assertTrue(false);
 	}
 
 	@Test
 	public void convertUnknownTileTest() throws LevelConverter.LevelConverterException {
-		new ShouldThrow() {
-			@Override
-			protected void run() throws Throwable {
-				char[][] exampleLevel = {
-						"#####".toCharArray(),
-						"#@$~#".toCharArray(),
-						"#####".toCharArray(),
-				};
-				LevelConverter.convert(exampleLevel);
-			}
-		}.check();
+		try {
+			char[] exampleLevel = ("#####" + "#@$~#" + "#####").toCharArray();
+			LevelConverter.convert(exampleLevel, 5);
+		} catch (LevelConverter.UnknownTileException e) {
+			return;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		assertTrue(false);
 	}
 
 	@Test
 	public void convertNoPlayerTileTest() throws LevelConverter.LevelConverterException {
-		new ShouldThrow() {
-			@Override
-			protected void run() throws Throwable {
-				char[][] exampleLevel = {
-						"#####".toCharArray(),
-						"# $.#".toCharArray(),
-						"#####".toCharArray(),
-				};
-				LevelConverter.convert(exampleLevel);
-			}
-		}.check();
+		try {
+			char[] exampleLevel = ("#####" + "# $.#" + "#####").toCharArray();
+			LevelConverter.convert(exampleLevel, 5);
+		} catch (LevelConverter.NoPlayerTileException e) {
+			return;
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		assertTrue(false);
 	}
 }
