@@ -3,51 +3,52 @@ package com.starsep.sokoban.gamelogic;
 import android.util.Log;
 
 import com.starsep.sokoban.Sokoban;
-import com.starsep.sokoban.ViewUpdateListener;
+import com.starsep.sokoban.ViewEventsListener;
 import com.starsep.sokoban.database.DatabaseManager;
 
 import java.io.IOException;
 
-public class Gameplay implements LevelEventsListener {
-	private final ViewUpdateListener viewUpdateListener;
+public class Gameplay implements GameModel {
+	private final ViewEventsListener viewListener;
 
 	private HighScore stats;
 	private Level currentLevel;
 	private int levelNumber;
 
-	public Gameplay(ViewUpdateListener listener) {
+	public Gameplay(ViewEventsListener listener) {
 		this(listener, 1);
 	}
 
-	public Gameplay(ViewUpdateListener listener, int levelNumber) {
-		viewUpdateListener = listener;
+	public Gameplay(ViewEventsListener listener, int levelNumber) {
+		viewListener = listener;
 		loadLevel(levelNumber);
 	}
 
 	private void loadLevel(int number) {
 		levelNumber = number;
-		if (viewUpdateListener.editMode()) {
+		if (viewListener.editMode()) {
 			currentLevel = Level.getDefaultLevel();
-			viewUpdateListener.onUpdate();
+			viewListener.onUpdate();
 			return;
 		}
 		try {
-			currentLevel = Level.load(viewUpdateListener.getContext(), "levels/" + number + ".level", this);
+			currentLevel = LevelLoader.load(viewListener.getContext(), "levels/" + number + ".level", this);
 		} catch (IOException e) {
 			Log.e(Sokoban.TAG, "Load error (" + number + ".level) :<");
 		}
 		stats = new HighScore(currentLevel.hash(), 0, 0, 0);
-		viewUpdateListener.onUpdate();
+		viewListener.onUpdate();
 	}
 
-	public Level currentLevel() {
+	@Override
+	public Level level() {
 		return currentLevel;
 	}
 
 	@Override
 	public void onMove() {
 		stats.moves++;
-		viewUpdateListener.onUpdate();
+		viewListener.onUpdate();
 	}
 
 	@Override
@@ -56,12 +57,12 @@ public class Gameplay implements LevelEventsListener {
 	}
 
 	private void sendHighScore() {
-		DatabaseManager databaseManager = DatabaseManager.instance(viewUpdateListener.getContext());
+		DatabaseManager databaseManager = DatabaseManager.instance(viewListener.getContext());
 		databaseManager.addHighScore(stats);
 	}
 
 	private HighScore getHighScore(int hash) {
-		DatabaseManager databaseManager = DatabaseManager.instance(viewUpdateListener.getContext());
+		DatabaseManager databaseManager = DatabaseManager.instance(viewListener.getContext());
 		return databaseManager.getHighScore(hash);
 	}
 
@@ -69,7 +70,28 @@ public class Gameplay implements LevelEventsListener {
 	public void onWin() {
 		sendHighScore();
 		Log.d(Sokoban.TAG, getHighScore(currentLevel.hash()).toString());
-		viewUpdateListener.showWinDialog(levelNumber, stats);
+		viewListener.showWinDialog(levelNumber, stats);
+	}
+
+	@Override
+	public void moveUp() {
+		level().moveUp();
+
+	}
+
+	@Override
+	public void moveDown() {
+		level().moveDown();
+	}
+
+	@Override
+	public void moveLeft() {
+		level().moveLeft();
+	}
+
+	@Override
+	public void moveRight() {
+		level().moveRight();
 	}
 
 	public void repeatLevel() {
@@ -84,8 +106,17 @@ public class Gameplay implements LevelEventsListener {
 		return stats;
 	}
 
+	@Override
+	public Position player() {
+		return level().player();
+	}
+
 	public void undoMove() {
-		currentLevel().undoMove();
-		viewUpdateListener.onUpdate();
+		level().undoMove();
+		viewListener.onUpdate();
+	}
+
+	public int levelNumber() {
+		return levelNumber;
 	}
 }

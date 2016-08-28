@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Sokoban</string>
+    <string name="level_status">LEVEL %1$d  TIME %2$d:%3$d  MOVES %4$d  PUSHES %5$d</string>
 </resources>

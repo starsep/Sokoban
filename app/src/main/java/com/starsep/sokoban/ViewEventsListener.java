@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.starsep.sokoban.gamelogic.HighScore;
 
-public interface ViewUpdateListener {
+public interface ViewEventsListener {
 	void onUpdate();
 
 	boolean editMode();

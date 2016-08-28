@@ -11,20 +11,75 @@ public class LevelTest {
 		Level level = new Level(data, 5, new Position(1, 1));
 		final int[] moves = {0};
 		final int[] pushes = {0};
-		level.setLevelEventsListener(new LevelEventsListener() {
+		level.setGameModel(new GameModel() {
 			@Override
-			public void onPush() {
+			public void onPush () {
 				pushes[0]++;
 			}
 
 			@Override
-			public void onMove() {
+			public void onMove () {
 				moves[0]++;
 			}
 
 			@Override
-			public void onWin() {
+			public void onWin () {
 				assertTrue(false);
+			}
+
+			@Override
+			public void moveUp() {
+
+			}
+
+			@Override
+			public void moveDown() {
+
+			}
+
+			@Override
+			public void moveLeft() {
+
+			}
+
+			@Override
+			public void moveRight() {
+
+			}
+
+			@Override
+			public void repeatLevel() {
+
+			}
+
+			@Override
+			public void undoMove() {
+
+			}
+
+			@Override
+			public int levelNumber() {
+				return 0;
+			}
+
+			@Override
+			public HighScore stats() {
+				return null;
+			}
+
+			@Override
+			public Position player() {
+				return null;
+			}
+
+			@Override
+			public Level level() {
+				return null;
+			}
+
+			@Override
+			public void nextLevel() {
+
 			}
 		});
 		level.moveRight();
@@ -41,7 +96,7 @@ public class LevelTest {
 		final int[] moves = {0};
 		final int[] pushes = {0};
 		final int[] wins = {0};
-		level.setLevelEventsListener(new LevelEventsListener() {
+		level.setGameModel(new GameModel() {
 			@Override
 			public void onPush() {
 				pushes[0]++;
@@ -55,6 +110,61 @@ public class LevelTest {
 			@Override
 			public void onWin() {
 				wins[0]++;
+			}
+
+			@Override
+			public void moveUp() {
+
+			}
+
+			@Override
+			public void moveDown() {
+
+			}
+
+			@Override
+			public void moveLeft() {
+
+			}
+
+			@Override
+			public void moveRight() {
+
+			}
+
+			@Override
+			public void repeatLevel() {
+
+			}
+
+			@Override
+			public void undoMove() {
+
+			}
+
+			@Override
+			public int levelNumber() {
+				return 0;
+			}
+
+			@Override
+			public HighScore stats() {
+				return null;
+			}
+
+			@Override
+			public Position player() {
+				return null;
+			}
+
+			@Override
+			public Level level() {
+				return null;
+			}
+
+			@Override
+			public void nextLevel() {
+
 			}
 		});
 		level.moveRight();

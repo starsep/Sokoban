@@ -5,14 +5,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.Games;
+import com.starsep.sokoban.gamelogic.GameModel;
+import com.starsep.sokoban.gamelogic.Gameplay;
+import com.starsep.sokoban.gamelogic.HighScore;
 
-public class GameActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AchievementListener {
-	private GoogleApiClient googleApiClient;
+public class GameActivity extends Activity implements
+		GoogleApiClient.ConnectionCallbacks,
+		GoogleApiClient.OnConnectionFailedListener,
+		GameController {
+	// private GoogleApiClient googleApiClient;
 	private GameView gameView;
+	private GameModel gameModel;
+	private TextView statusTextView;
 
 	@Override
 	protected void onStop() {
@@ -32,14 +40,31 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 		setContentView(R.layout.activity_game);
 
 		gameView = (GameView) findViewById(R.id.gameView);
+		statusTextView = (TextView) findViewById(R.id.statusTextView);
 
-		googleApiClient = new GoogleApiClient.Builder(this)
-				.addConnectionCallbacks(this)
-				.addOnConnectionFailedListener(this)
-				.addApi(Games.API).addScope(Games.SCOPE_GAMES)
-				.setViewForPopups(gameView)
-				.build();
-		gameView.setAchievementListener(this);
+		gameModel = new Gameplay(gameView);
+
+		gameView.setGameController(this);
+		gameView.setGameModel(gameModel);
+		gameView.setOnTouchListener(new OnSwipeTouchListener(this) {
+			public void onSwipeTop() {
+				gameModel.moveUp();
+			}
+
+			public void onSwipeRight() {
+				gameModel.moveRight();
+			}
+
+			public void onSwipeLeft() {
+				gameModel.moveLeft();
+			}
+
+			public void onSwipeBottom() {
+				gameModel.moveDown();
+			}
+		});
+
+		// googleApiClient = AchievementClient.build(this, gameView);
 	}
 
 	@Override
@@ -64,20 +89,35 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 		// }
 	}
 
-	@Override
+	/*@Override
 	public void onAchievementUnlock(int id) {
-		// Log.d(TAG, "Trying to unlock achievement");
-		// googleApiClient.connect();
-		// if (googleApiClient != null && googleApiClient.isConnected()) {
-		//		Log.d(TAG, getResources().getString(id));
-		//		Games.Achievements.increment(googleApiClient, getResources().getString(id), 300);
-		//      startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), 9111);
-		// }
-	}
+		 Log.d(TAG, "Trying to unlock achievement");
+		 googleApiClient.connect();
+		 if (googleApiClient != null && googleApiClient.isConnected()) {
+				Log.d(TAG, getResources().getString(id));
+				Games.Achievements.increment(googleApiClient, getResources().getString(id), 300);
+		      startActivityForResult(Games.Achievements.getAchievementsIntent(googleApiClient), 9111);
+		 }
+	}*/
 
 	public void resetButtonClicked(View view) {
-		gameView.gameplay().repeatLevel();
+		gameModel.repeatLevel();
 	}
 
-	public void undoButtonClicked(View view) { gameView.gameplay().undoMove(); }
+	public void undoButtonClicked(View view) { gameModel.undoMove(); }
+
+	public void settingsButtonClicked(View view) {
+
+	}
+
+	public void onStatsChanged() {
+		int levelNumber = gameModel.levelNumber();
+		HighScore highScore = gameModel.stats();
+		int minutes = highScore.time / 60;
+		int seconds = highScore.time % 60;
+		int moves = highScore.moves;
+		int pushes = highScore.pushes;
+		statusTextView.setText(String.format(getResources().getString(R.string.level_status),
+				levelNumber, minutes, seconds, moves, pushes));
+	}
 }

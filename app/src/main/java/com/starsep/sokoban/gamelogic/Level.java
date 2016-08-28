@@ -1,23 +1,17 @@
 package com.starsep.sokoban.gamelogic;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 
-import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.Textures;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Level {
 	private final char[] tiles;
 	private final int width;
 	private Position player;
-	private LevelEventsListener listener;
+	private GameModel gameModel;
 	private final int hash;
 	private final List<Move> moves;
 
@@ -62,30 +56,8 @@ public class Level {
 		return width;
 	}
 
-	public void setLevelEventsListener(LevelEventsListener listener) {
-		this.listener = listener;
-	}
-
-	public static Level load(Context context, String filename, LevelEventsListener listener) throws IOException {
-		InputStream inputStream;
-		inputStream = context.getAssets().open(filename);
-		Scanner scanner = new Scanner(inputStream);
-		int height = scanner.nextInt(), width = scanner.nextInt();
-		Position player = new Position(scanner.nextInt(), scanner.nextInt());
-		char[] data = new char[width * height];
-		for (int i = 0; i < height; i++) {
-			String line = scanner.next();
-			if (line.length() != width) {
-				Log.e(Sokoban.TAG, "Level line: " + line + " has bad length. Should have " + width);
-			}
-			System.arraycopy(line.toCharArray(), 0, data, i * width, line.length());
-		}
-		Level result = new Level(data, width, player);
-		result.setLevelEventsListener(listener);
-		if (!result.valid()) {
-			Log.e(Sokoban.TAG, "Level.load: " + "Loaded level is invalid");
-		}
-		return result;
+	public void setGameModel(GameModel model) {
+		gameModel = model;
 	}
 
 	public Position player() { return player; }
@@ -95,9 +67,9 @@ public class Level {
 		player.y += dy;
 		if (real) {
 			addMove(dx, dy, pushed);
-			listener.onMove();
+			gameModel.onMove();
 			if (won()) {
-				listener.onWin();
+				gameModel.onWin();
 			}
 		}
 	}
@@ -116,7 +88,7 @@ public class Level {
 		setTile(newY, newX, Tile.withCrate(newTile));
 		setTile(y, x, Tile.withoutCrate(oldTile));
 		if (real) {
-			listener.onPush();
+			gameModel.onPush();
 		}
 	}
 

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.starsep.sokoban.Sokoban;
-import com.starsep.sokoban.ViewUpdateListener;
+import com.starsep.sokoban.ViewEventsListener;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
 
@@ -183,7 +183,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 			int time = cursor.getInt(cursor.getColumnIndex(COLUMN_TIME));
 			int currentLevel = cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER));
 
-			result = new Gameplay(new ViewUpdateListener() {
+			result = new Gameplay(new ViewEventsListener() {
 				@Override
 				public void onUpdate() {}
 

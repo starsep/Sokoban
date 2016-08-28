@@ -18,23 +18,43 @@
         android:layout_alignParentTop="true"/>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset"
-            android:id="@+id/resetButton"
-            android:onClick="resetButtonClicked"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Undo"
             android:id="@+id/undoButton"
-            android:onClick="undoButtonClicked"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_undo"
+            android:onClick="undoButtonClicked"
+            android:text="Undo"/>
+
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_reset"
+            android:onClick="resetButtonClicked"
+            android:text="Reset"/>
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_settings"
+            android:onClick="settingsButtonClicked"
+            android:text="Settings"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:textColor="#fff"/>
 
 </RelativeLayout>
