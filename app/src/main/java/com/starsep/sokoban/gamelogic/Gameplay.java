@@ -2,7 +2,6 @@ package com.starsep.sokoban.gamelogic;
 
 import android.util.Log;
 
-import com.starsep.sokoban.GameView;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.ViewUpdateListener;
 import com.starsep.sokoban.database.DatabaseManager;
@@ -83,5 +82,10 @@ public class Gameplay implements LevelEventsListener {
 
 	public HighScore stats() {
 		return stats;
+	}
+
+	public void undoMove() {
+		currentLevel().undoMove();
+		viewUpdateListener.onUpdate();
 	}
 }

@@ -9,6 +9,8 @@ import com.starsep.sokoban.Textures;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Level {
@@ -17,6 +19,19 @@ public class Level {
 	private Position player;
 	private LevelEventsListener listener;
 	private final int hash;
+	private final List<Move> moves;
+
+	private class Move {
+		public int dx;
+		public int dy;
+		public boolean pushed;
+
+		public Move(int dx, int dy, boolean pushed) {
+			this.dx = dx;
+			this.dy = dy;
+			this.pushed = pushed;
+		}
+	}
 
 	private void setPlayer(Position position) {
 		player = new Position(position.y, position.x);
@@ -28,6 +43,7 @@ public class Level {
 		System.arraycopy(data, 0, tiles, 0, data.length);
 		setPlayer(player);
 		hash = toString().hashCode();
+		moves = new ArrayList<>();
 	}
 
 	public char[] tiles() {
@@ -74,21 +90,38 @@ public class Level {
 
 	public Position player() { return player; }
 
-	private void move(int dx, int dy) {
+	private void move(int dx, int dy, boolean pushed, boolean real) {
 		player.x += dx;
 		player.y += dy;
-		listener.onMove();
-		if (won()) {
-			listener.onWin();
+		if (real) {
+			addMove(dx, dy, pushed);
+			listener.onMove();
+			if (won()) {
+				listener.onWin();
+			}
 		}
 	}
 
-	private void push(int x, int y, int newX, int newY) {
+	private void move(int dx, int dy, boolean pushed) {
+		move(dx, dy, pushed, true);
+	}
+
+	private void addMove(int dx, int dy, boolean pushed) {
+		moves.add(new Move(dx, dy, pushed));
+	}
+
+	private void push(int x, int y, int newX, int newY, boolean real) {
 		char oldTile = tile(y, x);
 		char newTile = tile(newY, newX);
 		setTile(newY, newX, Tile.withCrate(newTile));
 		setTile(y, x, Tile.withoutCrate(oldTile));
-		listener.onPush();
+		if (real) {
+			listener.onPush();
+		}
+	}
+
+	private void push(int x, int y, int newX, int newY) {
+		push(x, y, newX, newY, true);
 	}
 
 	private void setTile(int y, int x, char c) {
@@ -100,9 +133,9 @@ public class Level {
 		int y = player.y + dy;
 		if (isCrate(x, y) && canMove(x + dx, y + dy)) {
 			push(x, y, x + dx, y + dy);
-			move(dx, dy);
+			move(dx, dy, true);
 		} else if (canMove(x, y)) {
-			move(dx, dy);
+			move(dx, dy, false);
 		}
 	}
 
@@ -188,5 +221,17 @@ public class Level {
 
 	public char tile(int y, int x) {
 		return tiles[tileIndex(y, x)];
+	}
+
+	public void undoMove() {
+		if (moves.isEmpty()) {
+			return;
+		}
+		Move toUndo = moves.get(moves.size() - 1);
+		moves.remove(moves.size() - 1);
+		if (toUndo.pushed) {
+			push(player.x + toUndo.dx, player.y + toUndo.dy, player.x, player.y, false);
+		}
+		move(-toUndo.dx, -toUndo.dy, toUndo.pushed, false);
 	}
 }

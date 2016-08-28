@@ -78,4 +78,6 @@ public class GameActivity extends Activity implements GoogleApiClient.Connection
 	public void resetButtonClicked(View view) {
 		gameView.gameplay().repeatLevel();
 	}
+
+	public void undoButtonClicked(View view) { gameView.gameplay().undoMove(); }
 }
