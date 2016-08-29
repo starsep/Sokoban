@@ -50,20 +50,22 @@ public class Level {
 
 	public Position player() { return player; }
 
-	private void makeMove(Move move, boolean real) {
+	private void makeMove(Move move, boolean undo) {
 		player.x += move.dx();
 		player.y += move.dy();
-		if (real) {
+		if (!undo) {
 			addMove(move);
 			gameModel.onMove();
 			if (won()) {
 				gameModel.onWin();
 			}
+		} else {
+			gameModel.onUndoMove();
 		}
 	}
 
 	private void makeMove(Move move) {
-		makeMove(move, true);
+		makeMove(move, false);
 	}
 
 	private void addMove(Move move) {
@@ -77,6 +79,8 @@ public class Level {
 		setTile(y, x, Tile.withoutCrate(oldTile));
 		if (real) {
 			gameModel.onPush();
+		} else {
+			gameModel.onUndoPush();
 		}
 	}
 
@@ -163,9 +167,9 @@ public class Level {
 		Move toUndo = moves.get(moves.size() - 1);
 		moves.remove(moves.size() - 1);
 		if (toUndo.push()) {
-			push(player.x + toUndo.dx(), player.y + toUndo.dy(), player.x, player.y, false);
+			push(player.x + toUndo.dx(), player.y + toUndo.dy(), player.x, player.y, true);
 		}
-		makeMove(Move.reverse(toUndo), false);
+		makeMove(toUndo.reverse(), true);
 	}
 
 	public Move lastMove() {
@@ -183,6 +187,21 @@ public class Level {
 			makeMove(Move.make_push(move));
 		} else if (canMove(x, y)) {
 			makeMove(move);
+		}
+	}
+
+	public String movesString() {
+		String result = "";
+		for (Move move : moves) {
+			result += move.toString();
+		}
+		return result;
+	}
+
+	public void setMovesList(String movesList) throws Move.UnknownMoveException {
+		moves.clear();
+		for (char c : movesList.toCharArray()) {
+			moves.add(Move.fromChar(c));
 		}
 	}
 }

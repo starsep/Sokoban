@@ -30,4 +30,8 @@ public interface GameModel {
 	void nextLevel();
 
 	Move lastMove();
+
+	void onUndoMove();
+
+	void onUndoPush();
 }

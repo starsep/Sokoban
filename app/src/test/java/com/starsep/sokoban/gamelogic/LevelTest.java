@@ -86,6 +86,16 @@ public class LevelTest {
 			public Move lastMove() {
 				return null;
 			}
+
+			@Override
+			public void onUndoMove() {
+
+			}
+
+			@Override
+			public void onUndoPush() {
+
+			}
 		});
 		level.move(Move.RIGHT);
 		assertEquals(moves[0], 1);
@@ -175,6 +185,16 @@ public class LevelTest {
 			@Override
 			public Move lastMove() {
 				return null;
+			}
+
+			@Override
+			public void onUndoMove() {
+
+			}
+
+			@Override
+			public void onUndoPush() {
+
 			}
 		});
 		level.move(Move.RIGHT);

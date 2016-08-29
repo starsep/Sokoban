@@ -42,7 +42,9 @@ public class GameActivity extends Activity implements
 		gameView = (GameView) findViewById(R.id.gameView);
 		statusTextView = (TextView) findViewById(R.id.statusTextView);
 
-		gameModel = new Gameplay(gameView);
+		Gameplay gameplay = new Gameplay(gameView);
+		gameplay.setViewListener(gameView);
+		gameModel = gameplay;
 
 		gameView.setGameController(this);
 		gameView.setGameModel(gameModel);

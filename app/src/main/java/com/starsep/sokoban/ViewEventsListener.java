@@ -4,12 +4,8 @@ import android.content.Context;
 
 import com.starsep.sokoban.gamelogic.HighScore;
 
-public interface ViewEventsListener {
+public interface ViewEventsListener extends ContextGetter {
 	void onUpdate();
-
-	boolean editMode();
-
-	Context getContext();
 
 	void showWinDialog(int levelNumber, HighScore stats);
 }

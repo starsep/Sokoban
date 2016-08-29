@@ -2,6 +2,7 @@ package com.starsep.sokoban.gamelogic;
 
 import android.util.Log;
 
+import com.starsep.sokoban.ContextGetter;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.ViewEventsListener;
 import com.starsep.sokoban.database.DatabaseManager;
@@ -9,35 +10,32 @@ import com.starsep.sokoban.database.DatabaseManager;
 import java.io.IOException;
 
 public class Gameplay implements GameModel {
-	private final ViewEventsListener viewListener;
+	private ViewEventsListener viewListener;
 
 	private HighScore stats;
 	private Level currentLevel;
 	private int levelNumber;
 
-	public Gameplay(ViewEventsListener listener) {
-		this(listener, 1);
+	public Gameplay(ContextGetter contextGetter) {
+		this(contextGetter, 1);
 	}
 
-	public Gameplay(ViewEventsListener listener, int levelNumber) {
-		viewListener = listener;
-		loadLevel(levelNumber);
+	public Gameplay(ContextGetter contextGetter, int levelNumber) {
+		loadLevel(levelNumber, contextGetter);
 	}
 
-	private void loadLevel(int number) {
+	private void loadLevel(int number, ContextGetter contextGetter) {
 		levelNumber = number;
-		if (viewListener.editMode()) {
+		if (contextGetter.editMode()) {
 			currentLevel = Level.getDefaultLevel();
-			viewListener.onUpdate();
 			return;
 		}
 		try {
-			currentLevel = LevelLoader.load(viewListener.getContext(), "levels/" + number + ".level", this);
+			currentLevel = LevelLoader.load(contextGetter.getContext(), "levels/" + number + ".level", this);
 		} catch (IOException e) {
 			Log.e(Sokoban.TAG, "Load error (" + number + ".level) :<");
 		}
 		stats = new HighScore(currentLevel.hash(), 0, 0, 0);
-		viewListener.onUpdate();
 	}
 
 	@Override
@@ -95,16 +93,30 @@ public class Gameplay implements GameModel {
 	}
 
 	public void repeatLevel() {
-		loadLevel(levelNumber);
+		loadLevel(levelNumber, viewListener);
+		viewListener.onUpdate();
 	}
 
 	public void nextLevel() {
-		loadLevel(++levelNumber);
+		loadLevel(++levelNumber, viewListener);
+		viewListener.onUpdate();
 	}
 
 	@Override
 	public Move lastMove() {
 		return level().lastMove();
+	}
+
+	@Override
+	public void onUndoMove() {
+		stats().moves--;
+		viewListener.onUpdate();
+	}
+
+	@Override
+	public void onUndoPush() {
+		stats().pushes--;
+		viewListener.onUpdate();
 	}
 
 	public HighScore stats() {
@@ -123,5 +135,14 @@ public class Gameplay implements GameModel {
 
 	public int levelNumber() {
 		return levelNumber;
+	}
+
+	public String movesString() {
+		return level().movesString();
+	}
+
+	public void setViewListener(ViewEventsListener listener) {
+		viewListener = listener;
+		viewListener.onUpdate();
 	}
 }

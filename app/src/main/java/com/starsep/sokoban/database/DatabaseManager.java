@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.starsep.sokoban.ContextGetter;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.ViewEventsListener;
 import com.starsep.sokoban.gamelogic.Gameplay;
@@ -33,6 +34,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 	public static final String COLUMN_LEVEL_NUMBER = "level_number";
 	public static final String COLUMN_PLAYER_X = "player_x";
 	public static final String COLUMN_PLAYER_Y = "player_y";
+	public static final String COLUMN_MOVES_LIST = "moves_list";
 
 	public static final String TRUE_CONDITION = "1 = 1";
 
@@ -167,6 +169,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		entry.put(COLUMN_MOVES, gameplay.stats().moves);
 		entry.put(COLUMN_TIME, gameplay.stats().time);
 		entry.put(COLUMN_PUSHES, gameplay.stats().pushes);
+		entry.put(COLUMN_MOVES_LIST, gameplay.movesString());
 		db.insert(TABLE_CURRENT_GAME, null, entry);
 		db.close();
 	}
@@ -182,19 +185,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
 			int pushes = cursor.getInt(cursor.getColumnIndex(COLUMN_PUSHES));
 			int time = cursor.getInt(cursor.getColumnIndex(COLUMN_TIME));
 			int currentLevel = cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER));
-
-			result = new Gameplay(new ViewEventsListener() {
-				@Override
-				public void onUpdate() {}
-
-				@Override
-				public boolean editMode() { return false; }
-
+			// String
+			result = new Gameplay(new ContextGetter() {
 				@Override
 				public Context getContext() { return context; }
 
 				@Override
-				public void showWinDialog(int levelNumber, HighScore stats) {}
+				public boolean editMode() { return false; }
 			}, currentLevel);
 			result.stats().set(time, moves, pushes);
 		}

@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import com.starsep.sokoban.Textures;
 
 public class Move {
+	public static class UnknownMoveException extends Exception { }
+
 	public static final Move DOWN = new Move(Direction.DOWN, false);
 	public static final Move UP = new Move(Direction.UP, false);
 	public static final Move LEFT = new Move(Direction.LEFT, false);
@@ -32,17 +34,17 @@ public class Move {
 		}
 	}
 
-	public static Move reverse(Move move) {
-		switch (move.direction) {
+	public Move reverse() {
+		switch (direction) {
 			case LEFT:
-				return move.push() ? PUSH_RIGHT : RIGHT;
+				return push() ? PUSH_RIGHT : RIGHT;
 			case RIGHT:
-				return move.push() ? PUSH_LEFT : LEFT;
+				return push() ? PUSH_LEFT : LEFT;
 			case DOWN:
-				return move.push() ? PUSH_UP : UP;
+				return push() ? PUSH_UP : UP;
 			default:
 			case UP:
-				return move.push() ? PUSH_DOWN : DOWN;
+				return push() ? PUSH_DOWN : DOWN;
 		}
 	}
 
@@ -100,5 +102,43 @@ public class Move {
 
 	public boolean push() {
 		return pushed;
+	}
+
+	@Override
+	public String toString() {
+		switch (direction) {
+			case LEFT:
+				return push() ? "R" : "r";
+			case RIGHT:
+				return push() ? "L" : "l";
+			case DOWN:
+				return push() ? "D" : "d";
+			default:
+			case UP:
+				return push() ? "U" : "u";
+		}
+	}
+
+	public static Move fromChar(char c) throws UnknownMoveException {
+		switch (c) {
+			case 'l':
+				return LEFT;
+			case 'L':
+				return PUSH_LEFT;
+			case 'r':
+				return RIGHT;
+			case 'R':
+				return PUSH_RIGHT;
+			case 'u':
+				return UP;
+			case 'U':
+				return PUSH_UP;
+			case 'd':
+				return DOWN;
+			case 'D':
+				return PUSH_DOWN;
+			default:
+				throw new UnknownMoveException();
+		}
 	}
 }
