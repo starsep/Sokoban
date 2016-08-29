@@ -5,50 +5,70 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.starsep.sokoban.gamelogic.Move;
 import com.starsep.sokoban.gamelogic.Tile;
 
 public class Textures {
-	private static Bitmap wallTexture;
-	private static Bitmap crateTexture;
-	private static Bitmap groundTexture;
-	private static Bitmap endpointTexture;
-	private static Bitmap heroTexture;
-	private static Bitmap grassTexture;
-	private static Bitmap crateOnEndpointTexture;
+	private static Bitmap wall;
+	private static Bitmap crate;
+	private static Bitmap ground;
+	private static Bitmap endpoint;
+	private static Bitmap heroDown;
+	private static Bitmap heroUp;
+	private static Bitmap heroLeft;
+	private static Bitmap heroRight;
+	private static Bitmap grass;
+	private static Bitmap crateOnEndpoint;
 
 	public static Bitmap tile(char tile) {
 		switch (tile) {
 			case Tile.wall:
-				return wallTexture;
+				return wall;
 			case Tile.crate:
-				return crateTexture;
+				return crate;
 			case Tile.endpoint:
-				return endpointTexture;
+				return endpoint;
 			case Tile.grass:
-				return grassTexture;
+				return grass;
 			case Tile.crateOnEndpoint:
-				return crateOnEndpointTexture;
+				return crateOnEndpoint;
 			case Tile.ground:
-				return groundTexture;
+				return ground;
 			default: {
 				Log.e(Sokoban.TAG, "Textures.tile: " + "Unknown tile " + tile);
-				return groundTexture;
+				return ground;
 			}
 		}
 	}
 
 	public static void init(Context context) {
-		wallTexture = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
-		crateTexture = BitmapFactory.decodeResource(context.getResources(), R.drawable.crate);
-		groundTexture = BitmapFactory.decodeResource(context.getResources(), R.drawable.ground);
-		endpointTexture = BitmapFactory.decodeResource(context.getResources(), R.drawable.endpoint);
-		grassTexture = BitmapFactory.decodeResource(context.getResources(), R.drawable.grass);
-		heroTexture = BitmapFactory.decodeResource(context.getResources(), R.drawable.hero);
-		crateOnEndpointTexture = BitmapFactory.decodeResource(context.getResources(), R.drawable.crate_on_endpoint);
+		wall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
+		crate = BitmapFactory.decodeResource(context.getResources(), R.drawable.crate);
+		ground = BitmapFactory.decodeResource(context.getResources(), R.drawable.ground);
+		endpoint = BitmapFactory.decodeResource(context.getResources(), R.drawable.endpoint);
+		grass = BitmapFactory.decodeResource(context.getResources(), R.drawable.grass);
+		heroDown = BitmapFactory.decodeResource(context.getResources(), R.drawable.hero_down);
+		heroUp = BitmapFactory.decodeResource(context.getResources(), R.drawable.hero_up);
+		heroLeft = BitmapFactory.decodeResource(context.getResources(), R.drawable.hero_left);
+		heroRight = BitmapFactory.decodeResource(context.getResources(), R.drawable.hero_right);
+		crateOnEndpoint = BitmapFactory.decodeResource(context.getResources(), R.drawable.crate_on_endpoint);
 	}
 
-	public static Bitmap heroTexture() {
-		return heroTexture;
+	public static Bitmap heroDown() {
+		return heroDown;
 	}
-	public static Bitmap grassTexture() { return grassTexture; }
+
+	public static Bitmap heroUp() {
+		return heroUp;
+	}
+
+	public static Bitmap heroLeft() {
+		return heroLeft;
+	}
+
+	public static Bitmap heroRight() {
+		return heroRight;
+	}
+
+	public static Bitmap grassTexture() { return grass; }
 }

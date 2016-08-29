@@ -64,7 +64,7 @@ public class GameView extends View implements ViewEventsListener {
 
 	private void drawHero(Canvas canvas) {
 		setDrawingDimension(gameModel.player().x, gameModel.player().y);
-		canvas.drawBitmap(Textures.heroTexture(), null, dimension, null);
+		canvas.drawBitmap(gameModel.lastMove().heroTexture(), null, dimension, null);
 	}
 
 	private void drawTiles(Canvas canvas) {

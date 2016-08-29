@@ -15,18 +15,6 @@ public class Level {
 	private final int hash;
 	private final List<Move> moves;
 
-	private class Move {
-		public int dx;
-		public int dy;
-		public boolean pushed;
-
-		public Move(int dx, int dy, boolean pushed) {
-			this.dx = dx;
-			this.dy = dy;
-			this.pushed = pushed;
-		}
-	}
-
 	private void setPlayer(Position position) {
 		player = new Position(position.y, position.x);
 	}
@@ -62,11 +50,11 @@ public class Level {
 
 	public Position player() { return player; }
 
-	private void move(int dx, int dy, boolean pushed, boolean real) {
-		player.x += dx;
-		player.y += dy;
+	private void makeMove(Move move, boolean real) {
+		player.x += move.dx();
+		player.y += move.dy();
 		if (real) {
-			addMove(dx, dy, pushed);
+			addMove(move);
 			gameModel.onMove();
 			if (won()) {
 				gameModel.onWin();
@@ -74,12 +62,12 @@ public class Level {
 		}
 	}
 
-	private void move(int dx, int dy, boolean pushed) {
-		move(dx, dy, pushed, true);
+	private void makeMove(Move move) {
+		makeMove(move, true);
 	}
 
-	private void addMove(int dx, int dy, boolean pushed) {
-		moves.add(new Move(dx, dy, pushed));
+	private void addMove(Move move) {
+		moves.add(move);
 	}
 
 	private void push(int x, int y, int newX, int newY, boolean real) {
@@ -98,17 +86,6 @@ public class Level {
 
 	private void setTile(int y, int x, char c) {
 		tiles[tileIndex(y, x)] = c;
-	}
-
-	private void checkMove(int dx, int dy) {
-		int x = player.x + dx;
-		int y = player.y + dy;
-		if (isCrate(x, y) && canMove(x + dx, y + dy)) {
-			push(x, y, x + dx, y + dy);
-			move(dx, dy, true);
-		} else if (canMove(x, y)) {
-			move(dx, dy, false);
-		}
 	}
 
 	private boolean validTile(int x, int y) {
@@ -149,22 +126,6 @@ public class Level {
 		return countEndpoints() == countCrates();
 	}
 
-	public void moveLeft() {
-		checkMove(-1, 0);
-	}
-
-	public void moveRight() {
-		checkMove(1, 0);
-	}
-
-	public void moveUp() {
-		checkMove(0, -1);
-	}
-
-	public void moveDown() {
-		checkMove(0, 1);
-	}
-
 	@Override
 	public String toString() {
 		String result = "" + height() + ' ' + width() + '\n' +
@@ -201,9 +162,27 @@ public class Level {
 		}
 		Move toUndo = moves.get(moves.size() - 1);
 		moves.remove(moves.size() - 1);
-		if (toUndo.pushed) {
-			push(player.x + toUndo.dx, player.y + toUndo.dy, player.x, player.y, false);
+		if (toUndo.push()) {
+			push(player.x + toUndo.dx(), player.y + toUndo.dy(), player.x, player.y, false);
 		}
-		move(-toUndo.dx, -toUndo.dy, toUndo.pushed, false);
+		makeMove(Move.reverse(toUndo), false);
+	}
+
+	public Move lastMove() {
+		if (moves.isEmpty()) {
+			return Move.DOWN;
+		}
+		return moves.get(moves.size() - 1);
+	}
+
+	public void move(Move move) {
+		int x = player.x + move.dx();
+		int y = player.y + move.dy();
+		if (isCrate(x, y) && canMove(x + move.dx(), y + move.dy())) {
+			push(x, y, x + move.dx(), y + move.dy());
+			makeMove(Move.make_push(move));
+		} else if (canMove(x, y)) {
+			makeMove(move);
+		}
 	}
 }

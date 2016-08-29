@@ -75,23 +75,23 @@ public class Gameplay implements GameModel {
 
 	@Override
 	public void moveUp() {
-		level().moveUp();
+		level().move(Move.UP);
 
 	}
 
 	@Override
 	public void moveDown() {
-		level().moveDown();
+		level().move(Move.DOWN);
 	}
 
 	@Override
 	public void moveLeft() {
-		level().moveLeft();
+		level().move(Move.LEFT);
 	}
 
 	@Override
 	public void moveRight() {
-		level().moveRight();
+		level().move(Move.RIGHT);
 	}
 
 	public void repeatLevel() {
@@ -100,6 +100,11 @@ public class Gameplay implements GameModel {
 
 	public void nextLevel() {
 		loadLevel(++levelNumber);
+	}
+
+	@Override
+	public Move lastMove() {
+		return level().lastMove();
 	}
 
 	public HighScore stats() {

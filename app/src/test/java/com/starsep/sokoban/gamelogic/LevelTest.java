@@ -13,17 +13,17 @@ public class LevelTest {
 		final int[] pushes = {0};
 		level.setGameModel(new GameModel() {
 			@Override
-			public void onPush () {
+			public void onPush() {
 				pushes[0]++;
 			}
 
 			@Override
-			public void onMove () {
+			public void onMove() {
 				moves[0]++;
 			}
 
 			@Override
-			public void onWin () {
+			public void onWin() {
 				assertTrue(false);
 			}
 
@@ -81,8 +81,13 @@ public class LevelTest {
 			public void nextLevel() {
 
 			}
+
+			@Override
+			public Move lastMove() {
+				return null;
+			}
 		});
-		level.moveRight();
+		level.move(Move.RIGHT);
 		assertEquals(moves[0], 1);
 		assertEquals(pushes[0], 1);
 		char[] dataAfterMove = ("WWWWW" + "W..#W" + "WWWWW").toCharArray();
@@ -166,9 +171,14 @@ public class LevelTest {
 			public void nextLevel() {
 
 			}
+
+			@Override
+			public Move lastMove() {
+				return null;
+			}
 		});
-		level.moveRight();
-		level.moveRight();
+		level.move(Move.RIGHT);
+		level.move(Move.RIGHT);
 		assertEquals(moves[0], 2);
 		assertEquals(pushes[0], 2);
 		assertEquals(wins[0], 1);

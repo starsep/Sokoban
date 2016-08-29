@@ -1,4 +1,5 @@
 package com.starsep.sokoban;
 
-public interface GameController extends StatsChangeListener {
+public interface GameController {
+	void onStatsChanged();
 }

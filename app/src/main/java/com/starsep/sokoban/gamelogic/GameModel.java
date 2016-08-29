@@ -28,4 +28,6 @@ public interface GameModel {
 	Level level();
 
 	void nextLevel();
+
+	Move lastMove();
 }
