@@ -85,12 +85,6 @@ public class GameView extends View implements ViewEventsListener {
 		canvas.drawText(text, getWidth() - movesWidth - textMargin, line * size, textPaint);
 	}
 
-	private void drawStats(Canvas canvas) {
-		drawTextOnRight(canvas, "Moves: " + gameModel.stats().moves, 1);
-		drawTextOnRight(canvas, "Pushes: " + gameModel.stats().pushes, 2);
-		drawTextOnRight(canvas, "Time: " + gameModel.stats().time, 3);
-	}
-
 	private void updateSize() {
 		Level level = gameModel.level();
 		int newSize = Math.min(getWidth() / level.width(), getHeight() / level.height());
@@ -113,8 +107,6 @@ public class GameView extends View implements ViewEventsListener {
 		drawBackground(canvas);
 		drawTiles(canvas);
 		drawHero(canvas);
-		// drawStats(canvas);
-		// achievementListener.onAchievementUnlock(R.string.achievement_leet);
 	}
 
 	@Override
