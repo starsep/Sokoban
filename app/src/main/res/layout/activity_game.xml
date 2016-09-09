@@ -28,24 +28,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_undo"
+            android:drawableStart="@drawable/icon_undo"
             android:onClick="undoButtonClicked"
-            android:text="Undo"/>
+            android:text="@string/undo"/>
 
         <Button
             android:id="@+id/resetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_reset"
+            android:drawableStart="@drawable/icon_reset"
             android:onClick="resetButtonClicked"
-            android:text="Reset"/>
+            android:text="@string/reset"/>
 
         <Button
             android:id="@+id/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_settings"
+            android:drawableStart="@drawable/icon_settings"
             android:onClick="settingsButtonClicked"
-            android:text="Settings"/>
+            android:text="@string/settings"/>
     </LinearLayout>
 
     <TextView

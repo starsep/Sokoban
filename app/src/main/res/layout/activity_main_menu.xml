@@ -25,15 +25,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:drawableLeft="@drawable/icon_play"
+            android:drawableStart="@drawable/icon_play"
             android:onClick="newGameButtonClicked"
-            android:text="New Game"/>
+            android:text="@string/new_game"/>
 
         <Button
             android:id="@+id/helpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_help"
-            android:text="Help"
+            android:drawableStart="@drawable/icon_help"
+            android:text="@string/help"
             android:onClick="helpButtonClicked"/>
 
         <Button
@@ -41,7 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_settings"
-            android:text="Settings"
+            android:drawableStart="@drawable/icon_settings"
+            android:text="@string/settings"
             android:onClick="settingsButtonClicked"/>
 
         <Button
@@ -49,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_exit"
-            android:text="Exit"
+            android:drawableStart="@drawable/icon_exit"
+            android:text="@string/exit"
             android:onClick="exitButtonClicked"/>
     </LinearLayout>
 </RelativeLayout>
