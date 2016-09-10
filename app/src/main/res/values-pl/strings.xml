@@ -1,0 +1,13 @@
+<resources>
+    <string name="settings">Ustawienia</string>
+    <string name="reset">Reset</string>
+    <string name="undo">Cofnij</string>
+    <string name="exit">Wyjście</string>
+    <string name="help">Pomoc</string>
+    <string name="new_game">Nowa gra</string>
+    <string name="level_status">POZIOM %1$d  CZAS %2$d:%3$02d  RUCHY %4$d  PRZESUNIĘCIA %5$d</string>
+    <string name="win_msg">Ruchy: %1$d\nPrzesunięcia: %2$d\nCzas: %3$d:%4$02d\nNastępny poziom?</string>
+    <string name="win_positive">Pewnie!</string>
+    <string name="win_negative">Powtórz</string>
+    <string name="win_title">Poziom %1$d ukończony!</string>
+</resources>
