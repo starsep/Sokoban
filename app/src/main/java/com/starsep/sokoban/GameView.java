@@ -117,8 +117,10 @@ public class GameView extends View implements ViewEventsListener {
 				.setNegativeButton(getResources().getString(R.string.win_negative), (dialog, which) -> {
 					gameModel.repeatLevel();
 				})
+				.setOnCancelListener(dialogInterface -> {
+					gameModel.nextLevel();
+				})
 				.setIcon(android.R.drawable.ic_dialog_info)
-				.setCancelable(false)
 				.show();
 	}
 

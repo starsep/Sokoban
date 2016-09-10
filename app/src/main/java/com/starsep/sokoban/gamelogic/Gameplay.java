@@ -98,8 +98,10 @@ public class Gameplay implements GameModel {
 	}
 
 	public void nextLevel() {
-		loadLevel(++levelNumber, viewListener);
-		viewListener.onUpdate();
+		if (level().won()) {
+			loadLevel(++levelNumber, viewListener);
+			viewListener.onUpdate();
+		}
 	}
 
 	@Override
