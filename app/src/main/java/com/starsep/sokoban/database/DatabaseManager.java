@@ -123,11 +123,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		return result;
 	}
 
-	private boolean updateHighScore(HighScore highScore) {
+	private boolean updateHighScore(final HighScore highScore) {
 		HighScore oldScore = getHighScore(highScore.hash);
 		if (oldScore != null) {
 			try {
-				highScore.improve(oldScore);
+				oldScore.improve(highScore);
 			} catch (HighScore.DifferentLevelsException e) {
 				Log.e(Sokoban.TAG, "Got result from another Level");
 				return false;
