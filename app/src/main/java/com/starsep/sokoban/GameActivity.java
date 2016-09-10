@@ -74,12 +74,7 @@ public class GameActivity extends Activity implements
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						gameModel.onSecondElapsed();
-					}
-				});
+				runOnUiThread(() -> gameModel.onSecondElapsed());
 			}
 		}, 0, 1000);
 		// googleApiClient = AchievementClient.build(this, gameView);

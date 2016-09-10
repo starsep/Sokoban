@@ -16,15 +16,29 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }*/
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "24.0.2"
     defaultConfig {
+        jackOptions {
+            enabled = true
+            jackInProcess false
+        }
         applicationId "com.starsep.sokoban"
         minSdkVersion 10
         targetSdkVersion 24
         versionCode 6
         versionName "1.5"
     }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
