@@ -96,6 +96,11 @@ public class LevelTest {
 			public void onUndoPush() {
 
 			}
+
+			@Override
+			public void onSecondElapsed() {
+
+			}
 		});
 		level.move(Move.RIGHT);
 		assertEquals(moves[0], 1);
@@ -194,6 +199,11 @@ public class LevelTest {
 
 			@Override
 			public void onUndoPush() {
+
+			}
+
+			@Override
+			public void onSecondElapsed() {
 
 			}
 		});

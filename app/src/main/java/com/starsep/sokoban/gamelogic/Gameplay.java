@@ -66,9 +66,9 @@ public class Gameplay implements GameModel {
 
 	@Override
 	public void onWin() {
-		sendHighScore();
-		Log.d(Sokoban.TAG, getHighScore(currentLevel.hash()).toString());
+		// Log.d(Sokoban.TAG, getHighScore(currentLevel.hash()).toString());
 		viewListener.showWinDialog(levelNumber, stats);
+		sendHighScore();
 	}
 
 	@Override
@@ -116,6 +116,12 @@ public class Gameplay implements GameModel {
 	@Override
 	public void onUndoPush() {
 		stats().pushes--;
+		viewListener.onUpdate();
+	}
+
+	@Override
+	public void onSecondElapsed() {
+		stats.time++;
 		viewListener.onUpdate();
 	}
 

@@ -34,4 +34,6 @@ public interface GameModel {
 	void onUndoMove();
 
 	void onUndoPush();
+
+	void onSecondElapsed();
 }

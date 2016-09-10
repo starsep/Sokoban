@@ -13,6 +13,9 @@ import com.starsep.sokoban.gamelogic.GameModel;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GameActivity extends Activity implements
 		GoogleApiClient.ConnectionCallbacks,
 		GoogleApiClient.OnConnectionFailedListener,
@@ -21,6 +24,7 @@ public class GameActivity extends Activity implements
 	private GameView gameView;
 	private GameModel gameModel;
 	private TextView statusTextView;
+	private Timer timer;
 
 	@Override
 	protected void onStop() {
@@ -66,6 +70,18 @@ public class GameActivity extends Activity implements
 			}
 		});
 
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						gameModel.onSecondElapsed();
+					}
+				});
+			}
+		}, 0, 1000);
 		// googleApiClient = AchievementClient.build(this, gameView);
 	}
 

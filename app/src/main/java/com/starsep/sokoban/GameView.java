@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.starsep.sokoban.gamelogic.GameModel;
@@ -79,12 +80,6 @@ public class GameView extends View implements ViewEventsListener {
 		}
 	}
 
-	private void drawTextOnRight(Canvas canvas, String text, int line) {
-		final float textMargin = size / 2f;
-		float movesWidth = textPaint.measureText(text);
-		canvas.drawText(text, getWidth() - movesWidth - textMargin, line * size, textPaint);
-	}
-
 	private void updateSize() {
 		Level level = gameModel.level();
 		int newSize = Math.min(getWidth() / level.width(), getHeight() / level.height());
@@ -111,19 +106,19 @@ public class GameView extends View implements ViewEventsListener {
 
 	@Override
 	public void showWinDialog(int levelNumber, HighScore levelStats) {
-		String msg = "Moves: " + levelStats.moves + "\n" +
-				"Pushes: " + levelStats.pushes + "\n" +
-				"Time: " + levelStats.time + "\n" +
-				"Next level?";
+		int minutes = levelStats.time / 60;
+		int seconds = levelStats.time % 60;
+		String msg = String.format(getResources().getString(R.string.win_msg),
+				levelStats.moves, levelStats.pushes, minutes, seconds);
 		new AlertDialog.Builder(getContext())
-				.setTitle("Level " + levelNumber + " completed!")
+				.setTitle(String.format(getResources().getString(R.string.win_title), levelNumber))
 				.setMessage(msg)
-				.setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+				.setPositiveButton(getResources().getString(R.string.win_positive), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						gameModel.nextLevel();
 					}
 				})
-				.setNegativeButton("Repeat", new DialogInterface.OnClickListener() {
+				.setNegativeButton(getResources().getString(R.string.win_negative), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						gameModel.repeatLevel();
 					}
