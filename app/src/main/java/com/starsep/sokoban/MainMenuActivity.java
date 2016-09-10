@@ -1,7 +1,6 @@
 package com.starsep.sokoban;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

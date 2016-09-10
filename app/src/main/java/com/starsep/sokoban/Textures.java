@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.starsep.sokoban.gamelogic.Move;
 import com.starsep.sokoban.gamelogic.Tile;
 
 public class Textures {

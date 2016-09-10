@@ -27,5 +27,6 @@ public class LevelConverterScript {
 		} catch (LevelConverter.LevelConverterException e) {
 			e.printStackTrace();
 		}
+		input.close();
 	}
 }

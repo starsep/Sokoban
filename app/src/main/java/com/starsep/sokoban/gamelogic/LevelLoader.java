@@ -24,6 +24,7 @@ public class LevelLoader {
 			}
 			System.arraycopy(line.toCharArray(), 0, data, i * width, line.length());
 		}
+		scanner.close();
 		Level result = new Level(data, width, player);
 		result.setGameModel(model);
 		if (!result.valid()) {
