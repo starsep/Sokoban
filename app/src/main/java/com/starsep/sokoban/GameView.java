@@ -2,7 +2,6 @@ package com.starsep.sokoban;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -112,15 +111,11 @@ public class GameView extends View implements ViewEventsListener {
 		new AlertDialog.Builder(getContext())
 				.setTitle(String.format(getResources().getString(R.string.win_title), levelNumber))
 				.setMessage(msg)
-				.setPositiveButton(getResources().getString(R.string.win_positive), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						gameModel.nextLevel();
-					}
+				.setPositiveButton(getResources().getString(R.string.win_positive), (dialog, which) -> {
+					gameModel.nextLevel();
 				})
-				.setNegativeButton(getResources().getString(R.string.win_negative), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						gameModel.repeatLevel();
-					}
+				.setNegativeButton(getResources().getString(R.string.win_negative), (dialog, which) -> {
+					gameModel.repeatLevel();
 				})
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setCancelable(false)
