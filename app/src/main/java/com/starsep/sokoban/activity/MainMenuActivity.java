@@ -30,7 +30,6 @@ public class MainMenuActivity extends Activity {
 
 	public void newGameButtonClicked(View view) {
 		Intent intent = new Intent(this, ChooseLevelActivity.class);
-//		intent.putExtra("New", true);
 		startActivity(intent);
 	}
 

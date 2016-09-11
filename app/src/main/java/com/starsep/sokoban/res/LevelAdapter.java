@@ -1,6 +1,7 @@
 package com.starsep.sokoban.res;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.starsep.sokoban.R;
+import com.starsep.sokoban.activity.GameActivity;
 import com.starsep.sokoban.view.SquareButton;
 
 public class LevelAdapter extends BaseAdapter {
@@ -38,6 +40,11 @@ public class LevelAdapter extends BaseAdapter {
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		Button result = new SquareButton(context);
+		result.setOnClickListener(view1 -> {
+			Intent intent = new Intent(context, GameActivity.class);
+			intent.putExtra("New", true);
+			context.startActivity(intent);
+		});
 		int levelNumber = i + 1;
 		result.setText(String.format(context.getResources().getString(R.string.level), levelNumber));
 		boolean levelFinished = i % 2 == 0;
