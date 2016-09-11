@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.controls.OnSwipeTouchListener;
 import com.starsep.sokoban.R;
@@ -39,10 +40,13 @@ public class GameActivity extends Activity implements GameController {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		boolean newGame = false;
+		int levelNumber = 1;
+
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			 newGame = extras.getBoolean("New");
+			newGame = extras.getBoolean(Sokoban.NEW, false);
 			getIntent().putExtra("New", false);
+			levelNumber = extras.getInt(Sokoban.LEVEL_NUMBER, 1);
 		}
 
 		setContentView(R.layout.activity_game);
@@ -51,7 +55,7 @@ public class GameActivity extends Activity implements GameController {
 		statusTextView = (TextView) findViewById(R.id.statusTextView);
 		Gameplay gameplay;
 		if (newGame) {
-			gameplay = new Gameplay(this);
+			gameplay = new Gameplay(this, levelNumber);
 		} else {
 			gameplay = DatabaseManager.instance(this).getCurrentGame(this);
 			gameplay.setGameController(this);
@@ -85,7 +89,9 @@ public class GameActivity extends Activity implements GameController {
 		gameModel.repeatLevel();
 	}
 
-	public void undoButtonClicked(View view) { gameModel.undoMove(); }
+	public void undoButtonClicked(View view) {
+		gameModel.undoMove();
+	}
 
 	public void settingsButtonClicked(View view) {
 
