@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.starsep.sokoban.ContextGetter;
+import com.starsep.sokoban.GameController;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
@@ -169,7 +170,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	public Gameplay getCurrentGame(final Context context) {
+	public Gameplay getCurrentGame(final GameController gameController) {
 		SQLiteDatabase db = getReadableDatabase();
 		String selectCurrentGame = "SELECT * FROM " + TABLE_CURRENT_GAME +
 				" WHERE " + TRUE_CONDITION + ";";
@@ -178,17 +179,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		if (cursor.moveToFirst()) {
 			int time = cursor.getInt(cursor.getColumnIndex(COLUMN_TIME));
 			int currentLevel = cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER));
-			result = new Gameplay(new ContextGetter() {
-				@Override
-				public Context getContext() {
-					return context;
-				}
-
-				@Override
-				public boolean editMode() {
-					return false;
-				}
-			}, null, currentLevel);
+			result = new Gameplay(gameController, currentLevel);
 			result.stats().time = time;
 			String movesList = cursor.getString(cursor.getColumnIndex(COLUMN_MOVES_LIST));
 			try {

@@ -1,12 +1,14 @@
 package com.starsep.sokoban;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.starsep.sokoban.database.DatabaseManager;
+import com.starsep.sokoban.gamelogic.Gameplay;
 
 public class MainMenuActivity extends Activity {
 	private Button continueGameButton;
@@ -21,7 +23,7 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		continueGameButton.setVisibility(DatabaseManager.instance(this).getCurrentGame(this) == null ? View.GONE : View.VISIBLE);
+		continueGameButton.setVisibility(DatabaseManager.instance(this).getCurrentGame(new FakeGameController()) == null ? View.GONE : View.VISIBLE);
 	}
 
 	public void newGameButtonClicked(View view) {
@@ -44,5 +46,42 @@ public class MainMenuActivity extends Activity {
 		Intent intent = new Intent(this, GameActivity.class);
 		intent.putExtra("New", false);
 		startActivity(intent);
+	}
+
+	private class FakeGameController implements GameController {
+		@Override
+		public void onStatsChanged() {
+
+		}
+
+		@Override
+		public void onGamePause() {
+
+		}
+
+		@Override
+		public void onGameStart() {
+
+		}
+
+		@Override
+		public void onSaveGame(Gameplay game) {
+
+		}
+
+		@Override
+		public void onNewGame() {
+
+		}
+
+		@Override
+		public boolean editMode() {
+			return false;
+		}
+
+		@Override
+		public Context getContext() {
+			return getApplicationContext();
+		}
 	}
 }
