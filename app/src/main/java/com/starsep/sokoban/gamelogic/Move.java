@@ -106,16 +106,21 @@ public class Move {
 
 	@Override
 	public String toString() {
+		return "" + toChar();
+	}
+
+
+	public char toChar() {
 		switch (direction) {
 			case LEFT:
-				return push() ? "R" : "r";
+				return push() ? 'L' : 'l';
 			case RIGHT:
-				return push() ? "L" : "l";
+				return push() ? 'R' : 'r';
 			case DOWN:
-				return push() ? "D" : "d";
+				return push() ? 'D' : 'd';
 			default:
 			case UP:
-				return push() ? "U" : "u";
+				return push() ? 'U' : 'u';
 		}
 	}
 
