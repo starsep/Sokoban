@@ -130,6 +130,7 @@ public class GameView extends View implements ViewEventsListener {
 				})
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.create();
+		winDialog.show();
 	}
 
 	@Override
