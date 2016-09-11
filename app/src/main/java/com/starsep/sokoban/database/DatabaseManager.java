@@ -107,8 +107,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
 	public HighScore getHighScore(int hash) {
 		SQLiteDatabase db = getReadableDatabase();
-		String selectHighScore = "SELECT " + COLUMN_TIME + ", " + COLUMN_MOVES + ", " + COLUMN_PUSHES +
-				" FROM " + TABLE_HIGH_SCORES + " WHERE " +
+		String selectHighScore = "SELECT * FROM " + TABLE_HIGH_SCORES + " WHERE " +
 				COLUMN_HASH + " = " + hash + ";";
 		Cursor cursor = db.rawQuery(selectHighScore, null);
 		HighScore result = null;
