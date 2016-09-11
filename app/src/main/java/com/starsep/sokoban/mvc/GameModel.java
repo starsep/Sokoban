@@ -1,4 +1,9 @@
-package com.starsep.sokoban.gamelogic;
+package com.starsep.sokoban.mvc;
+
+import com.starsep.sokoban.gamelogic.HighScore;
+import com.starsep.sokoban.gamelogic.Level;
+import com.starsep.sokoban.gamelogic.Move;
+import com.starsep.sokoban.gamelogic.Position;
 
 public interface GameModel {
 	void onPush();

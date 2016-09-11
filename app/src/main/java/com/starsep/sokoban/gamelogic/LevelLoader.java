@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.starsep.sokoban.Sokoban;
+import com.starsep.sokoban.mvc.GameModel;
 
 import java.io.IOException;
 import java.io.InputStream;

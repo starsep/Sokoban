@@ -1,4 +1,4 @@
-package com.starsep.sokoban;
+package com.starsep.sokoban.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.starsep.sokoban.mvc.GameController;
+import com.starsep.sokoban.R;
 import com.starsep.sokoban.database.DatabaseManager;
 import com.starsep.sokoban.gamelogic.Gameplay;
 
@@ -27,8 +29,8 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void newGameButtonClicked(View view) {
-		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra("New", true);
+		Intent intent = new Intent(this, ChooseLevelActivity.class);
+//		intent.putExtra("New", true);
 		startActivity(intent);
 	}
 

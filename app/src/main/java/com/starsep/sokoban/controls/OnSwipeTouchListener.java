@@ -1,4 +1,4 @@
-package com.starsep.sokoban;
+package com.starsep.sokoban.controls;
 
 import android.content.Context;
 import android.view.GestureDetector;

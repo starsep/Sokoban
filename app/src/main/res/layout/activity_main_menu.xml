@@ -13,7 +13,9 @@
     android:layout_alignParentTop="true"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.starsep.sokoban.MainMenuActivity">
+    tools:context=".activity.MainMenuActivity"
+    android:background="@drawable/grass_repeat"
+    >
 
         <Button
             android:id="@+id/continueGameButton"

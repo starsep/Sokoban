@@ -2,7 +2,7 @@ package com.starsep.sokoban.gamelogic;
 
 import android.graphics.Bitmap;
 
-import com.starsep.sokoban.Textures;
+import com.starsep.sokoban.res.Textures;
 
 public class Move {
 	public static class UnknownMoveException extends Exception { }

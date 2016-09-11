@@ -1,5 +1,7 @@
 package com.starsep.sokoban.gamelogic;
 
+import com.starsep.sokoban.mvc.GameModel;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

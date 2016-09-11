@@ -2,9 +2,10 @@ package com.starsep.sokoban.gamelogic;
 
 import android.util.Log;
 
-import com.starsep.sokoban.GameController;
+import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.Sokoban;
-import com.starsep.sokoban.ViewEventsListener;
+import com.starsep.sokoban.mvc.GameModel;
+import com.starsep.sokoban.mvc.ViewEventsListener;
 import com.starsep.sokoban.database.DatabaseManager;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.starsep.sokoban;
+package com.starsep.sokoban.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.starsep.sokoban.mvc.GameController;
+import com.starsep.sokoban.controls.OnSwipeTouchListener;
+import com.starsep.sokoban.R;
 import com.starsep.sokoban.database.DatabaseManager;
-import com.starsep.sokoban.gamelogic.GameModel;
+import com.starsep.sokoban.mvc.GameModel;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
+import com.starsep.sokoban.view.GameView;
 
 import java.util.Timer;
 import java.util.TimerTask;

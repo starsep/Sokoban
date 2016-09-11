@@ -2,7 +2,8 @@ package com.starsep.sokoban.gamelogic;
 
 import android.graphics.Bitmap;
 
-import com.starsep.sokoban.Textures;
+import com.starsep.sokoban.res.Textures;
+import com.starsep.sokoban.mvc.GameModel;
 
 import java.util.ArrayList;
 import java.util.List;

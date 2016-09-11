@@ -7,8 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.starsep.sokoban.ContextGetter;
-import com.starsep.sokoban.GameController;
+import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;

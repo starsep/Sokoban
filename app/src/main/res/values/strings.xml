@@ -12,4 +12,5 @@
     <string name="win_negative">Repeat</string>
     <string name="win_title">Level %1$d completed!</string>
     <string name="continue_game">Continue game</string>
+    <string name="level">Level %1$d</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.starsep.sokoban;
+package com.starsep.sokoban.mvc;
 
 import com.starsep.sokoban.gamelogic.HighScore;
 

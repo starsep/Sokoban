@@ -10,4 +10,6 @@
     <string name="win_positive">Pewnie!</string>
     <string name="win_negative">Powtórz</string>
     <string name="win_title">Poziom %1$d ukończony!</string>
+    <string name="level">Poziom %1$d</string>
+    <string name="continue_game">Kontynuuj grę</string>
 </resources>

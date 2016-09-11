@@ -1,19 +1,20 @@
-package com.starsep.sokoban;
+package com.starsep.sokoban.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.starsep.sokoban.gamelogic.GameModel;
+import com.starsep.sokoban.mvc.GameController;
+import com.starsep.sokoban.R;
+import com.starsep.sokoban.res.Textures;
+import com.starsep.sokoban.mvc.ViewEventsListener;
+import com.starsep.sokoban.mvc.GameModel;
 import com.starsep.sokoban.gamelogic.HighScore;
 import com.starsep.sokoban.gamelogic.Level;
 import com.starsep.sokoban.gamelogic.Position;
@@ -24,9 +25,6 @@ public class GameView extends View implements ViewEventsListener {
 	private int size; // size of tile
 	private Paint textPaint;
 	private Position screenDelta;
-	private BitmapShader grassShader;
-	private Paint grassPaint;
-	private Rect backgroundRect;
 	private GameController gameController;
 	private GameModel gameModel;
 	private Dialog winDialog;
@@ -38,15 +36,6 @@ public class GameView extends View implements ViewEventsListener {
 
 		Textures.init(getContext());
 
-		backgroundRect = new Rect();
-		grassShader = new BitmapShader(Textures.grassTexture(), Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-		Matrix backgroundScaleMatrix = new Matrix();
-		backgroundScaleMatrix.setScale(0.5f, 0.5f);
-		grassShader.setLocalMatrix(backgroundScaleMatrix);
-		grassPaint = new Paint();
-		grassPaint.setStyle(Paint.Style.FILL);
-		grassPaint.setShader(grassShader);
-
 		int size = Math.min(getWidth(), getHeight()) / 10;
 		dimension = new Rect(0, 0, size, size);
 		textPaint = new Paint();
@@ -56,11 +45,6 @@ public class GameView extends View implements ViewEventsListener {
 	private void setDrawingDimension(int x, int y) {
 		dimension.set(screenDelta.x + x * size, screenDelta.y + y * size,
 				screenDelta.x + (x + 1) * size, screenDelta.y + (y + 1) * size);
-	}
-
-	private void drawBackground(Canvas canvas) {
-		canvas.drawRGB(0, 200, 0);
-		canvas.drawRect(backgroundRect, grassPaint);
 	}
 
 	private void drawHero(Canvas canvas) {
@@ -85,7 +69,6 @@ public class GameView extends View implements ViewEventsListener {
 		int newSize = Math.min(getWidth() / level.width(), getHeight() / level.height());
 		if (newSize != size) {
 			size = newSize;
-			backgroundRect.set(0, 0, getWidth(), getHeight());
 			textPaint.setTextSize(size);
 			screenDelta.x = (getWidth() - level.width() * size) / 2;
 			screenDelta.y = (getHeight() - level.height() * size) / 2;
@@ -99,7 +82,6 @@ public class GameView extends View implements ViewEventsListener {
 			return;
 		}
 		updateSize();
-		drawBackground(canvas);
 		drawTiles(canvas);
 		drawHero(canvas);
 	}
