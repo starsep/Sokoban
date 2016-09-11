@@ -73,20 +73,20 @@ public class Level {
 		moves.add(move);
 	}
 
-	private void push(int x, int y, int newX, int newY, boolean real) {
+	private void push(int x, int y, int newX, int newY, boolean undo) {
 		char oldTile = tile(y, x);
 		char newTile = tile(newY, newX);
 		setTile(newY, newX, Tile.withCrate(newTile));
 		setTile(y, x, Tile.withoutCrate(oldTile));
-		if (real) {
-			gameModel.onPush();
-		} else {
+		if (undo) {
 			gameModel.onUndoPush();
+		} else {
+			gameModel.onPush();
 		}
 	}
 
 	private void push(int x, int y, int newX, int newY) {
-		push(x, y, newX, newY, true);
+		push(x, y, newX, newY, false);
 	}
 
 	private void setTile(int y, int x, char c) {
