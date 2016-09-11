@@ -74,14 +74,6 @@ public class GameActivity extends Activity implements GameController {
 				gameModel.moveDown();
 			}
 		});
-
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				runOnUiThread(() -> gameModel.onSecondElapsed());
-			}
-		}, 0, 1000);
 	}
 
 
