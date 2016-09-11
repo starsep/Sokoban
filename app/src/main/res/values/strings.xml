@@ -7,7 +7,7 @@
     <string name="help">Help</string>
     <string name="new_game">New Game</string>
     <string name="level_status">LEVEL %1$d  TIME %2$d:%3$02d  MOVES %4$d  PUSHES %5$d</string>
-    <string name="win_msg">Moves: %1$d (%2$d)\nPushes: %3$d (%4$d)\nTime: %5$d:%6$02d (%7$d:%8$02d)\nNext level?</string>
+    <string name="win_msg">Moves: %1$d (best %2$d)\nPushes: %3$d (best %4$d)\nTime: %5$d:%6$02d (best %7$d:%8$02d)\nNext level?</string>
     <string name="win_positive">Sure!</string>
     <string name="win_negative">Repeat</string>
     <string name="win_title">Level %1$d completed!</string>
