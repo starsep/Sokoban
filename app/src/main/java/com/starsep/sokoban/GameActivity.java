@@ -1,14 +1,13 @@
 package com.starsep.sokoban;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.starsep.sokoban.database.DatabaseManager;
 import com.starsep.sokoban.gamelogic.GameModel;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
@@ -22,25 +21,38 @@ public class GameActivity extends Activity implements GameController {
 	private TextView statusTextView;
 	private Timer timer;
 
-	@Override
-	protected void onStop() {
-		super.onStop();
+	protected void onPause() {
+		super.onPause();
+		onGamePause();
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
+		onGameStart();
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		boolean newGame = false;
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			 newGame = extras.getBoolean("New");
+			getIntent().putExtra("New", false);
+		}
+
 		setContentView(R.layout.activity_game);
 
 		gameView = (GameView) findViewById(R.id.gameView);
 		statusTextView = (TextView) findViewById(R.id.statusTextView);
-
-		Gameplay gameplay = new Gameplay(gameView);
+		Gameplay gameplay;
+		if (newGame) {
+			gameplay = new Gameplay(this);
+		} else {
+			gameplay = DatabaseManager.instance(this).getCurrentGame(this);
+			gameplay.setGameController(this);
+		}
 		gameplay.setViewListener(gameView);
 		gameModel = gameplay;
 

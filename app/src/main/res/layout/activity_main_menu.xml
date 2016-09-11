@@ -16,6 +16,17 @@
     tools:context="com.starsep.sokoban.MainMenuActivity">
 
         <Button
+            android:id="@+id/continueGameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/icon_continue"
+            android:drawableStart="@drawable/icon_continue"
+            android:onClick="continueGameButtonClicked"
+            android:text="@string/continue_game"
+            android:visibility="gone"/>
+
+        <Button
             android:id="@+id/newGameButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,12 +54,12 @@
             android:text="@string/settings"
             android:onClick="settingsButtonClicked"/>
 
-        <Button
-            android:id="@+id/exitButton"
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_exit"
-            android:drawableStart="@drawable/icon_exit"
-            android:text="@string/exit"
-            android:onClick="exitButtonClicked"/>
+            android:id="@+id/progressBar"
+            android:layout_gravity="right"
+            android:visibility="gone"/>
+
 </LinearLayout>
