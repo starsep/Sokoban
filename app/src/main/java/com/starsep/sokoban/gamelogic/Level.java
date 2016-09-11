@@ -198,10 +198,9 @@ public class Level {
 		return result;
 	}
 
-	public void setMovesList(String movesList) throws Move.UnknownMoveException {
-		moves.clear();
+	public void makeMoves(String movesList) throws Move.UnknownMoveException {
 		for (char c : movesList.toCharArray()) {
-			moves.add(Move.fromChar(c));
+			move(Move.fromChar(c));
 		}
 	}
 }
