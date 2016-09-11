@@ -23,16 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.GameActivity"
-            android:parentActivityName=".activity.MainMenuActivity"
-            tools:ignore="UnusedAttribute">
-        </activity>
-        <activity
-            android:name=".activity.ChooseLevelActivity"
-            android:parentActivityName=".activity.MainMenuActivity"
-            tools:ignore="UnusedAttribute">
-        </activity>
+        <activity android:name=".activity.GameActivity"/>
+        <activity android:name=".activity.ChooseLevelActivity"/>
     </application>
 
 </manifest>
