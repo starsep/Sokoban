@@ -1,6 +1,6 @@
 package com.starsep.sokoban.gamelogic;
 
-import com.starsep.sokoban.mvc.GameModel;
+import com.starsep.sokoban.mvc.FakeGameModel;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class LevelTest {
 		Level level = new Level(data, 5, new Position(1, 1));
 		final int[] moves = {0};
 		final int[] pushes = {0};
-		level.setGameModel(new GameModel() {
+		level.setGameModel(new FakeGameModel() {
 			@Override
 			public void onPush() {
 				pushes[0]++;
@@ -27,81 +27,6 @@ public class LevelTest {
 			@Override
 			public void onWin() {
 				assertTrue(false);
-			}
-
-			@Override
-			public void moveUp() {
-
-			}
-
-			@Override
-			public void moveDown() {
-
-			}
-
-			@Override
-			public void moveLeft() {
-
-			}
-
-			@Override
-			public void moveRight() {
-
-			}
-
-			@Override
-			public void repeatLevel() {
-
-			}
-
-			@Override
-			public void undoMove() {
-
-			}
-
-			@Override
-			public int levelNumber() {
-				return 0;
-			}
-
-			@Override
-			public HighScore stats() {
-				return null;
-			}
-
-			@Override
-			public Position player() {
-				return null;
-			}
-
-			@Override
-			public Level level() {
-				return null;
-			}
-
-			@Override
-			public void nextLevel() {
-
-			}
-
-			@Override
-			public Move lastMove() {
-				return null;
-			}
-
-			@Override
-			public void onUndoMove() {
-
-			}
-
-			@Override
-			public void onUndoPush() {
-
-			}
-
-			@Override
-			public void onSecondElapsed() {
-
 			}
 		});
 		level.move(Move.RIGHT);
@@ -118,7 +43,7 @@ public class LevelTest {
 		final int[] moves = {0};
 		final int[] pushes = {0};
 		final int[] wins = {0};
-		level.setGameModel(new GameModel() {
+		level.setGameModel(new FakeGameModel() {
 			@Override
 			public void onPush() {
 				pushes[0]++;
@@ -132,81 +57,6 @@ public class LevelTest {
 			@Override
 			public void onWin() {
 				wins[0]++;
-			}
-
-			@Override
-			public void moveUp() {
-
-			}
-
-			@Override
-			public void moveDown() {
-
-			}
-
-			@Override
-			public void moveLeft() {
-
-			}
-
-			@Override
-			public void moveRight() {
-
-			}
-
-			@Override
-			public void repeatLevel() {
-
-			}
-
-			@Override
-			public void undoMove() {
-
-			}
-
-			@Override
-			public int levelNumber() {
-				return 0;
-			}
-
-			@Override
-			public HighScore stats() {
-				return null;
-			}
-
-			@Override
-			public Position player() {
-				return null;
-			}
-
-			@Override
-			public Level level() {
-				return null;
-			}
-
-			@Override
-			public void nextLevel() {
-
-			}
-
-			@Override
-			public Move lastMove() {
-				return null;
-			}
-
-			@Override
-			public void onUndoMove() {
-
-			}
-
-			@Override
-			public void onUndoPush() {
-
-			}
-
-			@Override
-			public void onSecondElapsed() {
-
 			}
 		});
 		level.move(Move.RIGHT);

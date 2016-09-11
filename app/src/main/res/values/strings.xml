@@ -13,4 +13,7 @@
     <string name="win_title">Level %1$d completed!</string>
     <string name="continue_game">Continue game</string>
     <string name="level">Level %1$d</string>
+    <string name="ok">Ok</string>
+    <string name="help_title">Help</string>
+    <string name="help_msg">Sokoban</string>
 </resources>

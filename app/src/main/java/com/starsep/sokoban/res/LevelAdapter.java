@@ -36,7 +36,7 @@ public class LevelAdapter extends BaseAdapter {
 				intent.putExtra(Sokoban.LEVEL_NUMBER, levelNumber);
 				context.startActivity(intent);
 			});
-			button.setText(String.format(context.getResources().getString(R.string.level), levelNumber));
+			button.setText(String.format(context.getString(R.string.level), levelNumber));
 		}
 		updateSolvedLevelsButton();
 	}

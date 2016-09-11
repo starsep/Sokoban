@@ -104,7 +104,7 @@ public class GameActivity extends Activity implements GameController {
 		int seconds = highScore.time % 60;
 		int moves = highScore.moves;
 		int pushes = highScore.pushes;
-		statusTextView.setText(String.format(getResources().getString(R.string.level_status),
+		statusTextView.setText(String.format(getString(R.string.level_status),
 				levelNumber, minutes, seconds, moves, pushes));
 	}
 
