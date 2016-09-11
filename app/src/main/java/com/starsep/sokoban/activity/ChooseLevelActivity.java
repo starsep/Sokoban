@@ -15,7 +15,7 @@ public class ChooseLevelActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_level);
 
-		levelAdapter = new LevelAdapter(100, this);
+		levelAdapter = new LevelAdapter(getResources().getInteger(R.integer.number_of_levels), this);
 
 		GridView gridview = (GridView) findViewById(R.id.gridView);
 		gridview.setAdapter(levelAdapter);
