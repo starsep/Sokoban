@@ -11,9 +11,10 @@ import com.starsep.sokoban.ContextGetter;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
+import com.starsep.sokoban.gamelogic.Move;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 3;
 	public static final String DATABASE_NAME = "Sokoban.db";
 
 	// tables
@@ -23,6 +24,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 	// types
 	public static final String TYPE_ID = "INTEGER PRIMARY KEY AUTOINCREMENT";
 	public static final String TYPE_INTEGER = "INTEGER";
+	private static final String TYPE_TEXT = "TEXT";
 
 	// columns
 	public static final String COLUMN_ID = "_id";
@@ -31,8 +33,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
 	public static final String COLUMN_MOVES = "moves";
 	public static final String COLUMN_PUSHES = "pushes";
 	public static final String COLUMN_LEVEL_NUMBER = "level_number";
-	public static final String COLUMN_PLAYER_X = "player_x";
-	public static final String COLUMN_PLAYER_Y = "player_y";
 	public static final String COLUMN_MOVES_LIST = "moves_list";
 
 	public static final String TRUE_CONDITION = "1 = 1";
@@ -60,11 +60,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
 				COLUMN_ID + " " + TYPE_ID + ", " +
 				COLUMN_HASH + " " + TYPE_INTEGER + ", " +
 				COLUMN_LEVEL_NUMBER + " " + TYPE_INTEGER + ", " +
-				COLUMN_PLAYER_X + " " + TYPE_INTEGER + ", " +
-				COLUMN_PLAYER_Y + " " + TYPE_INTEGER + ", " +
 				COLUMN_TIME + " " + TYPE_INTEGER + ", " +
-				COLUMN_MOVES + " " + TYPE_INTEGER + ", " +
-				COLUMN_PUSHES + " " + TYPE_INTEGER +
+				COLUMN_MOVES_LIST + " " + TYPE_TEXT +
 				");";
 		db.execSQL(query);
 	}
@@ -165,9 +162,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		//add new entry
 		ContentValues entry = new ContentValues();
 		entry.put(COLUMN_HASH, gameplay.stats().hash);
-		entry.put(COLUMN_MOVES, gameplay.stats().moves);
+		entry.put(COLUMN_LEVEL_NUMBER, gameplay.levelNumber());
 		entry.put(COLUMN_TIME, gameplay.stats().time);
-		entry.put(COLUMN_PUSHES, gameplay.stats().pushes);
 		entry.put(COLUMN_MOVES_LIST, gameplay.movesString());
 		db.insert(TABLE_CURRENT_GAME, null, entry);
 		db.close();
@@ -180,19 +176,26 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery(selectCurrentGame, null);
 		Gameplay result = null;
 		if (cursor.moveToFirst()) {
-			int moves = cursor.getInt(cursor.getColumnIndex(COLUMN_MOVES));
-			int pushes = cursor.getInt(cursor.getColumnIndex(COLUMN_PUSHES));
 			int time = cursor.getInt(cursor.getColumnIndex(COLUMN_TIME));
 			int currentLevel = cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER));
-			// String
 			result = new Gameplay(new ContextGetter() {
 				@Override
-				public Context getContext() { return context; }
+				public Context getContext() {
+					return context;
+				}
 
 				@Override
-				public boolean editMode() { return false; }
-			}, currentLevel);
-			result.stats().set(time, moves, pushes);
+				public boolean editMode() {
+					return false;
+				}
+			}, null, currentLevel);
+			result.stats().time = time;
+			String movesList = cursor.getString(cursor.getColumnIndex(COLUMN_MOVES_LIST));
+			try {
+				result.makeMoves(movesList);
+			} catch (Move.UnknownMoveException e) {
+				Log.e(Sokoban.TAG, "UnknownMove in " + movesList);
+			}
 		}
 		db.close();
 		cursor.close();
