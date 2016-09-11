@@ -11,7 +11,7 @@ public class HelpDialogBuilder {
 
 	public static Dialog build(Context context) {
 		return new AlertDialog.Builder(context)
-				.setTitle(context.getString(R.string.help_title))
+				.setTitle(context.getString(R.string.help))
 				.setMessage(context.getString(R.string.help_msg))
 				.setPositiveButton(context.getString(R.string.ok), (dialogInterface, i) -> {})
 				.create();

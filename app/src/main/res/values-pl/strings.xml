@@ -12,4 +12,5 @@
     <string name="win_title">Poziom %1$d ukończony!</string>
     <string name="level">Poziom %1$d</string>
     <string name="continue_game">Kontynuuj grę</string>
+    <string name="help_msg">Sokoban to gra logiczna.\nTwoim celem jest przesunięcie skrzynek na ich miejsca docelowe.\n\nPoruszaj się używając swipe\'a.</string>
 </resources>

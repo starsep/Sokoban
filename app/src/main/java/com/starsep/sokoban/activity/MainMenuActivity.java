@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.mvc.FakeGameController;
 import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.R;
@@ -17,12 +18,21 @@ import com.starsep.sokoban.view.HelpDialogBuilder;
 
 public class MainMenuActivity extends Activity {
 	private Button continueGameButton;
+	private Dialog helpDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
 		continueGameButton = (Button) findViewById(R.id.continueGameButton);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if (helpDialog != null) {
+			helpDialog.dismiss();
+		}
 	}
 
 	@Override
@@ -37,7 +47,7 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void helpButtonClicked(View view) {
-		Dialog helpDialog = HelpDialogBuilder.build(this);
+		helpDialog = HelpDialogBuilder.build(this);
 		helpDialog.show();
 	}
 
@@ -48,7 +58,7 @@ public class MainMenuActivity extends Activity {
 
 	public void continueGameButtonClicked(View view) {
 		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra("New", false);
+		intent.putExtra(Sokoban.NEW, false);
 		startActivity(intent);
 	}
 }

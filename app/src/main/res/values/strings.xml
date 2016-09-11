@@ -13,7 +13,6 @@
     <string name="win_title">Level %1$d completed!</string>
     <string name="continue_game">Continue game</string>
     <string name="level">Level %1$d</string>
-    <string name="ok">Ok</string>
-    <string name="help_title">Help</string>
-    <string name="help_msg">Sokoban</string>
+    <string name="ok">OK</string>
+    <string name="help_msg">Sokoban is a type of transport puzzle.\nYou need to move crates to their storage locations.\n\nMove using swipe.</string>
 </resources>
