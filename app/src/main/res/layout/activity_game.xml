@@ -4,30 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.GameActivity"
-    android:background="@drawable/grass_repeat">
+    android:background="@drawable/grass_repeat"
+    tools:context=".activity.GameActivity">
 
-    <com.starsep.sokoban.view.GameView
-        android:id="@+id/gameView"
+    <RelativeLayout
+        android:id="@+id/buttonGroup"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/undoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:drawableLeft="@drawable/icon_undo"
             android:drawableStart="@drawable/icon_undo"
             android:onClick="undoButtonClicked"
@@ -37,6 +27,7 @@
             android:id="@+id/resetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:drawableLeft="@drawable/icon_reset"
             android:drawableStart="@drawable/icon_reset"
             android:onClick="resetButtonClicked"
@@ -46,17 +37,28 @@
             android:id="@+id/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:drawableLeft="@drawable/icon_settings"
             android:drawableStart="@drawable/icon_settings"
             android:onClick="settingsButtonClicked"
             android:text="@string/settings"/>
-    </LinearLayout>
+    </RelativeLayout>
+
+    <com.starsep.sokoban.view.GameView
+        android:id="@+id/gameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/statusTextView"
+        android:layout_below="@+id/buttonGroup"
+        />
 
     <TextView
         android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="bottom"
         android:gravity="center_horizontal"
         android:textColor="#fff"/>
