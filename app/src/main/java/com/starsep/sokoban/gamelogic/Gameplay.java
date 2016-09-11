@@ -51,7 +51,7 @@ public class Gameplay implements GameModel {
 			Log.e(Sokoban.TAG, "Load error (" + number + ".level) :<");
 			currentLevel = Level.getDefaultLevel();
 		}
-		stats = new HighScore(currentLevel.hash(), 0, 0, 0);
+		stats = new HighScore(currentLevel.hash(), levelNumber, 0, 0, 0);
 		saveGame();
 		onNewGame();
 	}

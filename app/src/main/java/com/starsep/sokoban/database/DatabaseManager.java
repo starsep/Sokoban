@@ -13,8 +13,11 @@ import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
 import com.starsep.sokoban.gamelogic.Move;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseManager extends SQLiteOpenHelper {
-	public static final int DATABASE_VERSION = 3;
+	public static final int DATABASE_VERSION = 5;
 	public static final String DATABASE_NAME = "Sokoban.db";
 
 	// tables
@@ -70,6 +73,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		String query = "CREATE TABLE " + TABLE_HIGH_SCORES + "(" +
 				COLUMN_ID + " " + TYPE_ID + ", " +
 				COLUMN_HASH + " " + TYPE_INTEGER + ", " +
+				COLUMN_LEVEL_NUMBER + " " + TYPE_INTEGER + ", " +
 				COLUMN_TIME + " " + TYPE_INTEGER + ", " +
 				COLUMN_MOVES + " " + TYPE_INTEGER + ", " +
 				COLUMN_PUSHES + " " + TYPE_INTEGER +
@@ -112,7 +116,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
 			int moves = cursor.getInt(cursor.getColumnIndex(COLUMN_MOVES));
 			int pushes = cursor.getInt(cursor.getColumnIndex(COLUMN_PUSHES));
 			int time = cursor.getInt(cursor.getColumnIndex(COLUMN_TIME));
-			result = new HighScore(hash, time, moves, pushes);
+			int level = cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER));
+			result = new HighScore(hash, level, time, moves, pushes);
 		}
 		db.close();
 		cursor.close();
@@ -149,6 +154,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		entry.put(COLUMN_MOVES, highScore.moves);
 		entry.put(COLUMN_TIME, highScore.time);
 		entry.put(COLUMN_PUSHES, highScore.pushes);
+		entry.put(COLUMN_LEVEL_NUMBER, highScore.levelNumber);
 		SQLiteDatabase db = getWritableDatabase();
 		db.insert(TABLE_HIGH_SCORES, null, entry);
 		db.close();
@@ -186,6 +192,20 @@ public class DatabaseManager extends SQLiteOpenHelper {
 			} catch (Move.UnknownMoveException e) {
 				Log.e(Sokoban.TAG, "UnknownMove in " + movesList);
 			}
+		}
+		db.close();
+		cursor.close();
+		return result;
+	}
+
+	public List<Integer> getSolvedLevels() {
+		SQLiteDatabase db = getReadableDatabase();
+		String selectLevelsSolved = "SELECT " + COLUMN_LEVEL_NUMBER + " FROM " + TABLE_HIGH_SCORES +
+				" WHERE " + TRUE_CONDITION + ";";
+		Cursor cursor = db.rawQuery(selectLevelsSolved, null);
+		List<Integer> result = new ArrayList<>();
+		while (cursor.moveToNext()) {
+			result.add(cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER)));
 		}
 		db.close();
 		cursor.close();

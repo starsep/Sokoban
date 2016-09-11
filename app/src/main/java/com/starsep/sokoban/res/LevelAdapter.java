@@ -12,17 +12,34 @@ import android.widget.Button;
 import com.starsep.sokoban.R;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.activity.GameActivity;
+import com.starsep.sokoban.database.DatabaseManager;
 import com.starsep.sokoban.view.SquareButton;
+
+import java.util.List;
 
 public class LevelAdapter extends BaseAdapter {
 	private final int size;
 	private final Context context;
+	private final Button[] buttons;
 
 	public LevelAdapter(int size, Context context) {
 		this.size = size;
 		this.context = context;
+		buttons = new Button[size];
+		for (int i = 0; i < size; i++) {
+			buttons[i] = new SquareButton(context);
+			Button button = buttons[i];
+			int levelNumber = i + 1;
+			button.setOnClickListener(view -> {
+				Intent intent = new Intent(context, GameActivity.class);
+				intent.putExtra(Sokoban.NEW, true);
+				intent.putExtra(Sokoban.LEVEL_NUMBER, levelNumber);
+				context.startActivity(intent);
+			});
+			button.setText(String.format(context.getResources().getString(R.string.level), levelNumber));
+		}
+		updateSolvedLevelsButton();
 	}
-
 	@Override
 	public int getCount() {
 		return size;
@@ -40,19 +57,13 @@ public class LevelAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
-		Button result = new SquareButton(context);
-		int levelNumber = i + 1;
-		result.setOnClickListener(view1 -> {
-			Intent intent = new Intent(context, GameActivity.class);
-			intent.putExtra(Sokoban.NEW, true);
-			intent.putExtra(Sokoban.LEVEL_NUMBER, levelNumber);
-			context.startActivity(intent);
-		});
-		result.setText(String.format(context.getResources().getString(R.string.level), levelNumber));
-		boolean levelFinished = false; // TODO: implement, get from database
-		if (levelFinished) {
-			result.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+		return buttons[i];
+	}
+
+	public void updateSolvedLevelsButton() {
+		List<Integer> solved = DatabaseManager.instance(context).getSolvedLevels();
+		for (int levelNumber : solved) {
+			buttons[levelNumber - 1].getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 		}
-		return result;
 	}
 }
