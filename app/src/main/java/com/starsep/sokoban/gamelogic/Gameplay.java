@@ -18,10 +18,6 @@ public class Gameplay implements GameModel {
 	private int levelNumber;
 	private GameController gameController;
 
-	public Gameplay(GameController gameController) {
-		this(gameController, 1);
-	}
-
 	public Gameplay(GameController gameController, int levelNumber) {
 		setGameController(gameController);
 		loadLevel(levelNumber);
