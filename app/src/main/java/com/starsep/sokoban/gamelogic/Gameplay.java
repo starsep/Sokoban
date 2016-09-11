@@ -1,8 +1,12 @@
 package com.starsep.sokoban.gamelogic;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.starsep.sokoban.ContextGetter;
+import com.starsep.sokoban.GameActivity;
+import com.starsep.sokoban.GameController;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.ViewEventsListener;
 import com.starsep.sokoban.database.DatabaseManager;
@@ -15,27 +19,44 @@ public class Gameplay implements GameModel {
 	private HighScore stats;
 	private Level currentLevel;
 	private int levelNumber;
+	private GameController gameController;
 
-	public Gameplay(ContextGetter contextGetter) {
-		this(contextGetter, 1);
+	public Gameplay(GameController gameController) {
+		this(gameController, 1);
 	}
 
-	public Gameplay(ContextGetter contextGetter, int levelNumber) {
-		loadLevel(levelNumber, contextGetter);
+	public Gameplay(GameController gameController, int levelNumber) {
+		setGameController(gameController);
+		loadLevel(levelNumber);
 	}
 
-	private void loadLevel(int number, ContextGetter contextGetter) {
+	private void saveGame() {
+		if (gameController != null) {
+			gameController.onSaveGame(this);
+		}
+	}
+
+	private void onNewGame() {
+		if (gameController != null) {
+			gameController.onNewGame();
+		}
+	}
+
+	private void loadLevel(int number) {
 		levelNumber = number;
-		if (contextGetter.editMode()) {
+		if (gameController.editMode()) {
 			currentLevel = Level.getDefaultLevel();
 			return;
 		}
 		try {
-			currentLevel = LevelLoader.load(contextGetter.getContext(), "levels/" + number + ".level", this);
+			currentLevel = LevelLoader.load(gameController.getContext(), "levels/" + number + ".level", this);
 		} catch (IOException e) {
 			Log.e(Sokoban.TAG, "Load error (" + number + ".level) :<");
+			currentLevel = Level.getDefaultLevel();
 		}
 		stats = new HighScore(currentLevel.hash(), 0, 0, 0);
+		saveGame();
+		onNewGame();
 	}
 
 	@Override
@@ -46,7 +67,14 @@ public class Gameplay implements GameModel {
 	@Override
 	public void onMove() {
 		stats.moves++;
-		viewListener.onUpdate();
+		saveGame();
+		updateView();
+	}
+
+	private void updateView() {
+		if (viewListener != null) {
+			viewListener.onUpdate();
+		}
 	}
 
 	@Override
@@ -67,14 +95,24 @@ public class Gameplay implements GameModel {
 	@Override
 	public void onWin() {
 		// Log.d(Sokoban.TAG, getHighScore(currentLevel.hash()).toString());
-		viewListener.showWinDialog(levelNumber, stats);
-		sendHighScore();
+		if (viewListener != null) {
+			pauseGame();
+			viewListener.showWinDialog(levelNumber, stats, getHighScore(level().hash()));
+			sendHighScore();
+		} else {
+			nextLevel();
+		}
+	}
+
+	private void pauseGame() {
+		if (gameController != null) {
+			gameController.onGamePause();
+		}
 	}
 
 	@Override
 	public void moveUp() {
 		level().move(Move.UP);
-
 	}
 
 	@Override
@@ -93,14 +131,14 @@ public class Gameplay implements GameModel {
 	}
 
 	public void repeatLevel() {
-		loadLevel(levelNumber, viewListener);
-		viewListener.onUpdate();
+		loadLevel(levelNumber);
+		updateView();
 	}
 
 	public void nextLevel() {
 		if (level().won()) {
-			loadLevel(++levelNumber, viewListener);
-			viewListener.onUpdate();
+			loadLevel(++levelNumber);
+			updateView();
 		}
 	}
 
@@ -112,19 +150,19 @@ public class Gameplay implements GameModel {
 	@Override
 	public void onUndoMove() {
 		stats().moves--;
-		viewListener.onUpdate();
+		updateView();
 	}
 
 	@Override
 	public void onUndoPush() {
 		stats().pushes--;
-		viewListener.onUpdate();
+		updateView();
 	}
 
 	@Override
 	public void onSecondElapsed() {
 		stats.time++;
-		viewListener.onUpdate();
+		updateView();
 	}
 
 	public HighScore stats() {
@@ -138,7 +176,7 @@ public class Gameplay implements GameModel {
 
 	public void undoMove() {
 		level().undoMove();
-		viewListener.onUpdate();
+		updateView();
 	}
 
 	public int levelNumber() {
@@ -151,6 +189,14 @@ public class Gameplay implements GameModel {
 
 	public void setViewListener(ViewEventsListener listener) {
 		viewListener = listener;
-		viewListener.onUpdate();
+		updateView();
+	}
+
+	public void setGameController(GameController gameController) {
+		this.gameController = gameController;
+	}
+
+	public void makeMoves(String moves) throws Move.UnknownMoveException {
+		level().makeMoves(moves);
 	}
 }

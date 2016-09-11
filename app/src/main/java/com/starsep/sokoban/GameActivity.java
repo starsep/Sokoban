@@ -3,7 +3,6 @@ package com.starsep.sokoban;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -105,5 +104,45 @@ public class GameActivity extends Activity implements GameController {
 		int pushes = highScore.pushes;
 		statusTextView.setText(String.format(getResources().getString(R.string.level_status),
 				levelNumber, minutes, seconds, moves, pushes));
+	}
+
+	@Override
+	public void onGamePause() {
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+		}
+	}
+
+	@Override
+	public void onGameStart() {
+		onGamePause();
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				runOnUiThread(() -> gameModel.onSecondElapsed());
+			}
+		}, 0, 1000);
+	}
+
+	@Override
+	public void onSaveGame(Gameplay game) {
+		DatabaseManager.instance(this).setCurrentGame(game);
+	}
+
+	@Override
+	public void onNewGame() {
+		onGameStart();
+	}
+
+	@Override
+	public boolean editMode() {
+		return gameView.isInEditMode();
+	}
+
+	@Override
+	public Context getContext() {
+		return super.getBaseContext();
 	}
 }

@@ -103,11 +103,17 @@ public class GameView extends View implements ViewEventsListener {
 	}
 
 	@Override
-	public void showWinDialog(int levelNumber, HighScore levelStats) {
+	public void showWinDialog(int levelNumber, HighScore levelStats, HighScore highScore) {
+		if (highScore == null) {
+			highScore = levelStats;
+		}
 		int minutes = levelStats.time / 60;
 		int seconds = levelStats.time % 60;
+		int minutesBest = highScore.time / 60;
+		int secondsBest = highScore.time % 60;
 		String msg = String.format(getResources().getString(R.string.win_msg),
-				levelStats.moves, levelStats.pushes, minutes, seconds);
+				levelStats.moves, highScore.moves, levelStats.pushes, highScore.pushes,
+				minutes, seconds, minutesBest, secondsBest);
 		new AlertDialog.Builder(getContext())
 				.setTitle(String.format(getResources().getString(R.string.win_title), levelNumber))
 				.setMessage(msg)
