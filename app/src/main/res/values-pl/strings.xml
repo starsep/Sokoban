@@ -6,7 +6,7 @@
     <string name="help">Pomoc</string>
     <string name="new_game">Nowa gra</string>
     <string name="level_status">POZIOM %1$d  CZAS %2$d:%3$02d  RUCHY %4$d  PRZESUNIĘCIA %5$d</string>
-    <string name="win_msg">Ruchy: %1$d\nPrzesunięcia: %2$d\nCzas: %3$d:%4$02d\nNastępny poziom?</string>
+    <string name="win_msg">Ruchy: %1$d (%2$d)\nPrzesunięcia: %3$d (%4$d)\nCzas: %5$d:%6$02d (%7$d:%8$02d)\nNastępny poziom?</string>
     <string name="win_positive">Pewnie!</string>
     <string name="win_negative">Powtórz</string>
     <string name="win_title">Poziom %1$d ukończony!</string>
