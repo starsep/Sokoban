@@ -1,11 +1,7 @@
 package com.starsep.sokoban.gamelogic;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
-import com.starsep.sokoban.ContextGetter;
-import com.starsep.sokoban.GameActivity;
 import com.starsep.sokoban.GameController;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.ViewEventsListener;

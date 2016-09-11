@@ -1,6 +1,7 @@
 package com.starsep.sokoban;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -28,6 +29,7 @@ public class GameView extends View implements ViewEventsListener {
 	private Rect backgroundRect;
 	private GameController gameController;
 	private GameModel gameModel;
+	private Dialog winDialog;
 
 	public GameView(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
@@ -114,7 +116,7 @@ public class GameView extends View implements ViewEventsListener {
 		String msg = String.format(getResources().getString(R.string.win_msg),
 				levelStats.moves, highScore.moves, levelStats.pushes, highScore.pushes,
 				minutes, seconds, minutesBest, secondsBest);
-		new AlertDialog.Builder(getContext())
+		winDialog = new AlertDialog.Builder(getContext())
 				.setTitle(String.format(getResources().getString(R.string.win_title), levelNumber))
 				.setMessage(msg)
 				.setPositiveButton(getResources().getString(R.string.win_positive), (dialog, which) -> {
@@ -127,7 +129,15 @@ public class GameView extends View implements ViewEventsListener {
 					gameModel.nextLevel();
 				})
 				.setIcon(android.R.drawable.ic_dialog_info)
-				.show();
+				.create();
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		if (winDialog != null) {
+			winDialog.dismiss();
+		}
 	}
 
 	@Override
