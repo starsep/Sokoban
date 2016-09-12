@@ -3,6 +3,7 @@ package com.starsep.sokoban.view;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -101,14 +102,23 @@ public class GameView extends View implements ViewEventsListener {
 		winDialog = new AlertDialog.Builder(getContext())
 				.setTitle(String.format(getResources().getString(R.string.win_title), levelNumber))
 				.setMessage(msg)
-				.setPositiveButton(getResources().getString(R.string.win_positive), (dialog, which) -> {
-					gameModel.nextLevel();
+				.setPositiveButton(getResources().getString(R.string.win_positive), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						gameModel.nextLevel();
+					}
 				})
-				.setNegativeButton(getResources().getString(R.string.win_negative), (dialog, which) -> {
-					gameModel.repeatLevel();
+				.setNegativeButton(getResources().getString(R.string.win_negative), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						gameModel.repeatLevel();
+					}
 				})
-				.setOnCancelListener(dialogInterface -> {
-					gameModel.nextLevel();
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						gameModel.nextLevel();
+					}
 				})
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.create();

@@ -123,7 +123,12 @@ public class GameActivity extends Activity implements GameController {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				runOnUiThread(() -> gameModel.onSecondElapsed());
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						gameModel.onSecondElapsed();
+					}
+				});
 			}
 		}, 0, 1000);
 	}

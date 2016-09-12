@@ -22,24 +22,29 @@ public class LevelAdapter extends BaseAdapter {
 	private final Context context;
 	private final Button[] buttons;
 
-	public LevelAdapter(int size, Context context) {
+	public LevelAdapter(int size, final Context context) {
 		this.size = size;
 		this.context = context;
 		buttons = new Button[size];
 		for (int i = 0; i < size; i++) {
 			buttons[i] = new SquareButton(context);
 			Button button = buttons[i];
-			int levelNumber = i + 1;
-			button.setOnClickListener(view -> {
-				Intent intent = new Intent(context, GameActivity.class);
-				intent.putExtra(Sokoban.NEW, true);
-				intent.putExtra(Sokoban.LEVEL_NUMBER, levelNumber);
-				context.startActivity(intent);
+			final int levelNumber = i + 1;
+			button.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					Intent intent = new Intent(context, GameActivity.class);
+					intent.putExtra(Sokoban.NEW, true);
+					intent.putExtra(Sokoban.LEVEL_NUMBER, levelNumber);
+					context.startActivity(intent);
+				}
 			});
 			button.setText(String.format(context.getString(R.string.level), levelNumber));
 		}
 		updateSolvedLevelsButton();
 	}
+
 	@Override
 	public int getCount() {
 		return size;
