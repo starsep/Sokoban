@@ -1,6 +1,5 @@
 package com.starsep.sokoban.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,7 @@ import com.starsep.sokoban.view.GameView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GameActivity extends Activity implements GameController {
+public class GameActivity extends SokobanActivity implements GameController {
 	private GameView gameView;
 	private GameModel gameModel;
 	private TextView statusTextView;

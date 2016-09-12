@@ -1,13 +1,12 @@
 package com.starsep.sokoban.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.GridView;
 
 import com.starsep.sokoban.res.LevelAdapter;
 import com.starsep.sokoban.R;
 
-public class ChooseLevelActivity extends Activity {
+public class ChooseLevelActivity extends SokobanActivity {
 	private LevelAdapter levelAdapter;
 
 	@Override
