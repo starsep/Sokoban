@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -48,12 +50,12 @@ public class GameView extends View implements ViewEventsListener {
 				screenDelta.x + (x + 1) * size, screenDelta.y + (y + 1) * size);
 	}
 
-	private void drawHero(Canvas canvas) {
+	private void drawHero(@NonNull Canvas canvas) {
 		setDrawingDimension(gameModel.player().x, gameModel.player().y);
 		canvas.drawBitmap(gameModel.lastMove().heroTexture(), null, dimension, null);
 	}
 
-	private void drawTiles(Canvas canvas) {
+	private void drawTiles(@NonNull Canvas canvas) {
 		Level level = gameModel.level();
 		for (int y = 0; y < level.height(); y++) {
 			for (int x = 0; x < level.width(); x++) {
@@ -77,7 +79,7 @@ public class GameView extends View implements ViewEventsListener {
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {
+	protected void onDraw(@NonNull Canvas canvas) {
 		super.onDraw(canvas);
 		if (gameModel == null) {
 			return;
@@ -88,7 +90,7 @@ public class GameView extends View implements ViewEventsListener {
 	}
 
 	@Override
-	public void showWinDialog(int levelNumber, HighScore levelStats, HighScore highScore) {
+	public void showWinDialog(int levelNumber, @NonNull HighScore levelStats, @Nullable HighScore highScore) {
 		if (highScore == null) {
 			highScore = levelStats;
 		}
@@ -141,17 +143,12 @@ public class GameView extends View implements ViewEventsListener {
 		}
 	}
 
-	@Override
-	public boolean editMode() {
-		return isInEditMode();
-	}
-
-	public void setGameController(GameController controller) {
+	public void setGameController(@NonNull GameController controller) {
 		gameController = controller;
 		onUpdate();
 	}
 
-	public void setGameModel(GameModel model) {
+	public void setGameModel(@NonNull GameModel model) {
 		gameModel = model;
 	}
 }

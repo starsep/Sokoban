@@ -1,12 +1,14 @@
 package com.starsep.sokoban.gamelogic;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.Sokoban;
+import com.starsep.sokoban.database.DatabaseManager;
+import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.mvc.GameModel;
 import com.starsep.sokoban.mvc.ViewEventsListener;
-import com.starsep.sokoban.database.DatabaseManager;
 
 import java.io.IOException;
 
@@ -18,7 +20,7 @@ public class Gameplay implements GameModel {
 	private int levelNumber;
 	private GameController gameController;
 
-	public Gameplay(GameController gameController, int levelNumber) {
+	public Gameplay(@NonNull GameController gameController, int levelNumber) {
 		setGameController(gameController);
 		loadLevel(levelNumber);
 	}
@@ -52,6 +54,7 @@ public class Gameplay implements GameModel {
 		onNewGame();
 	}
 
+	@NonNull
 	@Override
 	public Level level() {
 		return currentLevel;
@@ -80,6 +83,7 @@ public class Gameplay implements GameModel {
 		databaseManager.addHighScore(stats);
 	}
 
+	@Nullable
 	private HighScore getHighScore(int hash) {
 		DatabaseManager databaseManager = DatabaseManager.instance(viewListener.getContext());
 		return databaseManager.getHighScore(hash);
@@ -136,6 +140,7 @@ public class Gameplay implements GameModel {
 	}
 
 	@Override
+	@NonNull
 	public Move lastMove() {
 		return level().lastMove();
 	}
@@ -158,11 +163,13 @@ public class Gameplay implements GameModel {
 		updateView();
 	}
 
+	@NonNull
 	public HighScore stats() {
 		return stats;
 	}
 
 	@Override
+	@NonNull
 	public Position player() {
 		return level().player();
 	}
@@ -176,6 +183,7 @@ public class Gameplay implements GameModel {
 		return levelNumber;
 	}
 
+	@NonNull
 	public String movesString() {
 		return level().movesString();
 	}
@@ -185,11 +193,11 @@ public class Gameplay implements GameModel {
 		updateView();
 	}
 
-	public void setGameController(GameController gameController) {
+	public void setGameController(@NonNull GameController gameController) {
 		this.gameController = gameController;
 	}
 
-	public void makeMoves(String moves) throws Move.UnknownMoveException {
+	public void makeMoves(@NonNull String moves) throws Move.UnknownMoveException {
 		level().makeMoves(moves);
 	}
 }

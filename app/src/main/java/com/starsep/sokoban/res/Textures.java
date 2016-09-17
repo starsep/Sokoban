@@ -3,6 +3,7 @@ package com.starsep.sokoban.res;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.starsep.sokoban.R;
@@ -42,7 +43,7 @@ public class Textures {
 		}
 	}
 
-	public static void init(Context context) {
+	public static void init(@NonNull Context context) {
 		wall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
 		crate = BitmapFactory.decodeResource(context.getResources(), R.drawable.crate);
 		ground = BitmapFactory.decodeResource(context.getResources(), R.drawable.ground);

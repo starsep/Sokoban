@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 
 import com.starsep.sokoban.R;
@@ -14,7 +15,8 @@ public abstract class SokobanActivity extends Activity {
 	private static ActivityManager.TaskDescription taskDescription;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	@CallSuper
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 			if (taskDescription == null) {

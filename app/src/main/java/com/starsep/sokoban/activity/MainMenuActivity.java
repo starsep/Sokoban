@@ -3,13 +3,15 @@ package com.starsep.sokoban.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
-import com.starsep.sokoban.Sokoban;
-import com.starsep.sokoban.mvc.FakeGameController;
 import com.starsep.sokoban.R;
+import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.database.DatabaseManager;
+import com.starsep.sokoban.mvc.FakeGameController;
 import com.starsep.sokoban.view.HelpDialogBuilder;
 
 public class MainMenuActivity extends SokobanActivity {
@@ -17,7 +19,8 @@ public class MainMenuActivity extends SokobanActivity {
 	private Dialog helpDialog;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	@CallSuper
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
 		continueGameButton = (Button) findViewById(R.id.continueGameButton);

@@ -1,5 +1,7 @@
 package com.starsep.sokoban.gamelogic;
 
+import android.support.annotation.NonNull;
+
 public class LevelConverter {
 	public static abstract class LevelConverterException extends Exception {}
 
@@ -9,13 +11,14 @@ public class LevelConverter {
 
 	public static class UnknownTileException extends LevelConverterException {}
 
-	public static Level convert(char[] data, int width) throws LevelConverterException {
+	@NonNull
+	public static Level convert(@NonNull char[] data, int width) throws LevelConverterException {
 		Position player = findPlayer(data, width);
 		convertTiles(data);
 		return new Level(data, width, player);
 	}
 
-	private static void convertTiles(char[] data) throws LevelConverterException {
+	private static void convertTiles(@NonNull char[] data) throws LevelConverterException {
 		for (int i = 0; i < data.length; i++) {
 			data[i] = tileMapping(data[i]);
 		}
@@ -63,7 +66,8 @@ public class LevelConverter {
 		return tileWithoutPlayer(tile) != tile;
 	}
 
-	private static Position findPlayer(char[] data, int width) throws NoPlayerTileException, ManyPlayerTilesException {
+	@NonNull
+	private static Position findPlayer(@NonNull char[] data, int width) throws NoPlayerTileException, ManyPlayerTilesException {
 		Position result = null;
 		for (int i = 0; i < data.length; i++) {
 			if (isPlayerTile(data[i])) {

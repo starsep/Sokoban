@@ -1,5 +1,7 @@
 package com.starsep.sokoban.mvc;
 
+import android.support.annotation.NonNull;
+
 import com.starsep.sokoban.gamelogic.HighScore;
 import com.starsep.sokoban.gamelogic.Level;
 import com.starsep.sokoban.gamelogic.Move;
@@ -26,14 +28,18 @@ public interface GameModel {
 
 	int levelNumber();
 
+	@NonNull
 	HighScore stats();
 
+	@NonNull
 	Position player();
 
+	@NonNull
 	Level level();
 
 	void nextLevel();
 
+	@NonNull
 	Move lastMove();
 
 	void onUndoMove();

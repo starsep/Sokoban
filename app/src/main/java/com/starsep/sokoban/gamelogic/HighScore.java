@@ -1,5 +1,7 @@
 package com.starsep.sokoban.gamelogic;
 
+import android.support.annotation.NonNull;
+
 public class HighScore {
 
 	public class DifferentLevelsException extends Exception {}
@@ -16,7 +18,7 @@ public class HighScore {
 		set(time, moves, pushes);
 	}
 
-	public void improve(HighScore another) throws DifferentLevelsException {
+	public void improve(@NonNull HighScore another) throws DifferentLevelsException {
 		if (hash != another.hash) {
 			throw new DifferentLevelsException();
 		}
@@ -26,6 +28,7 @@ public class HighScore {
 	}
 
 	@Override
+	@NonNull
 	public String toString() {
 		return "HighScore(" +
 				"level=" + levelNumber + ", " +

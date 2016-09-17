@@ -1,6 +1,7 @@
 package com.starsep.sokoban.gamelogic;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.starsep.sokoban.Sokoban;
@@ -11,7 +12,8 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class LevelLoader {
-	public static Level load(Context context, String filename, GameModel model) throws IOException {
+	@NonNull
+	public static Level load(@NonNull Context context, @NonNull String filename, @NonNull GameModel model) throws IOException {
 		InputStream inputStream;
 		inputStream = context.getAssets().open(filename);
 		Scanner scanner = new Scanner(inputStream);

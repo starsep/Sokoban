@@ -2,17 +2,19 @@ package com.starsep.sokoban.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.starsep.sokoban.Sokoban;
-import com.starsep.sokoban.mvc.GameController;
-import com.starsep.sokoban.controls.OnSwipeTouchListener;
 import com.starsep.sokoban.R;
+import com.starsep.sokoban.Sokoban;
+import com.starsep.sokoban.controls.OnSwipeTouchListener;
 import com.starsep.sokoban.database.DatabaseManager;
-import com.starsep.sokoban.mvc.GameModel;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
+import com.starsep.sokoban.mvc.GameController;
+import com.starsep.sokoban.mvc.GameModel;
 import com.starsep.sokoban.view.GameView;
 
 import java.util.Timer;
@@ -20,9 +22,9 @@ import java.util.TimerTask;
 
 public class GameActivity extends SokobanActivity implements GameController {
 	private GameView gameView;
-	private GameModel gameModel;
+	@Nullable private GameModel gameModel;
 	private TextView statusTextView;
-	private Timer timer;
+	@Nullable private Timer timer;
 
 	protected void onPause() {
 		super.onPause();
@@ -57,6 +59,7 @@ public class GameActivity extends SokobanActivity implements GameController {
 			gameplay = new Gameplay(this, levelNumber);
 		} else {
 			gameplay = DatabaseManager.instance(this).getCurrentGame(this);
+			assert gameplay != null;
 			gameplay.setGameController(this);
 		}
 		gameplay.setViewListener(gameView);
@@ -133,7 +136,7 @@ public class GameActivity extends SokobanActivity implements GameController {
 	}
 
 	@Override
-	public void onSaveGame(Gameplay game) {
+	public void onSaveGame(@NonNull Gameplay game) {
 		DatabaseManager.instance(this).setCurrentGame(game);
 	}
 

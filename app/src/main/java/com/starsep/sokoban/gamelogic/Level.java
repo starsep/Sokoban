@@ -1,38 +1,37 @@
 package com.starsep.sokoban.gamelogic;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
-import com.starsep.sokoban.res.Textures;
 import com.starsep.sokoban.mvc.GameModel;
+import com.starsep.sokoban.res.Textures;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Level {
-	private final char[] tiles;
+	@NonNull private final char[] tiles;
 	private final int width;
-	private Position player;
+	@NonNull private final Position player;
 	private GameModel gameModel;
 	private final int hash;
-	private final List<Move> moves;
+	@NonNull private final List<Move> moves;
 
-	private void setPlayer(Position position) {
-		player = new Position(position.y, position.x);
-	}
-
-	public Level(char[] data, int width, Position player) {
+	public Level(@NonNull char[] data, int width, @NonNull Position player) {
 		tiles = new char[data.length];
 		this.width = width;
 		System.arraycopy(data, 0, tiles, 0, data.length);
-		setPlayer(player);
+		this.player = new Position(player.y, player.x);
 		hash = toString().hashCode();
 		moves = new ArrayList<>();
 	}
 
+	@NonNull
 	public char[] tiles() {
 		return tiles;
 	}
 
+	@NonNull
 	public Bitmap texture(int y, int x) {
 		return Textures.tile(tile(y, x));
 	}
@@ -45,13 +44,14 @@ public class Level {
 		return width;
 	}
 
-	public void setGameModel(GameModel model) {
+	public void setGameModel(@NonNull GameModel model) {
 		gameModel = model;
 	}
 
+	@NonNull
 	public Position player() { return player; }
 
-	private void makeMove(Move move, boolean undo) {
+	private void makeMove(@NonNull Move move, boolean undo) {
 		player.x += move.dx();
 		player.y += move.dy();
 		if (!undo) {
@@ -65,11 +65,11 @@ public class Level {
 		}
 	}
 
-	private void makeMove(Move move) {
+	private void makeMove(@NonNull Move move) {
 		makeMove(move, false);
 	}
 
-	private void addMove(Move move) {
+	private void addMove(@NonNull Move move) {
 		moves.add(move);
 	}
 
@@ -144,6 +144,7 @@ public class Level {
 		return result;
 	}
 
+	@NonNull
 	public static Level getDefaultLevel() {
 		char[] data = ("###" + "#.#" + "###").toCharArray();
 		return new Level(data, 3, new Position(1, 1));
@@ -173,6 +174,7 @@ public class Level {
 		makeMove(toUndo.reverse(), true);
 	}
 
+	@NonNull
 	public Move lastMove() {
 		if (moves.isEmpty()) {
 			return Move.DOWN;
@@ -180,7 +182,7 @@ public class Level {
 		return moves.get(moves.size() - 1);
 	}
 
-	public void move(Move move) {
+	public void move(@NonNull Move move) {
 		int x = player.x + move.dx();
 		int y = player.y + move.dy();
 		if (isCrate(x, y) && canMove(x + move.dx(), y + move.dy())) {
@@ -191,6 +193,7 @@ public class Level {
 		}
 	}
 
+	@NonNull
 	public String movesString() {
 		String result = "";
 		for (Move move : moves) {
@@ -199,7 +202,7 @@ public class Level {
 		return result;
 	}
 
-	public void makeMoves(String movesList) throws Move.UnknownMoveException {
+	public void makeMoves(@NonNull String movesList) throws Move.UnknownMoveException {
 		for (char c : movesList.toCharArray()) {
 			move(Move.fromChar(c));
 		}

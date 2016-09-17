@@ -3,8 +3,8 @@ package com.starsep.sokoban.activity;
 import android.os.Bundle;
 import android.widget.GridView;
 
-import com.starsep.sokoban.res.LevelAdapter;
 import com.starsep.sokoban.R;
+import com.starsep.sokoban.res.LevelAdapter;
 
 public class ChooseLevelActivity extends SokobanActivity {
 	private LevelAdapter levelAdapter;

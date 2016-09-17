@@ -5,42 +5,44 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
 import com.starsep.sokoban.gamelogic.Move;
+import com.starsep.sokoban.mvc.GameController;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager extends SQLiteOpenHelper {
 	public static final int DATABASE_VERSION = 5;
-	public static final String DATABASE_NAME = "Sokoban.db";
+	@NonNull public static final String DATABASE_NAME = "Sokoban.db";
 
 	// tables
-	public static final String TABLE_HIGH_SCORES = "high_scores";
-	public static final String TABLE_CURRENT_GAME = "current_game";
+	@NonNull public static final String TABLE_HIGH_SCORES = "high_scores";
+	@NonNull public static final String TABLE_CURRENT_GAME = "current_game";
 
 	// types
-	public static final String TYPE_ID = "INTEGER PRIMARY KEY AUTOINCREMENT";
-	public static final String TYPE_INTEGER = "INTEGER";
-	private static final String TYPE_TEXT = "TEXT";
+	@NonNull public static final String TYPE_ID = "INTEGER PRIMARY KEY AUTOINCREMENT";
+	@NonNull public static final String TYPE_INTEGER = "INTEGER";
+	@NonNull private static final String TYPE_TEXT = "TEXT";
 
 	// columns
-	public static final String COLUMN_ID = "_id";
-	public static final String COLUMN_HASH = "hash";
-	public static final String COLUMN_TIME = "time";
-	public static final String COLUMN_MOVES = "moves";
-	public static final String COLUMN_PUSHES = "pushes";
-	public static final String COLUMN_LEVEL_NUMBER = "level_number";
-	public static final String COLUMN_MOVES_LIST = "moves_list";
+	@NonNull public static final String COLUMN_ID = "_id";
+	@NonNull public static final String COLUMN_HASH = "hash";
+	@NonNull public static final String COLUMN_TIME = "time";
+	@NonNull public static final String COLUMN_MOVES = "moves";
+	@NonNull public static final String COLUMN_PUSHES = "pushes";
+	@NonNull public static final String COLUMN_LEVEL_NUMBER = "level_number";
+	@NonNull public static final String COLUMN_MOVES_LIST = "moves_list";
 
-	public static final String TRUE_CONDITION = "1 = 1";
+	@NonNull public static final String TRUE_CONDITION = "1 = 1";
 
-	private static DatabaseManager instance = null;
+	@Nullable private static DatabaseManager instance = null;
 
 	private DatabaseManager(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,7 +52,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		instance = new DatabaseManager(context);
 	}
 
-	public static DatabaseManager instance(Context context) {
+	@NonNull
+	public static DatabaseManager instance(@NonNull Context context) {
 		if (instance == null) {
 			initialize(context);
 		}
@@ -58,7 +61,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 	}
 
 
-	private void createTableCurrentGame(SQLiteDatabase db) {
+	private void createTableCurrentGame(@NonNull SQLiteDatabase db) {
 		String query = "CREATE TABLE " + TABLE_CURRENT_GAME + "(" +
 				COLUMN_ID + " " + TYPE_ID + ", " +
 				COLUMN_HASH + " " + TYPE_INTEGER + ", " +
@@ -69,7 +72,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		db.execSQL(query);
 	}
 
-	private void createTableHighScores(SQLiteDatabase db) {
+	private void createTableHighScores(@NonNull SQLiteDatabase db) {
 		String query = "CREATE TABLE " + TABLE_HIGH_SCORES + "(" +
 				COLUMN_ID + " " + TYPE_ID + ", " +
 				COLUMN_HASH + " " + TYPE_INTEGER + ", " +
@@ -82,29 +85,30 @@ public class DatabaseManager extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase db) {
+	public void onCreate(@NonNull SQLiteDatabase db) {
 		createTableHighScores(db);
 		createTableCurrentGame(db);
 	}
 
-	private void migrateTableHighScores(SQLiteDatabase db, int oldVersion, int newVersion) {
+	private void migrateTableHighScores(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
 		// migrate data
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_HIGH_SCORES);
 		createTableHighScores(db);
 	}
 
-	private void migrateTableCurrentGame(SQLiteDatabase db, int oldVersion, int newVersion) {
+	private void migrateTableCurrentGame(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
 		// migrate data
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CURRENT_GAME);
 		createTableCurrentGame(db);
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	public void onUpgrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
 		migrateTableHighScores(db, oldVersion, newVersion);
 		migrateTableCurrentGame(db, oldVersion, newVersion);
 	}
 
+	@Nullable
 	public HighScore getHighScore(int hash) {
 		SQLiteDatabase db = getReadableDatabase();
 		String selectHighScore = "SELECT * FROM " + TABLE_HIGH_SCORES + " WHERE " +
@@ -123,7 +127,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		return result;
 	}
 
-	private boolean updateHighScore(final HighScore highScore) {
+	private boolean updateHighScore(@NonNull final HighScore highScore) {
 		HighScore oldScore = getHighScore(highScore.hash);
 		if (oldScore != null) {
 			try {
@@ -144,7 +148,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		return false;
 	}
 
-	public void addHighScore(HighScore highScore) {
+	public void addHighScore(@NonNull HighScore highScore) {
 		if (updateHighScore(highScore)) {
 			return;
 		}
@@ -159,7 +163,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	public void setCurrentGame(Gameplay gameplay) {
+	public void setCurrentGame(@NonNull Gameplay gameplay) {
 		SQLiteDatabase db = getWritableDatabase();
 		// clear table
 		db.delete(TABLE_CURRENT_GAME, TRUE_CONDITION, null);
@@ -174,7 +178,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	public Gameplay getCurrentGame(final GameController gameController) {
+	@Nullable
+	public Gameplay getCurrentGame(@NonNull final GameController gameController) {
 		SQLiteDatabase db = getReadableDatabase();
 		String selectCurrentGame = "SELECT * FROM " + TABLE_CURRENT_GAME +
 				" WHERE " + TRUE_CONDITION + ";";
@@ -197,6 +202,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		return result;
 	}
 
+	@NonNull
 	public List<Integer> getSolvedLevels() {
 		SQLiteDatabase db = getReadableDatabase();
 		String selectLevelsSolved = "SELECT " + COLUMN_LEVEL_NUMBER + " FROM " + TABLE_HIGH_SCORES +

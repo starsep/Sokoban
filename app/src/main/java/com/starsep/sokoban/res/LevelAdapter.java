@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,10 +21,10 @@ import java.util.List;
 
 public class LevelAdapter extends BaseAdapter {
 	private final int size;
-	private final Context context;
-	private final Button[] buttons;
+	@NonNull private final Context context;
+	@NonNull private final Button[] buttons;
 
-	public LevelAdapter(int size, final Context context) {
+	public LevelAdapter(int size, @NonNull final Context context) {
 		this.size = size;
 		this.context = context;
 		buttons = new Button[size];
@@ -51,6 +53,7 @@ public class LevelAdapter extends BaseAdapter {
 	}
 
 	@Override
+	@Nullable
 	public Object getItem(int i) {
 		return null;
 	}
@@ -61,6 +64,7 @@ public class LevelAdapter extends BaseAdapter {
 	}
 
 	@Override
+	@NonNull
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		return buttons[i];
 	}

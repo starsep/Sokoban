@@ -1,5 +1,7 @@
 package com.starsep.sokoban.mvc;
 
+import android.support.annotation.NonNull;
+
 import com.starsep.sokoban.gamelogic.HighScore;
 import com.starsep.sokoban.gamelogic.Level;
 import com.starsep.sokoban.gamelogic.Move;
@@ -56,16 +58,19 @@ public class FakeGameModel implements GameModel {
 		return 0;
 	}
 
+	@NonNull
 	@Override
 	public HighScore stats() {
 		return null;
 	}
 
+	@NonNull
 	@Override
 	public Position player() {
 		return null;
 	}
 
+	@NonNull
 	@Override
 	public Level level() {
 		return null;
@@ -76,6 +81,7 @@ public class FakeGameModel implements GameModel {
 
 	}
 
+	@NonNull
 	@Override
 	public Move lastMove() {
 		return null;

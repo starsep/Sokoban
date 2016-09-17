@@ -1,25 +1,27 @@
 package com.starsep.sokoban.gamelogic;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
 import com.starsep.sokoban.res.Textures;
 
 public class Move {
 	public static class UnknownMoveException extends Exception { }
 
-	public static final Move DOWN = new Move(Direction.DOWN, false);
-	public static final Move UP = new Move(Direction.UP, false);
-	public static final Move LEFT = new Move(Direction.LEFT, false);
-	public static final Move RIGHT = new Move(Direction.RIGHT, false);
-	public static final Move PUSH_DOWN = new Move(Direction.DOWN, true);
-	public static final Move PUSH_UP = new Move(Direction.UP, true);
-	public static final Move PUSH_LEFT = new Move(Direction.LEFT, true);
-	public static final Move PUSH_RIGHT = new Move(Direction.RIGHT, true);
+	@NonNull public static final Move DOWN = new Move(Direction.DOWN, false);
+	@NonNull public static final Move UP = new Move(Direction.UP, false);
+	@NonNull public static final Move LEFT = new Move(Direction.LEFT, false);
+	@NonNull public static final Move RIGHT = new Move(Direction.RIGHT, false);
+	@NonNull public static final Move PUSH_DOWN = new Move(Direction.DOWN, true);
+	@NonNull public static final Move PUSH_UP = new Move(Direction.UP, true);
+	@NonNull public static final Move PUSH_LEFT = new Move(Direction.LEFT, true);
+	@NonNull public static final Move PUSH_RIGHT = new Move(Direction.RIGHT, true);
 
-	private final Direction direction;
-	private final boolean pushed;
+	@NonNull private final Direction direction;
+	@NonNull private final boolean pushed;
 
-	public static Move make_push(Move move) {
+	@NonNull
+	public static Move make_push(@NonNull Move move) {
 		switch (move.direction) {
 			case LEFT:
 				return PUSH_LEFT;
@@ -34,6 +36,7 @@ public class Move {
 		}
 	}
 
+	@NonNull
 	public Move reverse() {
 		switch (direction) {
 			case LEFT:
@@ -48,6 +51,7 @@ public class Move {
 		}
 	}
 
+	@NonNull
 	public Bitmap heroTexture() {
 		switch (direction) {
 			case LEFT:
@@ -69,7 +73,7 @@ public class Move {
 		UP
 	}
 
-	private Move(Direction direction, boolean pushed) {
+	private Move(@NonNull Direction direction, boolean pushed) {
 		this.direction = direction;
 		this.pushed = pushed;
 	}
@@ -105,6 +109,7 @@ public class Move {
 	}
 
 	@Override
+	@NonNull
 	public String toString() {
 		return "" + toChar();
 	}
@@ -124,6 +129,7 @@ public class Move {
 		}
 	}
 
+	@NonNull
 	public static Move fromChar(char c) throws UnknownMoveException {
 		switch (c) {
 			case 'l':

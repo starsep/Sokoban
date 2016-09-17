@@ -1,13 +1,14 @@
 package com.starsep.sokoban.controls;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 public abstract class OnSwipeTouchListener implements View.OnTouchListener {
 
-	private final GestureDetector gestureDetector;
+	@NonNull private final GestureDetector gestureDetector;
 
 	public OnSwipeTouchListener(Context ctx) {
 		gestureDetector = new GestureDetector(ctx, new GestureListener());
@@ -29,7 +30,7 @@ public abstract class OnSwipeTouchListener implements View.OnTouchListener {
 		}
 
 		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+		public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
 			boolean result = false;
 			try {
 				float diffY = e2.getY() - e1.getY();
