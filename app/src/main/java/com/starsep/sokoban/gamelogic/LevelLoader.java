@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class LevelLoader {
+class LevelLoader {
 	@NonNull
 	public static Level load(@NonNull Context context, @NonNull String filename, @NonNull GameModel model) throws IOException {
 		InputStream inputStream;

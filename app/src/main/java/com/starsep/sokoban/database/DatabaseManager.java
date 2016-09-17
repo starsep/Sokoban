@@ -19,28 +19,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager extends SQLiteOpenHelper {
-	public static final int DATABASE_VERSION = 5;
-	@NonNull public static final String DATABASE_NAME = "Sokoban.db";
+	private static final int DATABASE_VERSION = 5;
+	@NonNull private static final String DATABASE_NAME = "Sokoban.db";
 
 	// tables
-	@NonNull public static final String TABLE_HIGH_SCORES = "high_scores";
-	@NonNull public static final String TABLE_CURRENT_GAME = "current_game";
+	@NonNull private static final String TABLE_HIGH_SCORES = "high_scores";
+	@NonNull private static final String TABLE_CURRENT_GAME = "current_game";
 
 	// types
-	@NonNull public static final String TYPE_ID = "INTEGER PRIMARY KEY AUTOINCREMENT";
-	@NonNull public static final String TYPE_INTEGER = "INTEGER";
+	@NonNull private static final String TYPE_ID = "INTEGER PRIMARY KEY AUTOINCREMENT";
+	@NonNull private static final String TYPE_INTEGER = "INTEGER";
 	@NonNull private static final String TYPE_TEXT = "TEXT";
 
 	// columns
-	@NonNull public static final String COLUMN_ID = "_id";
-	@NonNull public static final String COLUMN_HASH = "hash";
-	@NonNull public static final String COLUMN_TIME = "time";
-	@NonNull public static final String COLUMN_MOVES = "moves";
-	@NonNull public static final String COLUMN_PUSHES = "pushes";
-	@NonNull public static final String COLUMN_LEVEL_NUMBER = "level_number";
-	@NonNull public static final String COLUMN_MOVES_LIST = "moves_list";
+	@NonNull private static final String COLUMN_ID = "_id";
+	@NonNull private static final String COLUMN_HASH = "hash";
+	@NonNull private static final String COLUMN_TIME = "time";
+	@NonNull private static final String COLUMN_MOVES = "moves";
+	@NonNull private static final String COLUMN_PUSHES = "pushes";
+	@NonNull private static final String COLUMN_LEVEL_NUMBER = "level_number";
+	@NonNull private static final String COLUMN_MOVES_LIST = "moves_list";
 
-	@NonNull public static final String TRUE_CONDITION = "1 = 1";
+	@NonNull private static final String TRUE_CONDITION = "1 = 1";
 
 	@Nullable private static DatabaseManager instance = null;
 
@@ -90,14 +90,18 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		createTableCurrentGame(db);
 	}
 
-	private void migrateTableHighScores(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
-		// migrate data
+	private void migrateTableHighScores(@NonNull SQLiteDatabase db,
+	                                    @SuppressWarnings("UnusedParameters") int oldVersion,
+	                                    @SuppressWarnings("UnusedParameters") int newVersion) {
+		// TODO: migrate data
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_HIGH_SCORES);
 		createTableHighScores(db);
 	}
 
-	private void migrateTableCurrentGame(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
-		// migrate data
+	private void migrateTableCurrentGame(@NonNull SQLiteDatabase db,
+	                                     @SuppressWarnings("UnusedParameters") int oldVersion,
+	                                     @SuppressWarnings("UnusedParameters") int newVersion) {
+		// TODO: migrate data
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CURRENT_GAME);
 		createTableCurrentGame(db);
 	}

@@ -8,4 +8,8 @@ public class Position {
 		this.y = y;
 		this.x = x;
 	}
+
+	public Position() {
+		this(0, 0);
+	}
 }

@@ -5,12 +5,12 @@ import android.util.Log;
 import com.starsep.sokoban.Sokoban;
 
 public class Tile {
-	public final static int GRASS_MASK = 0;
+	private final static int GRASS_MASK = 0;
 	public final static int WALKABLE_MASK = 0;
-	public final static int SOLID_MASK = 1;
-	public final static int GROUND_MASK = 2;
-	public final static int ENDPOINT_MASK = 4;
-	public final static int CRATE_MASK = 8;
+	private final static int SOLID_MASK = 1;
+	private final static int GROUND_MASK = 2;
+	private final static int ENDPOINT_MASK = 4;
+	private final static int CRATE_MASK = 8;
 
 	public final static char wall = 'W';
 	public final static char crate = '#';

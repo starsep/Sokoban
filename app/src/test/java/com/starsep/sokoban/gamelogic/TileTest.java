@@ -57,7 +57,7 @@ public class TileTest {
 	@Test
 	public void createTile() {
 		try {
-			Tile tile = new Tile();
+			new Tile();
 		} catch (Throwable t) {
 			assertTrue(false);
 		}

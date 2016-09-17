@@ -9,8 +9,6 @@ public interface GameController {
 
 	void onGamePause();
 
-	void onGameStart();
-
 	void onSaveGame(Gameplay game);
 
 	void onNewGame();

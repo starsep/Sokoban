@@ -6,16 +6,18 @@ public class HighScore {
 
 	public class DifferentLevelsException extends Exception {}
 
-	public int hash;
+	public final int hash;
 	public int time;
 	public int moves;
 	public int pushes;
-	public int levelNumber;
+	public final int levelNumber;
 
 	public HighScore(int hash, int level, int time, int moves, int pushes) {
 		this.hash = hash;
 		levelNumber = level;
-		set(time, moves, pushes);
+		this.time = time;
+		this.moves = moves;
+		this.pushes = pushes;
 	}
 
 	public void improve(@NonNull HighScore another) throws DifferentLevelsException {
@@ -36,11 +38,5 @@ public class HighScore {
 				"time=" + time + ", " +
 				"moves=" + moves + ", " +
 				"pushes=" + pushes + ")";
-	}
-
-	public void set(int time, int moves, int pushes) {
-		this.time = time;
-		this.moves = moves;
-		this.pushes = pushes;
 	}
 }

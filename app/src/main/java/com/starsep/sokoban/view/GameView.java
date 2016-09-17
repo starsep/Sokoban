@@ -13,21 +13,21 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.R;
-import com.starsep.sokoban.res.Textures;
-import com.starsep.sokoban.mvc.ViewEventsListener;
-import com.starsep.sokoban.mvc.GameModel;
 import com.starsep.sokoban.gamelogic.HighScore;
 import com.starsep.sokoban.gamelogic.Level;
 import com.starsep.sokoban.gamelogic.Position;
 import com.starsep.sokoban.gamelogic.Tile;
+import com.starsep.sokoban.mvc.GameController;
+import com.starsep.sokoban.mvc.GameModel;
+import com.starsep.sokoban.mvc.ViewEventsListener;
+import com.starsep.sokoban.res.Textures;
 
 public class GameView extends View implements ViewEventsListener {
-	private Rect dimension;
+	private final Rect dimension;
 	private int size; // size of tile
-	private Paint textPaint;
-	private Position screenDelta;
+	private final Paint textPaint;
+	private final Position screenDelta;
 	private GameController gameController;
 	private GameModel gameModel;
 	private Dialog winDialog;

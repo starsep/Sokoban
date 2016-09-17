@@ -2,7 +2,7 @@ package com.starsep.sokoban.gamelogic;
 
 import android.support.annotation.NonNull;
 
-public class LevelConverter {
+class LevelConverter {
 	public static abstract class LevelConverterException extends Exception {}
 
 	public static class NoPlayerTileException extends LevelConverterException {}

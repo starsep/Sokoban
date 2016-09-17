@@ -19,7 +19,6 @@ public class Textures {
 	private static Bitmap heroUp;
 	private static Bitmap heroLeft;
 	private static Bitmap heroRight;
-	private static Bitmap grass;
 	private static Bitmap crateOnEndpoint;
 
 	public static Bitmap tile(char tile) {
@@ -30,8 +29,6 @@ public class Textures {
 				return crate;
 			case Tile.endpoint:
 				return endpoint;
-			case Tile.grass:
-				return grass;
 			case Tile.crateOnEndpoint:
 				return crateOnEndpoint;
 			case Tile.ground:
@@ -48,7 +45,6 @@ public class Textures {
 		crate = BitmapFactory.decodeResource(context.getResources(), R.drawable.crate);
 		ground = BitmapFactory.decodeResource(context.getResources(), R.drawable.ground);
 		endpoint = BitmapFactory.decodeResource(context.getResources(), R.drawable.endpoint);
-		grass = BitmapFactory.decodeResource(context.getResources(), R.drawable.grass);
 		heroDown = BitmapFactory.decodeResource(context.getResources(), R.drawable.hero_down);
 		heroUp = BitmapFactory.decodeResource(context.getResources(), R.drawable.hero_up);
 		heroLeft = BitmapFactory.decodeResource(context.getResources(), R.drawable.hero_left);
@@ -71,6 +67,4 @@ public class Textures {
 	public static Bitmap heroRight() {
 		return heroRight;
 	}
-
-	public static Bitmap grassTexture() { return grass; }
 }

@@ -1,18 +1,18 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Sokoban</string>
     <string name="settings">Settings</string>
     <string name="reset">Reset</string>
     <string name="undo">Undo</string>
-    <string name="exit">Exit</string>
     <string name="help">Help</string>
     <string name="new_game">New Game</string>
     <string name="level_status">LEVEL %1$d  TIME %2$d:%3$02d  MOVES %4$d  PUSHES %5$d</string>
     <string name="win_msg">Moves: %1$d (best %2$d)\nPushes: %3$d (best %4$d)\nTime: %5$d:%6$02d (best %7$d:%8$02d)\nNext level?</string>
     <string name="win_positive">Sure!</string>
     <string name="win_negative">Repeat</string>
-    <string name="win_title">Level %1$d completed!</string>
+    <string name="win_title" tools:ignore="PluralsCandidate">Level %1$d completed!</string>
     <string name="continue_game">Continue game</string>
     <string name="level">Level %1$d</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="help_msg">Sokoban is a type of transport puzzle.\nYou need to move crates to their storage locations.\n\nMove using swipe.</string>
+    <string name="levels_title">Levels</string>
 </resources>

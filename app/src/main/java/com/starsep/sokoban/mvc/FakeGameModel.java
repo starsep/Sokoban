@@ -61,19 +61,19 @@ public class FakeGameModel implements GameModel {
 	@NonNull
 	@Override
 	public HighScore stats() {
-		return null;
+		return new HighScore(0, 0, 0, 0, 0);
 	}
 
 	@NonNull
 	@Override
 	public Position player() {
-		return null;
+		return new Position();
 	}
 
 	@NonNull
 	@Override
 	public Level level() {
-		return null;
+		return Level.getDefaultLevel();
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class FakeGameModel implements GameModel {
 	@NonNull
 	@Override
 	public Move lastMove() {
-		return null;
+		return Move.DOWN;
 	}
 
 	@Override

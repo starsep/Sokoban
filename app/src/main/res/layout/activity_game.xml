@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/grass_repeat"
-    tools:context=".activity.GameActivity">
+    tools:context=".activity.GameActivity"
+    tools:ignore="Overdraw">
 
     <RelativeLayout
         android:id="@+id/buttonGroup"
@@ -13,7 +14,6 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/undoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -24,7 +24,6 @@
             android:text="@string/undo"/>
 
         <Button
-            android:id="@+id/resetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -34,7 +33,6 @@
             android:text="@string/reset"/>
 
         <Button
-            android:id="@+id/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -42,7 +40,8 @@
             android:drawableLeft="@drawable/icon_settings"
             android:drawableStart="@drawable/icon_settings"
             android:onClick="settingsButtonClicked"
-            android:text="@string/settings"/>
+            android:text="@string/settings"
+            tools:ignore="RelativeOverlap"/>
     </RelativeLayout>
 
     <com.starsep.sokoban.view.GameView

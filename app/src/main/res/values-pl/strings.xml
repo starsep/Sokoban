@@ -2,7 +2,6 @@
     <string name="settings">Ustawienia</string>
     <string name="reset">Reset</string>
     <string name="undo">Cofnij</string>
-    <string name="exit">Wyjście</string>
     <string name="help">Pomoc</string>
     <string name="new_game">Nowa gra</string>
     <string name="level_status">POZIOM %1$d  CZAS %2$d:%3$02d  RUCHY %4$d  PRZESUNIĘCIA %5$d</string>
@@ -13,4 +12,5 @@
     <string name="level">Poziom %1$d</string>
     <string name="continue_game">Kontynuuj grę</string>
     <string name="help_msg">Sokoban to gra logiczna.\nTwoim celem jest przesunięcie skrzynek na ich miejsca docelowe.\n\nPoruszaj się używając swipe\'a.</string>
+    <string name="levels_title">Poziomy</string>
 </resources>

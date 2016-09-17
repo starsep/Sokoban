@@ -15,7 +15,7 @@
     android:orientation="vertical"
     tools:context=".activity.MainMenuActivity"
     android:background="@drawable/grass_repeat"
-    >
+    tools:ignore="Overdraw">
 
         <Button
             android:id="@+id/continueGameButton"
@@ -29,7 +29,6 @@
             android:visibility="gone"/>
 
         <Button
-            android:id="@+id/newGameButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -39,7 +38,6 @@
             android:text="@string/new_game"/>
 
         <Button
-            android:id="@+id/helpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_help"
@@ -48,7 +46,6 @@
             android:onClick="helpButtonClicked"/>
 
         <Button
-            android:id="@+id/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_settings"
@@ -60,8 +57,7 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:visibility="gone"/>
 
 </LinearLayout>

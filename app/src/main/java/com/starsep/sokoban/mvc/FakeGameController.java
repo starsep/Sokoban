@@ -22,11 +22,6 @@ public class FakeGameController implements GameController {
 	}
 
 	@Override
-	public void onGameStart() {
-
-	}
-
-	@Override
 	public void onSaveGame(Gameplay game) {
 
 	}

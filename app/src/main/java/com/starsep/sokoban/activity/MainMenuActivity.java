@@ -40,22 +40,22 @@ public class MainMenuActivity extends SokobanActivity {
 		continueGameButton.setVisibility(DatabaseManager.instance(this).getCurrentGame(new FakeGameController(this)) == null ? View.GONE : View.VISIBLE);
 	}
 
-	public void newGameButtonClicked(View view) {
+	public void newGameButtonClicked(@SuppressWarnings("UnusedParameters") View view) {
 		Intent intent = new Intent(this, ChooseLevelActivity.class);
 		startActivity(intent);
 	}
 
-	public void helpButtonClicked(View view) {
+	public void helpButtonClicked(@SuppressWarnings("UnusedParameters") View view) {
 		helpDialog = HelpDialogBuilder.build(this);
 		helpDialog.show();
 	}
 
-	public void settingsButtonClicked(View view) {
-		// Dialog settingsDialog = SettingsDialog.build(getApplicationContext());
-		// settingsDialog.show();
+	@SuppressWarnings("EmptyMethod")
+	public void settingsButtonClicked(@SuppressWarnings("UnusedParameters") View view) {
+		// TODO: implement
 	}
 
-	public void continueGameButtonClicked(View view) {
+	public void continueGameButtonClicked(@SuppressWarnings("UnusedParameters") View view) {
 		Intent intent = new Intent(this, GameActivity.class);
 		intent.putExtra(Sokoban.NEW, false);
 		startActivity(intent);

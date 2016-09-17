@@ -18,7 +18,7 @@ public class Move {
 	@NonNull public static final Move PUSH_RIGHT = new Move(Direction.RIGHT, true);
 
 	@NonNull private final Direction direction;
-	@NonNull private final boolean pushed;
+	private final boolean pushed;
 
 	@NonNull
 	public static Move make_push(@NonNull Move move) {

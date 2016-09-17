@@ -87,19 +87,23 @@ public class GameActivity extends SokobanActivity implements GameController {
 	}
 
 
-	public void resetButtonClicked(View view) {
+	public void resetButtonClicked(@SuppressWarnings("UnusedParameters") View view) {
+		assert gameModel != null;
 		gameModel.repeatLevel();
 	}
 
-	public void undoButtonClicked(View view) {
+	public void undoButtonClicked(@SuppressWarnings("UnusedParameters") View view) {
+		assert gameModel != null;
 		gameModel.undoMove();
 	}
 
-	public void settingsButtonClicked(View view) {
-
+	@SuppressWarnings("EmptyMethod")
+	public void settingsButtonClicked(@SuppressWarnings("UnusedParameters") View view) {
+		//TODO: implement
 	}
 
 	public void onStatsChanged() {
+		assert gameModel != null;
 		int levelNumber = gameModel.levelNumber();
 		HighScore highScore = gameModel.stats();
 		int minutes = highScore.time / 60;
@@ -118,8 +122,7 @@ public class GameActivity extends SokobanActivity implements GameController {
 		}
 	}
 
-	@Override
-	public void onGameStart() {
+	private void onGameStart() {
 		onGamePause();
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
@@ -128,6 +131,7 @@ public class GameActivity extends SokobanActivity implements GameController {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
+						assert gameModel != null;
 						gameModel.onSecondElapsed();
 					}
 				});
