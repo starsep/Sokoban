@@ -27,17 +27,17 @@ public class MainMenuActivity extends SokobanActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		continueGameButton.setVisibility(DatabaseManager.instance(this).getCurrentGame(new FakeGameController(this)) == null ? View.GONE : View.VISIBLE);
+	}
+
+	@Override
 	protected void onStop() {
 		super.onStop();
 		if (helpDialog != null) {
 			helpDialog.dismiss();
 		}
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		continueGameButton.setVisibility(DatabaseManager.instance(this).getCurrentGame(new FakeGameController(this)) == null ? View.GONE : View.VISIBLE);
 	}
 
 	public void newGameButtonClicked(@SuppressWarnings("UnusedParameters") View view) {

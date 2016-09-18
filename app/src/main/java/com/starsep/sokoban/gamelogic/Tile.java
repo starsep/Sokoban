@@ -5,19 +5,18 @@ import android.util.Log;
 import com.starsep.sokoban.Sokoban;
 
 public class Tile {
-	private final static int GRASS_MASK = 0;
 	public final static int WALKABLE_MASK = 0;
-	private final static int SOLID_MASK = 1;
-	private final static int GROUND_MASK = 2;
-	private final static int ENDPOINT_MASK = 4;
-	private final static int CRATE_MASK = 8;
-
 	public final static char wall = 'W';
 	public final static char crate = '#';
 	public final static char ground = '.';
 	public final static char endpoint = 'X';
 	public final static char grass = '_';
 	public final static char crateOnEndpoint = '&';
+	private final static int GRASS_MASK = 0;
+	private final static int SOLID_MASK = 1;
+	private final static int GROUND_MASK = 2;
+	private final static int ENDPOINT_MASK = 4;
+	private final static int CRATE_MASK = 8;
 
 	public static boolean isWalkable(char c) {
 		return (mask(c) & SOLID_MASK) == WALKABLE_MASK;

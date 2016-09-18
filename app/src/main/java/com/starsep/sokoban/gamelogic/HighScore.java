@@ -3,15 +3,11 @@ package com.starsep.sokoban.gamelogic;
 import android.support.annotation.NonNull;
 
 public class HighScore {
-
-	public class DifferentLevelsException extends Exception {}
-
 	public final int hash;
+	public final int levelNumber;
 	public int time;
 	public int moves;
 	public int pushes;
-	public final int levelNumber;
-
 	public HighScore(int hash, int level, int time, int moves, int pushes) {
 		this.hash = hash;
 		levelNumber = level;
@@ -39,4 +35,6 @@ public class HighScore {
 				"moves=" + moves + ", " +
 				"pushes=" + pushes + ")";
 	}
+
+	public class DifferentLevelsException extends Exception {}
 }

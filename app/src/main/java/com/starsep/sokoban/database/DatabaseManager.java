@@ -90,6 +90,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		createTableCurrentGame(db);
 	}
 
+	@Override
+	public void onUpgrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
+		migrateTableHighScores(db, oldVersion, newVersion);
+		migrateTableCurrentGame(db, oldVersion, newVersion);
+	}
+
 	private void migrateTableHighScores(@NonNull SQLiteDatabase db,
 	                                    @SuppressWarnings("UnusedParameters") int oldVersion,
 	                                    @SuppressWarnings("UnusedParameters") int newVersion) {
@@ -104,12 +110,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		// TODO: migrate data
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CURRENT_GAME);
 		createTableCurrentGame(db);
-	}
-
-	@Override
-	public void onUpgrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
-		migrateTableHighScores(db, oldVersion, newVersion);
-		migrateTableCurrentGame(db, oldVersion, newVersion);
 	}
 
 	@Nullable
@@ -175,7 +175,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		//add new entry
 		ContentValues entry = new ContentValues();
 		entry.put(COLUMN_HASH, gameplay.stats().hash);
-		entry.put(COLUMN_LEVEL_NUMBER, gameplay.levelNumber());
+		entry.put(COLUMN_LEVEL_NUMBER, gameplay.level().number());
 		entry.put(COLUMN_TIME, gameplay.stats().time);
 		entry.put(COLUMN_MOVES_LIST, gameplay.movesString());
 		db.insert(TABLE_CURRENT_GAME, null, entry);

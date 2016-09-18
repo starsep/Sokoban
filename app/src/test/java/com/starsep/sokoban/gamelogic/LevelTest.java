@@ -12,7 +12,7 @@ public class LevelTest {
 	@Test
 	public void pushTest() {
 		char[] data = ("WWWWW" + "W.#.W" + "WWWWW").toCharArray();
-		Level level = new Level(data, 5, new Position(1, 1));
+		Level level = new Level(data, 5, new Position(1, 1), 0);
 		final int[] moves = {0};
 		final int[] pushes = {0};
 		level.setGameModel(new FakeGameModel() {
@@ -41,7 +41,7 @@ public class LevelTest {
 	@Test
 	public void pushTestWithWin() {
 		char[] data = ("WWWWWW" + "W.#.XW" + "WWWWWW").toCharArray();
-		Level level = new Level(data, 6, new Position(1, 1));
+		Level level = new Level(data, 6, new Position(1, 1), 0);
 		final int[] moves = {0};
 		final int[] pushes = {0};
 		final int[] wins = {0};

@@ -12,10 +12,10 @@ class LevelConverter {
 	public static class UnknownTileException extends LevelConverterException {}
 
 	@NonNull
-	public static Level convert(@NonNull char[] data, int width) throws LevelConverterException {
+	public static Level convert(@NonNull char[] data, int width, int number) throws LevelConverterException {
 		Position player = findPlayer(data, width);
 		convertTiles(data);
-		return new Level(data, width, player);
+		return new Level(data, width, player, number);
 	}
 
 	private static void convertTiles(@NonNull char[] data) throws LevelConverterException {

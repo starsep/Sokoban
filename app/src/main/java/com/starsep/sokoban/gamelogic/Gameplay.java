@@ -17,7 +17,6 @@ public class Gameplay implements GameModel {
 
 	private HighScore stats;
 	private Level currentLevel;
-	private int levelNumber;
 	private GameController gameController;
 
 	public Gameplay(@NonNull GameController gameController, int levelNumber) {
@@ -38,33 +37,20 @@ public class Gameplay implements GameModel {
 	}
 
 	private void loadLevel(int number) {
-		levelNumber = number;
 		if (gameController.editMode()) {
-			currentLevel = Level.getDefaultLevel();
+			currentLevel = Level.getDefaultLevel(number);
 			return;
 		}
 		try {
-			currentLevel = LevelLoader.load(gameController.getContext(), "levels/" + number + ".level", this);
+			currentLevel = LevelLoader.load(gameController.getContext(),
+					"levels/" + number + ".level", this, number);
 		} catch (IOException e) {
 			Log.e(Sokoban.TAG, "Load error (" + number + ".level) :<");
-			currentLevel = Level.getDefaultLevel();
+			currentLevel = Level.getDefaultLevel(number);
 		}
-		stats = new HighScore(currentLevel.hash(), levelNumber, 0, 0, 0);
+		stats = new HighScore(currentLevel.hash(), currentLevel.number(), 0, 0, 0);
 		saveGame();
 		onNewGame();
-	}
-
-	@NonNull
-	@Override
-	public Level level() {
-		return currentLevel;
-	}
-
-	@Override
-	public void onMove() {
-		stats.moves++;
-		saveGame();
-		updateView();
 	}
 
 	private void updateView() {
@@ -78,15 +64,11 @@ public class Gameplay implements GameModel {
 		stats.pushes++;
 	}
 
-	private void sendHighScore() {
-		DatabaseManager databaseManager = DatabaseManager.instance(viewListener.getContext());
-		databaseManager.addHighScore(stats);
-	}
-
-	@Nullable
-	private HighScore getHighScore(int hash) {
-		DatabaseManager databaseManager = DatabaseManager.instance(viewListener.getContext());
-		return databaseManager.getHighScore(hash);
+	@Override
+	public void onMove() {
+		stats.moves++;
+		saveGame();
+		updateView();
 	}
 
 	@Override
@@ -94,16 +76,10 @@ public class Gameplay implements GameModel {
 		// Log.d(Sokoban.TAG, getHighScore(currentLevel.hash()).toString());
 		if (viewListener != null) {
 			pauseGame();
-			viewListener.showWinDialog(levelNumber, stats, getHighScore(level().hash()));
+			viewListener.showWinDialog(level().number(), stats, getHighScore(level().hash()));
 			sendHighScore();
 		} else {
 			nextLevel();
-		}
-	}
-
-	private void pauseGame() {
-		if (gameController != null) {
-			gameController.onGamePause();
 		}
 	}
 
@@ -128,13 +104,35 @@ public class Gameplay implements GameModel {
 	}
 
 	public void repeatLevel() {
-		loadLevel(levelNumber);
+		loadLevel(level().number());
 		updateView();
+	}
+
+	public void undoMove() {
+		level().undoMove();
+		updateView();
+	}
+
+	@NonNull
+	public HighScore stats() {
+		return stats;
+	}
+
+	@Override
+	@NonNull
+	public Position player() {
+		return level().player();
+	}
+
+	@NonNull
+	@Override
+	public Level level() {
+		return currentLevel;
 	}
 
 	public void nextLevel() {
 		if (level().won()) {
-			loadLevel(++levelNumber);
+			loadLevel(level().number() + 1);
 			updateView();
 		}
 	}
@@ -163,24 +161,21 @@ public class Gameplay implements GameModel {
 		updateView();
 	}
 
-	@NonNull
-	public HighScore stats() {
-		return stats;
+	private void sendHighScore() {
+		DatabaseManager databaseManager = DatabaseManager.instance(viewListener.getContext());
+		databaseManager.addHighScore(stats);
 	}
 
-	@Override
-	@NonNull
-	public Position player() {
-		return level().player();
+	@Nullable
+	private HighScore getHighScore(int hash) {
+		DatabaseManager databaseManager = DatabaseManager.instance(viewListener.getContext());
+		return databaseManager.getHighScore(hash);
 	}
 
-	public void undoMove() {
-		level().undoMove();
-		updateView();
-	}
-
-	public int levelNumber() {
-		return levelNumber;
+	private void pauseGame() {
+		if (gameController != null) {
+			gameController.onGamePause();
+		}
 	}
 
 	@NonNull

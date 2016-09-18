@@ -25,9 +25,9 @@ import com.starsep.sokoban.res.Textures;
 
 public class GameView extends View implements ViewEventsListener {
 	private final Rect dimension;
-	private int size; // size of tile
 	private final Paint textPaint;
 	private final Position screenDelta;
+	private int size; // size of tile
 	private GameController gameController;
 	private GameModel gameModel;
 	private Dialog winDialog;
@@ -90,6 +90,22 @@ public class GameView extends View implements ViewEventsListener {
 	}
 
 	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		if (winDialog != null) {
+			winDialog.dismiss();
+		}
+	}
+
+	@Override
+	public void onUpdate() {
+		invalidate();
+		if (gameController != null) {
+			gameController.onStatsChanged();
+		}
+	}
+
+	@Override
 	public void showWinDialog(int levelNumber, @NonNull HighScore levelStats, @Nullable HighScore highScore) {
 		if (highScore == null) {
 			highScore = levelStats;
@@ -125,22 +141,6 @@ public class GameView extends View implements ViewEventsListener {
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.create();
 		winDialog.show();
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
-		if (winDialog != null) {
-			winDialog.dismiss();
-		}
-	}
-
-	@Override
-	public void onUpdate() {
-		invalidate();
-		if (gameController != null) {
-			gameController.onStatsChanged();
-		}
 	}
 
 	public void setGameController(@NonNull GameController controller) {

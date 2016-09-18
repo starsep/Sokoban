@@ -26,15 +26,15 @@ public class GameActivity extends SokobanActivity implements GameController {
 	private TextView statusTextView;
 	@Nullable private Timer timer;
 
-	protected void onPause() {
-		super.onPause();
-		onGamePause();
-	}
-
 	@Override
 	protected void onStart() {
 		super.onStart();
 		onGameStart();
+	}
+
+	protected void onPause() {
+		super.onPause();
+		onGamePause();
 	}
 
 	@Override
@@ -68,16 +68,16 @@ public class GameActivity extends SokobanActivity implements GameController {
 		gameView.setGameController(this);
 		gameView.setGameModel(gameModel);
 		gameView.setOnTouchListener(new OnSwipeTouchListener(this) {
-			public void onSwipeTop() {
-				gameModel.moveUp();
-			}
-
 			public void onSwipeRight() {
 				gameModel.moveRight();
 			}
 
 			public void onSwipeLeft() {
 				gameModel.moveLeft();
+			}
+
+			public void onSwipeTop() {
+				gameModel.moveUp();
 			}
 
 			public void onSwipeBottom() {
@@ -104,7 +104,7 @@ public class GameActivity extends SokobanActivity implements GameController {
 
 	public void onStatsChanged() {
 		assert gameModel != null;
-		int levelNumber = gameModel.levelNumber();
+		int levelNumber = gameModel.level().number();
 		HighScore highScore = gameModel.stats();
 		int minutes = highScore.time / 60;
 		int seconds = highScore.time % 60;
@@ -120,23 +120,6 @@ public class GameActivity extends SokobanActivity implements GameController {
 			timer.cancel();
 			timer = null;
 		}
-	}
-
-	private void onGameStart() {
-		onGamePause();
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						assert gameModel != null;
-						gameModel.onSecondElapsed();
-					}
-				});
-			}
-		}, 0, 1000);
 	}
 
 	@Override
@@ -157,5 +140,22 @@ public class GameActivity extends SokobanActivity implements GameController {
 	@Override
 	public Context getContext() {
 		return super.getBaseContext();
+	}
+
+	private void onGameStart() {
+		onGamePause();
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						assert gameModel != null;
+						gameModel.onSecondElapsed();
+					}
+				});
+			}
+		}, 0, 1000);
 	}
 }

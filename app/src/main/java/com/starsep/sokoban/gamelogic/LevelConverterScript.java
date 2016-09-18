@@ -22,7 +22,7 @@ public class LevelConverterScript {
 			}
 		}
 		try {
-			Level l = LevelConverter.convert(level, width);
+			Level l = LevelConverter.convert(level, width, 0);
 			System.out.print(l);
 		} catch (LevelConverter.LevelConverterException e) {
 			e.printStackTrace();

@@ -13,17 +13,25 @@ public class Level {
 	@NonNull private final char[] tiles;
 	private final int width;
 	@NonNull private final Position player;
-	private GameModel gameModel;
 	private final int hash;
 	@NonNull private final List<Move> moves;
+	private final int number;
+	private transient GameModel gameModel;
 
-	public Level(@NonNull char[] data, int width, @NonNull Position player) {
+	public Level(@NonNull char[] data, int width, @NonNull Position player, int levelNumber) {
+		number = levelNumber;
 		tiles = new char[data.length];
 		this.width = width;
 		System.arraycopy(data, 0, tiles, 0, data.length);
 		this.player = new Position(player.y, player.x);
 		hash = toString().hashCode();
 		moves = new ArrayList<>();
+	}
+
+	@NonNull
+	public static Level getDefaultLevel(int levelNumber) {
+		char[] data = ("###" + "#.#" + "###").toCharArray();
+		return new Level(data, 3, new Position(1, 1), levelNumber);
 	}
 
 	@NonNull
@@ -144,12 +152,6 @@ public class Level {
 		return result;
 	}
 
-	@NonNull
-	public static Level getDefaultLevel() {
-		char[] data = ("###" + "#.#" + "###").toCharArray();
-		return new Level(data, 3, new Position(1, 1));
-	}
-
 	public int hash() {
 		return hash;
 	}
@@ -206,5 +208,9 @@ public class Level {
 		for (char c : movesList.toCharArray()) {
 			move(Move.fromChar(c));
 		}
+	}
+
+	public int number() {
+		return number;
 	}
 }

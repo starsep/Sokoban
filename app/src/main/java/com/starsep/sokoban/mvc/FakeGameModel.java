@@ -53,11 +53,6 @@ public class FakeGameModel implements GameModel {
 
 	}
 
-	@Override
-	public int levelNumber() {
-		return 0;
-	}
-
 	@NonNull
 	@Override
 	public HighScore stats() {
@@ -73,7 +68,7 @@ public class FakeGameModel implements GameModel {
 	@NonNull
 	@Override
 	public Level level() {
-		return Level.getDefaultLevel();
+		return Level.getDefaultLevel(0);
 	}
 
 	@Override

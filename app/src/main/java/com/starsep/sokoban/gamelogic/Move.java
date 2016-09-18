@@ -6,8 +6,6 @@ import android.support.annotation.NonNull;
 import com.starsep.sokoban.res.Textures;
 
 public class Move {
-	public static class UnknownMoveException extends Exception { }
-
 	@NonNull public static final Move DOWN = new Move(Direction.DOWN, false);
 	@NonNull public static final Move UP = new Move(Direction.UP, false);
 	@NonNull public static final Move LEFT = new Move(Direction.LEFT, false);
@@ -16,9 +14,12 @@ public class Move {
 	@NonNull public static final Move PUSH_UP = new Move(Direction.UP, true);
 	@NonNull public static final Move PUSH_LEFT = new Move(Direction.LEFT, true);
 	@NonNull public static final Move PUSH_RIGHT = new Move(Direction.RIGHT, true);
-
 	@NonNull private final Direction direction;
 	private final boolean pushed;
+	private Move(@NonNull Direction direction, boolean pushed) {
+		this.direction = direction;
+		this.pushed = pushed;
+	}
 
 	@NonNull
 	public static Move make_push(@NonNull Move move) {
@@ -33,6 +34,30 @@ public class Move {
 				return PUSH_DOWN;
 			default:
 				return PUSH_DOWN;
+		}
+	}
+
+	@NonNull
+	public static Move fromChar(char c) throws UnknownMoveException {
+		switch (c) {
+			case 'l':
+				return LEFT;
+			case 'L':
+				return PUSH_LEFT;
+			case 'r':
+				return RIGHT;
+			case 'R':
+				return PUSH_RIGHT;
+			case 'u':
+				return UP;
+			case 'U':
+				return PUSH_UP;
+			case 'd':
+				return DOWN;
+			case 'D':
+				return PUSH_DOWN;
+			default:
+				throw new UnknownMoveException();
 		}
 	}
 
@@ -64,18 +89,6 @@ public class Move {
 			case DOWN:
 				return Textures.heroDown();
 		}
-	}
-
-	public enum Direction {
-		LEFT,
-		RIGHT,
-		DOWN,
-		UP
-	}
-
-	private Move(@NonNull Direction direction, boolean pushed) {
-		this.direction = direction;
-		this.pushed = pushed;
 	}
 
 	public int dx() {
@@ -114,7 +127,6 @@ public class Move {
 		return "" + toChar();
 	}
 
-
 	public char toChar() {
 		switch (direction) {
 			case LEFT:
@@ -129,27 +141,13 @@ public class Move {
 		}
 	}
 
-	@NonNull
-	public static Move fromChar(char c) throws UnknownMoveException {
-		switch (c) {
-			case 'l':
-				return LEFT;
-			case 'L':
-				return PUSH_LEFT;
-			case 'r':
-				return RIGHT;
-			case 'R':
-				return PUSH_RIGHT;
-			case 'u':
-				return UP;
-			case 'U':
-				return PUSH_UP;
-			case 'd':
-				return DOWN;
-			case 'D':
-				return PUSH_DOWN;
-			default:
-				throw new UnknownMoveException();
-		}
+
+	public enum Direction {
+		LEFT,
+		RIGHT,
+		DOWN,
+		UP
 	}
+
+	public static class UnknownMoveException extends Exception { }
 }

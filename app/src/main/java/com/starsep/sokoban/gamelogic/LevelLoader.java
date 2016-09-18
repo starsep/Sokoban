@@ -13,7 +13,8 @@ import java.util.Scanner;
 
 class LevelLoader {
 	@NonNull
-	public static Level load(@NonNull Context context, @NonNull String filename, @NonNull GameModel model) throws IOException {
+	public static Level load(@NonNull Context context, @NonNull String filename,
+	                         @NonNull GameModel model, int levelNumber) throws IOException {
 		InputStream inputStream;
 		inputStream = context.getAssets().open(filename);
 		Scanner scanner = new Scanner(inputStream);
@@ -28,7 +29,7 @@ class LevelLoader {
 			System.arraycopy(line.toCharArray(), 0, data, i * width, line.length());
 		}
 		scanner.close();
-		Level result = new Level(data, width, player);
+		Level result = new Level(data, width, player, levelNumber);
 		result.setGameModel(model);
 		if (!result.valid()) {
 			Log.e(Sokoban.TAG, "Level.load: " + "Loaded level is invalid");

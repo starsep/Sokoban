@@ -26,8 +26,6 @@ public interface GameModel {
 
 	void undoMove();
 
-	int levelNumber();
-
 	@NonNull
 	HighScore stats();
 
