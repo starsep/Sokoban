@@ -1,12 +1,17 @@
 package com.starsep.sokoban.activity;
 
 import android.content.Context;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
 import com.starsep.sokoban.R;
 import com.starsep.sokoban.Sokoban;
 import com.starsep.sokoban.controls.OnSwipeTouchListener;
@@ -15,12 +20,17 @@ import com.starsep.sokoban.gamelogic.Gameplay;
 import com.starsep.sokoban.gamelogic.HighScore;
 import com.starsep.sokoban.mvc.GameController;
 import com.starsep.sokoban.mvc.GameModel;
+import com.starsep.sokoban.play_services.GoogleApiClientBuilder;
 import com.starsep.sokoban.view.GameView;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GameActivity extends SokobanActivity implements GameController {
+public class GameActivity extends SokobanActivity implements
+		GameController,
+		GoogleApiClient.ConnectionCallbacks,
+		GoogleApiClient.OnConnectionFailedListener {
+	private GoogleApiClient googleApiClient;
 	private GameView gameView;
 	@Nullable private GameModel gameModel;
 	private TextView statusTextView;
@@ -29,11 +39,13 @@ public class GameActivity extends SokobanActivity implements GameController {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		googleApiClient.connect();
 		onGameStart();
 	}
 
 	protected void onPause() {
 		super.onPause();
+		googleApiClient.disconnect();
 		onGamePause();
 	}
 
@@ -84,6 +96,8 @@ public class GameActivity extends SokobanActivity implements GameController {
 				gameModel.moveDown();
 			}
 		});
+
+		googleApiClient = GoogleApiClientBuilder.build(this, gameView);
 	}
 
 
@@ -157,5 +171,26 @@ public class GameActivity extends SokobanActivity implements GameController {
 				});
 			}
 		}, 0, 1000);
+	}
+
+	@Override
+	public void onConnected(@Nullable Bundle bundle) {
+        Log.d(Sokoban.TAG, "onConnected(): connected to Google APIs");
+		Games.setViewForPopups(googleApiClient, getWindow().getDecorView().findViewById(android.R.id.content));
+	}
+
+	@Override
+	public void onConnectionSuspended(int i) {
+
+	}
+
+	@Override
+	public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(Sokoban.TAG, "onConnectionFailed(): attempting to resolve" + connectionResult);
+		 try {
+		      connectionResult.startResolutionForResult(this, 9143);
+		 } catch (IntentSender.SendIntentException e) {
+		      e.printStackTrace();
+		 }
 	}
 }
