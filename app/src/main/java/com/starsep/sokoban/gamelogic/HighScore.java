@@ -8,6 +8,7 @@ public class HighScore {
 	public int time;
 	public int moves;
 	public int pushes;
+
 	public HighScore(int hash, int level, int time, int moves, int pushes) {
 		this.hash = hash;
 		levelNumber = level;
@@ -23,6 +24,19 @@ public class HighScore {
 		time = Math.min(time, another.time);
 		moves = Math.min(moves, another.moves);
 		pushes = Math.min(pushes, another.pushes);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		HighScore other = (HighScore) obj;
+		return levelNumber == other.levelNumber &&
+				time == other.time &&
+				moves == other.moves &&
+				pushes == other.pushes &&
+				hash == other.hash;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.starsep.sokoban.gamelogic;
 
+import com.google.gson.Gson;
 import com.starsep.sokoban.mvc.FakeGameModel;
 
 import org.junit.Test;
@@ -68,5 +69,15 @@ public class LevelTest {
 		assertEquals(wins[0], 1);
 		char[] dataAfterMove = ("WWWWWW" + "W...&W" + "WWWWWW").toCharArray();
 		assertArrayEquals(level.tiles(), dataAfterMove);
+	}
+
+	@Test
+	public void gsonLevel() {
+		Level level = Level.getDefaultLevel(0);
+		level.move(Move.LEFT);
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(level);
+		Level fromJson = gson.fromJson(jsonString, Level.class);
+		assertTrue(level.equals(fromJson));
 	}
 }

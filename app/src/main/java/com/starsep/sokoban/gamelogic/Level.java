@@ -7,6 +7,7 @@ import com.starsep.sokoban.mvc.GameModel;
 import com.starsep.sokoban.res.Textures;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Level {
@@ -212,5 +213,17 @@ public class Level {
 
 	public int number() {
 		return number;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Level other = (Level) obj;
+		return number == other.number &&
+				width == other.width &&
+				Arrays.equals(tiles, other.tiles) &&
+				moves.equals(other.moves);
 	}
 }
