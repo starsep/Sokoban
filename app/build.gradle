@@ -1,21 +1,24 @@
 apply plugin: 'com.android.application'
 
-/*def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))*/
+def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 android {
     lintOptions {
         abortOnError false
     }
-    /*signingConfigs {
-        sokoban {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            def keystoreProperties = new Properties()
+            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            sokoban {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
         }
-    }*/
+    }
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -34,10 +37,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            // signingConfig signingConfigs.sokoban
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.sokoban
+            }
+            return true
         }
         debug {
-            // signingConfig signingConfigs.sokoban
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.sokoban
+            }
             return true
         }
     }
