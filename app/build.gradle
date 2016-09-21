@@ -26,6 +26,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.starsep.sokoban"
         minSdkVersion 10
         targetSdkVersion 24
