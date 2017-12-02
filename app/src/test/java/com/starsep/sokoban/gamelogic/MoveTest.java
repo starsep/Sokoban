@@ -9,12 +9,12 @@ public class MoveTest {
 	@Test
 	public void toStringFromCharIsIdentity() {
 		Move[] moves = {
-				Move.DOWN, Move.LEFT, Move.RIGHT, Move.UP,
-				Move.PUSH_DOWN, Move.PUSH_LEFT, Move.PUSH_RIGHT, Move.PUSH_UP
+                Move.Companion.getDOWN(), Move.Companion.getLEFT(), Move.Companion.getRIGHT(), Move.Companion.getUP(),
+                Move.Companion.getPUSH_DOWN(), Move.Companion.getPUSH_LEFT(), Move.Companion.getPUSH_RIGHT(), Move.Companion.getPUSH_UP()
 		};
 		for (Move m : moves) {
 			try {
-				assertEquals(Move.fromChar(m.toChar()), m);
+				assertEquals(Move.Companion.fromChar(m.toChar()), m);
 			} catch (Move.UnknownMoveException e) {
 				assertTrue(false);
 			}

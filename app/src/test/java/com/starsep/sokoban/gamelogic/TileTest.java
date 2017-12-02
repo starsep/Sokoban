@@ -17,50 +17,40 @@ import static org.junit.Assert.assertTrue;
 public class TileTest {
 	@Test
 	public void crateIsCrate() {
-		assertTrue(Tile.isCrate(Tile.crate));
+		assertTrue(Tile.INSTANCE.isCrate(Tile.INSTANCE.getCrate()));
 	}
 
 	@Test
 	public void crateIsNotWalkable() {
-		assertFalse(Tile.isWalkable(Tile.crate));
+		assertFalse(Tile.INSTANCE.isWalkable(Tile.INSTANCE.getCrate()));
 	}
 
 	@Test
 	public void groundAndGrassIsWalkable() {
-		assertTrue(Tile.isWalkable(Tile.ground));
-		assertTrue(Tile.isWalkable(Tile.grass));
+		assertTrue(Tile.INSTANCE.isWalkable(Tile.INSTANCE.getGround()));
+		assertTrue(Tile.INSTANCE.isWalkable(Tile.INSTANCE.getGrass()));
 	}
 
 	@Test
 	public void maskToMaskToCharIsIdentity() {
 		char[] tiles = {
-				Tile.crate, Tile.grass, Tile.ground, Tile.endpoint, Tile.crateOnEndpoint, Tile.wall};
+                Tile.INSTANCE.getCrate(), Tile.INSTANCE.getGrass(), Tile.INSTANCE.getGround(), Tile.INSTANCE.getEndpoint(), Tile.INSTANCE.getCrateOnEndpoint(), Tile.INSTANCE.getWall()};
 		for (char tile : tiles) {
-			assertEquals(Tile.maskToChar(Tile.mask(tile)), tile);
+			assertEquals(Tile.INSTANCE.maskToChar(Tile.INSTANCE.mask(tile)), tile);
 		}
 	}
 
 	@Test
 	public void defaultMaskWalkable() {
 		PowerMockito.mockStatic(Log.class);
-		assertEquals(Tile.mask('~'), Tile.WALKABLE_MASK);
+		assertEquals(Tile.INSTANCE.mask('~'), Tile.INSTANCE.getWALKABLE_MASK());
 		PowerMockito.verifyStatic();
 	}
 
 	@Test
 	public void defaultMaskToCharGrass() {
 		PowerMockito.mockStatic(Log.class);
-		assertEquals(Tile.maskToChar(1337), Tile.grass);
+		assertEquals(Tile.INSTANCE.maskToChar(1337), Tile.INSTANCE.getGrass());
 		PowerMockito.verifyStatic();
 	}
-
-	@Test
-	public void createTile() {
-		try {
-			new Tile();
-		} catch (Throwable t) {
-			assertTrue(false);
-		}
-	}
-
 }

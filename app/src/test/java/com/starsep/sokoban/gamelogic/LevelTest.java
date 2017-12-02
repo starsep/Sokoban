@@ -32,7 +32,7 @@ public class LevelTest {
 				assertTrue(false);
 			}
 		});
-		level.move(Move.RIGHT);
+		level.move(Move.Companion.getRIGHT());
 		assertEquals(moves[0], 1);
 		assertEquals(pushes[0], 1);
 		char[] dataAfterMove = ("WWWWW" + "W..#W" + "WWWWW").toCharArray();
@@ -62,8 +62,8 @@ public class LevelTest {
 				wins[0]++;
 			}
 		});
-		level.move(Move.RIGHT);
-		level.move(Move.RIGHT);
+		level.move(Move.Companion.getRIGHT());
+		level.move(Move.Companion.getRIGHT());
 		assertEquals(moves[0], 2);
 		assertEquals(pushes[0], 2);
 		assertEquals(wins[0], 1);
@@ -73,8 +73,8 @@ public class LevelTest {
 
 	@Test
 	public void gsonLevel() {
-		Level level = Level.getDefaultLevel(0);
-		level.move(Move.LEFT);
+		Level level = Level.Companion.getDefaultLevel(0);
+		level.move(Move.Companion.getLEFT());
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(level);
 		Level fromJson = gson.fromJson(jsonString, Level.class);
