@@ -1,10 +1,11 @@
-package com.starsep.sokoban.mvc
+package com.starsep.sokoban.fake
 
 import android.content.Context
-
 import com.starsep.sokoban.gamelogic.Gameplay
 
-class FakeGameController(override val context: Context) : GameController {
+import com.starsep.sokoban.mvc.GameController
+
+class FakeGameController(override val ctx: Context) : GameController {
     override fun onStatsChanged() {
 
     }

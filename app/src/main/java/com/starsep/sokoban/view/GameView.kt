@@ -79,29 +79,21 @@ class GameView(override val ctx: Context, attributeSet: AttributeSet) : View(ctx
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        if (winDialog != null) {
-            winDialog!!.dismiss()
-        }
+        winDialog?.dismiss()
     }
 
     override fun onUpdate() {
         invalidate()
-        if (gameController != null) {
-            gameController!!.onStatsChanged()
-        }
+        gameController?.onStatsChanged()
     }
 
-    override fun showWinDialog(levelNumber: Int, levelStats: HighScore, highScore: HighScore) {
-        var highScore = highScore
-        if (highScore == null) {
-            highScore = levelStats
-        }
-        val minutes = levelStats.time / 60
-        val seconds = levelStats.time % 60
+    override fun showWinDialog(levelNumber: Int, stats: HighScore, highScore: HighScore) {
+        val minutes = stats.time / 60
+        val seconds = stats.time % 60
         val minutesBest = highScore.time / 60
         val secondsBest = highScore.time % 60
         val msg = String.format(resources.getString(R.string.win_msg),
-                levelStats.moves, highScore.moves, levelStats.pushes, highScore.pushes,
+                stats.moves, highScore.moves, stats.pushes, highScore.pushes,
                 minutes, seconds, minutesBest, secondsBest)
         winDialog = AlertDialog.Builder(context)
                 .setTitle(String.format(resources.getString(R.string.win_title), levelNumber))
@@ -111,7 +103,7 @@ class GameView(override val ctx: Context, attributeSet: AttributeSet) : View(ctx
                 .setOnCancelListener { gameModel.nextLevel() }
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .create()
-        winDialog!!.show()
+        winDialog?.show()
     }
 
     fun setGameController(controller: GameController) {

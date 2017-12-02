@@ -6,19 +6,19 @@ import com.starsep.sokoban.res.LevelAdapter
 import kotlinx.android.synthetic.main.activity_choose_level.*
 
 class ChooseLevelActivity : SokobanActivity() {
-    private var levelAdapter: LevelAdapter? = null
+    private val levelAdapter: LevelAdapter by lazy {
+        LevelAdapter(resources.getInteger(R.integer.number_of_levels), this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_level)
-
-        levelAdapter = LevelAdapter(resources.getInteger(R.integer.number_of_levels), this)
 
         gridView.adapter = levelAdapter
     }
 
     override fun onStart() {
         super.onStart()
-        levelAdapter!!.updateSolvedLevelsButton()
+        levelAdapter.updateSolvedLevelsButton()
     }
 }

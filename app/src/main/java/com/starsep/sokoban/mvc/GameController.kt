@@ -1,12 +1,8 @@
 package com.starsep.sokoban.mvc
 
-import android.content.Context
-
 import com.starsep.sokoban.gamelogic.Gameplay
 
-interface GameController {
-
-    val context: Context
+interface GameController : ContextGetter {
     fun onStatsChanged()
 
     fun onGamePause()

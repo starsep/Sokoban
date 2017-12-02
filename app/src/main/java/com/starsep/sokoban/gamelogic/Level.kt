@@ -51,12 +51,12 @@ class Level(data: CharArray, private val width: Int, player: Position, private v
         player.y += move.dy()
         if (!undo) {
             addMove(move)
-            gameModel!!.onMove()
+            gameModel?.onMove()
             if (won()) {
-                gameModel!!.onWin()
+                gameModel?.onWin()
             }
         } else {
-            gameModel!!.onUndoMove()
+            gameModel?.onUndoMove()
         }
     }
 
@@ -70,9 +70,9 @@ class Level(data: CharArray, private val width: Int, player: Position, private v
         setTile(newY, newX, Tile.withCrate(newTile))
         setTile(y, x, Tile.withoutCrate(oldTile))
         if (undo) {
-            gameModel!!.onUndoPush()
+            gameModel?.onUndoPush()
         } else {
-            gameModel!!.onPush()
+            gameModel?.onPush()
         }
     }
 
@@ -184,12 +184,11 @@ class Level(data: CharArray, private val width: Int, player: Position, private v
         return number
     }
 
-    override fun equals(obj: Any?): Boolean {
-        if (javaClass != obj!!.javaClass) {
+    override fun equals(other: Any?): Boolean {
+        if (other !is Level) {
             return false
         }
-        val other = obj as Level?
-        return number == other!!.number &&
+        return number == other.number &&
                 width == other.width &&
                 Arrays.equals(tiles, other.tiles) &&
                 moves == other.moves

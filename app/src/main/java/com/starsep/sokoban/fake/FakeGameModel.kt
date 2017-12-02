@@ -1,11 +1,18 @@
-package com.starsep.sokoban.mvc
+package com.starsep.sokoban.fake
 
+import android.content.Context
 import com.starsep.sokoban.gamelogic.HighScore
 import com.starsep.sokoban.gamelogic.Level
 import com.starsep.sokoban.gamelogic.Move
 import com.starsep.sokoban.gamelogic.Position
+import com.starsep.sokoban.mvc.GameController
+import com.starsep.sokoban.mvc.GameModel
+import com.starsep.sokoban.mvc.ViewEventsListener
 
-open class FakeGameModel : GameModel {
+open class FakeGameModel(ctx: Context) : GameModel {
+    override var viewListener: ViewEventsListener? = null
+    override var gameController: GameController = FakeGameController(ctx)
+
     override fun onPush() {
 
     }

@@ -2,8 +2,6 @@ package com.starsep.sokoban.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import com.starsep.sokoban.R
 import com.starsep.sokoban.Sokoban
 import com.starsep.sokoban.controls.OnSwipeTouchListener
@@ -15,12 +13,26 @@ import kotlinx.android.synthetic.main.activity_game.*
 import java.util.*
 
 class GameActivity : SokobanActivity(), GameController
-    /*, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
-    override val context: Context
+/*, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
+    override val ctx: Context
         get() = baseContext
     // private lateinit var googleApiClient: GoogleApiClient
-    private lateinit var gameModel: GameModel
-    private var statusTextView: TextView? = null
+    private val gameModel: GameModel by lazy {
+        val gameplay = if (newGame) {
+            Gameplay(levelNumber, this)
+        } else {
+            DatabaseManager.instance(this).getCurrentGame(ctx)!!
+        }
+        gameplay.gameController = this
+        gameplay
+    }
+    private val newGame: Boolean by lazy {
+        intent.extras.getBoolean(Sokoban.NEW, false)
+    }
+    private val levelNumber: Int by lazy {
+        intent.extras.getInt(Sokoban.LEVEL_NUMBER, 1)
+    }
+
     private var timer: Timer? = null
 
     override fun onStart() {
@@ -37,32 +49,14 @@ class GameActivity : SokobanActivity(), GameController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var newGame = false
-        var levelNumber = 1
-
-        val extras = intent.extras
-        if (extras != null) {
-            newGame = extras.getBoolean(Sokoban.NEW, false)
-            intent.putExtra("New", false)
-            levelNumber = extras.getInt(Sokoban.LEVEL_NUMBER, 1)
-        }
-
         setContentView(R.layout.activity_game)
 
-        statusTextView = findViewById<View>(R.id.statusTextView) as TextView
-        val gameplay: Gameplay?
-        if (newGame) {
-            gameplay = Gameplay(this, levelNumber)
-        } else {
-            gameplay = DatabaseManager.instance(this).getCurrentGame(this)
-            gameplay!!.gameController = this
-        }
-        gameplay.setViewListener(gameView)
-        gameModel = gameplay
+        gameModel.gameController = this
+        gameModel.viewListener = gameView
 
-        gameView!!.setGameController(this)
-        gameView!!.gameModel = gameModel
-        gameView!!.setOnTouchListener(object : OnSwipeTouchListener(baseContext) {
+        gameView.setGameController(this)
+        gameView.gameModel = gameModel
+        gameView.setOnTouchListener(object : OnSwipeTouchListener(baseContext) {
             override fun onSwipeRight() {
                 gameModel.moveRight()
             }
@@ -101,13 +95,13 @@ class GameActivity : SokobanActivity(), GameController
         val seconds = highScore.time % 60
         val moves = highScore.moves
         val pushes = highScore.pushes
-        statusTextView!!.text = String.format(getString(R.string.level_status),
+        statusTextView.text = String.format(getString(R.string.level_status),
                 levelNumber, minutes, seconds, moves, pushes)
     }
 
     override fun onGamePause() {
-        if (timer != null) {
-            timer!!.cancel()
+        timer?.let {
+            it.cancel()
             timer = null
         }
     }
@@ -121,13 +115,13 @@ class GameActivity : SokobanActivity(), GameController
     }
 
     override fun editMode(): Boolean {
-        return gameView!!.isInEditMode
+        return gameView.isInEditMode
     }
 
     private fun onGameStart() {
         onGamePause()
         timer = Timer()
-        timer!!.schedule(object : TimerTask() {
+        timer?.schedule(object : TimerTask() {
             override fun run() {
                 runOnUiThread {
                     gameModel.onSecondElapsed()

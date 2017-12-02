@@ -1,7 +1,8 @@
 package com.starsep.sokoban.gamelogic;
 
 import com.google.gson.Gson;
-import com.starsep.sokoban.mvc.FakeGameModel;
+import com.starsep.sokoban.fake.FakeContext;
+import com.starsep.sokoban.fake.FakeGameModel;
 
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class LevelTest {
 		Level level = new Level(data, 5, new Position(1, 1), 0);
 		final int[] moves = {0};
 		final int[] pushes = {0};
-		level.setGameModel(new FakeGameModel() {
+		level.setGameModel(new FakeGameModel(new FakeContext()) {
 			@Override
 			public void onPush() {
 				pushes[0]++;
@@ -46,7 +47,7 @@ public class LevelTest {
 		final int[] moves = {0};
 		final int[] pushes = {0};
 		final int[] wins = {0};
-		level.setGameModel(new FakeGameModel() {
+		level.setGameModel(new FakeGameModel(new FakeContext()) {
 			@Override
 			public void onPush() {
 				pushes[0]++;

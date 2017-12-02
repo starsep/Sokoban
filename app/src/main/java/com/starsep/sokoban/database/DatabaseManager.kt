@@ -6,10 +6,10 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.starsep.sokoban.Sokoban
+import com.starsep.sokoban.fake.FakeGameController
 import com.starsep.sokoban.gamelogic.Gameplay
 import com.starsep.sokoban.gamelogic.HighScore
 import com.starsep.sokoban.gamelogic.Move
-import com.starsep.sokoban.mvc.GameController
 import java.util.*
 
 class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -149,7 +149,7 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
         db.close()
     }
 
-    fun getCurrentGame(gameController: GameController): Gameplay? {
+    fun getCurrentGame(ctx: Context): Gameplay? {
         val db = readableDatabase
         val selectCurrentGame = "SELECT * FROM " + TABLE_CURRENT_GAME +
                 " WHERE " + TRUE_CONDITION + ";"
@@ -158,7 +158,7 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
         if (cursor.moveToFirst()) {
             val time = cursor.getInt(cursor.getColumnIndex(COLUMN_TIME))
             val currentLevel = cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER))
-            result = Gameplay(gameController, currentLevel)
+            result = Gameplay(currentLevel, FakeGameController(ctx))
             result.stats().time = time
             val movesList = cursor.getString(cursor.getColumnIndex(COLUMN_MOVES_LIST))
             try {

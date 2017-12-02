@@ -10,9 +10,12 @@ import com.starsep.sokoban.mvc.ViewEventsListener
 
 import java.io.IOException
 
-class Gameplay(var gameController: GameController, levelNumber: Int) : GameModel {
-    private var viewListener: ViewEventsListener? = null
-
+class Gameplay(levelNumber: Int, override var gameController: GameController) : GameModel {
+    override var viewListener: ViewEventsListener? = null
+        set(value) {
+            field = value
+            updateView()
+        }
     private lateinit var stats: HighScore
     private lateinit var currentLevel: Level
 
@@ -34,7 +37,7 @@ class Gameplay(var gameController: GameController, levelNumber: Int) : GameModel
             return
         }
         currentLevel = try {
-            LevelLoader.load(gameController.context,
+            LevelLoader.load(gameController.ctx,
                     "levels/$number.level", this, number)
         } catch (e: IOException) {
             Log.e(Sokoban.TAG, "Load error ($number.level) :<")
@@ -47,9 +50,7 @@ class Gameplay(var gameController: GameController, levelNumber: Int) : GameModel
     }
 
     private fun updateView() {
-        if (viewListener != null) {
-            viewListener!!.onUpdate()
-        }
+        viewListener?.onUpdate()
     }
 
     override fun onPush() {
@@ -66,7 +67,7 @@ class Gameplay(var gameController: GameController, levelNumber: Int) : GameModel
         // Log.d(Sokoban.TAG, getHighScore(currentLevel.hash()).toString());
         if (viewListener != null) {
             pauseGame()
-            viewListener!!.showWinDialog(level().number(), stats, getHighScore(level().hash())!!)
+            viewListener?.showWinDialog(level().number(), stats, getHighScore(level().hash())!!)
             sendHighScore()
         } else {
             nextLevel()
@@ -153,11 +154,6 @@ class Gameplay(var gameController: GameController, levelNumber: Int) : GameModel
 
     fun movesString(): String {
         return level().movesString()
-    }
-
-    fun setViewListener(listener: ViewEventsListener) {
-        viewListener = listener
-        updateView()
     }
 
     @Throws(Move.UnknownMoveException::class)

@@ -6,6 +6,9 @@ import com.starsep.sokoban.gamelogic.Move
 import com.starsep.sokoban.gamelogic.Position
 
 interface GameModel {
+    var gameController: GameController
+    var viewListener: ViewEventsListener?
+
     fun onPush()
 
     fun onMove()
