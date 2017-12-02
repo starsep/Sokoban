@@ -37,7 +37,7 @@ public class LevelTest {
 		assertEquals(moves[0], 1);
 		assertEquals(pushes[0], 1);
 		char[] dataAfterMove = ("WWWWW" + "W..#W" + "WWWWW").toCharArray();
-		assertArrayEquals(level.tiles(), dataAfterMove);
+		assertArrayEquals(level.getTiles(), dataAfterMove);
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class LevelTest {
 		assertEquals(pushes[0], 2);
 		assertEquals(wins[0], 1);
 		char[] dataAfterMove = ("WWWWWW" + "W...&W" + "WWWWWW").toCharArray();
-		assertArrayEquals(level.tiles(), dataAfterMove);
+		assertArrayEquals(level.getTiles(), dataAfterMove);
 	}
 
 	@Test

@@ -8,12 +8,12 @@ import com.starsep.sokoban.res.Textures
 import java.util.ArrayList
 import java.util.Arrays
 
-class Level(data: CharArray, private val width: Int, player: Position, private val number: Int) {
-    private val tiles: CharArray = CharArray(data.size)
-    private val player: Position
+class Level(data: CharArray, val width: Int, player: Position, private val number: Int) {
+    val tiles: CharArray = CharArray(data.size)
+    val player: Position
     private val hash: Int
     private val moves: MutableList<Move>
-    @Transient private var gameModel: GameModel? = null
+    @Transient var gameModel: GameModel? = null
 
     init {
         System.arraycopy(data, 0, tiles, 0, data.size)
@@ -22,28 +22,12 @@ class Level(data: CharArray, private val width: Int, player: Position, private v
         moves = ArrayList()
     }
 
-    fun tiles(): CharArray {
-        return tiles
-    }
-
     fun texture(y: Int, x: Int): Bitmap {
         return Textures.tile(tile(y, x))
     }
 
     fun height(): Int {
-        return tiles.size / width()
-    }
-
-    fun width(): Int {
-        return width
-    }
-
-    fun setGameModel(model: GameModel) {
-        gameModel = model
-    }
-
-    fun player(): Position {
-        return player
+        return tiles.size / width
     }
 
     private fun makeMove(move: Move, undo: Boolean = false) {
@@ -81,7 +65,7 @@ class Level(data: CharArray, private val width: Int, player: Position, private v
     }
 
     private fun validTile(x: Int, y: Int): Boolean {
-        return x >= 0 && x < width() && y >= 0 && y < height()
+        return x in 0..(width - 1) && y >= 0 && y < height()
     }
 
     private fun canMove(x: Int, y: Int): Boolean {
@@ -113,10 +97,10 @@ class Level(data: CharArray, private val width: Int, player: Position, private v
     }
 
     override fun toString(): String {
-        var result = "" + height() + ' ' + width() + '\n' +
+        var result = "" + height() + ' ' + width + '\n' +
                 player.y + ' ' + player.x + '\n'
         for (i in 0 until height()) {
-            for (j in 0 until width()) {
+            for (j in 0 until width) {
                 result += tile(i, j)
             }
             result += "\n"
@@ -129,7 +113,7 @@ class Level(data: CharArray, private val width: Int, player: Position, private v
     }
 
     private fun tileIndex(y: Int, x: Int): Int {
-        return y * width() + x
+        return y * width + x
     }
 
     fun tile(y: Int, x: Int): Char {

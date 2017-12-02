@@ -50,7 +50,7 @@ class GameView(override val ctx: Context, attributeSet: AttributeSet) : View(ctx
     private fun drawTiles(canvas: Canvas) {
         val level = gameModel.level()
         for (y in 0 until level.height()) {
-            for (x in 0 until level.width()) {
+            for (x in 0 until level.width) {
                 setDrawingDimension(x, y)
                 if (!Tile.isGrass(level.tile(y, x))) {
                     canvas.drawBitmap(level.texture(y, x), null, dimension, null)
@@ -61,11 +61,11 @@ class GameView(override val ctx: Context, attributeSet: AttributeSet) : View(ctx
 
     private fun updateSize() {
         val level = gameModel.level()
-        val newSize = Math.min(width / level.width(), height / level.height())
+        val newSize = Math.min(width / level.width, height / level.height())
         if (newSize != size) {
             size = newSize
             textPaint.textSize = size.toFloat()
-            screenDelta.x = (width - level.width() * size) / 2
+            screenDelta.x = (width - level.width * size) / 2
             screenDelta.y = (height - level.height() * size) / 2
         }
     }

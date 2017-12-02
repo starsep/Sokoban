@@ -105,7 +105,7 @@ class Gameplay(levelNumber: Int, override var gameController: GameController) : 
     }
 
     override fun player(): Position {
-        return level().player()
+        return level().player
     }
 
     override fun level(): Level {

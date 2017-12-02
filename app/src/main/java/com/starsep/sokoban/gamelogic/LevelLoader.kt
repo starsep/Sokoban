@@ -29,7 +29,7 @@ internal object LevelLoader {
         }
         scanner.close()
         val result = Level(data, width, player, levelNumber)
-        result.setGameModel(model)
+        result.gameModel = model
         if (!result.valid()) {
             Log.e(Sokoban.TAG, "Level.load: " + "Loaded level is invalid")
         }
