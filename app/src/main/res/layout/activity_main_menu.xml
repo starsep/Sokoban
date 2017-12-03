@@ -13,7 +13,7 @@
     android:layout_alignParentTop="true"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".activity.MainMenuActivity"
+    tools:context=".release.activity.MainMenuActivity"
     android:background="@drawable/grass_repeat"
     tools:ignore="Overdraw">
 
