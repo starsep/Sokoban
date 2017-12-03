@@ -2,6 +2,7 @@ package com.starsep.sokoban.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import com.starsep.sokoban.R
 import com.starsep.sokoban.Sokoban
@@ -18,13 +19,6 @@ class GameActivity : SokobanActivity()
     // private lateinit var googleApiClient: GoogleApiClient
     private val gameModel: GameModel by lazy {
         ViewModelProviders.of(this).get(GameModel::class.java)
-//        val gameplay = if (newGame) {
-//            Gameplay(baseContext, levelNumberLive, this)
-//        } else {
-//            DatabaseManager.instance(this).getCurrentGame(baseContext)!!
-//        }
-//        gameplay.gameController = this
-//        gameplay
     }
     private val newGame: Boolean by lazy {
         intent.extras.getBoolean(Sokoban.NEW, false)
@@ -38,19 +32,22 @@ class GameActivity : SokobanActivity()
     override fun onStart() {
         super.onStart()
         // googleApiClient.connect()
-        // onGameStart()
     }
 
     override fun onPause() {
         super.onPause()
         // googleApiClient.disconnect()
-        // onGamePause()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game)
+        setupGameModel()
+        setupUI()
+        // googleApiClient = GoogleApiClientBuilder.build(this, gameView)
+    }
 
+    private fun setupUI() {
+        setContentView(R.layout.activity_game)
         gameView.setOnTouchListener(object : OnSwipeTouchListener(baseContext) {
             override fun onSwipeRight() {
                 gameModel.moveRight()
@@ -70,7 +67,7 @@ class GameActivity : SokobanActivity()
         })
 
         resetButton.setOnClickListener {
-            gameModel.repeatLevel(it.context)
+            gameModel.resetLevel(it.context)
         }
 
         undoButton.setOnClickListener {
@@ -78,12 +75,14 @@ class GameActivity : SokobanActivity()
         }
 
         settingsButton.setOnClickListener {
-            //TODO: implement
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
-        // googleApiClient = GoogleApiClientBuilder.build(this, gameView)
-        gameModel.repeatLevel(baseContext)
+    }
+
+    private fun setupGameModel() {
+        gameModel.startLevel(baseContext, levelNumber)
         gameModel.statsLive.observe(this, Observer<HighScore> { highScore ->
-            val levelNumber = gameModel.levelNumberLive.value
+            val levelNumber = gameModel.levelNumber()
             val minutes = highScore!!.time / 60
             val seconds = highScore.time % 60
             val moves = highScore.moves

@@ -1,12 +1,13 @@
 package com.starsep.sokoban.gamelogic
 
-class HighScore(val hash: Int = 0, val levelNumber: Int = 0, var time: Int = 0, var moves: Int = 0, var pushes: Int = 0) {
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
 
-    @Throws(HighScore.DifferentLevelsException::class)
+@Entity
+data class HighScore(@ColumnInfo(name = "time") var time: Int = 0,
+                     @ColumnInfo(name = "moves") var moves: Int = 0,
+                     @ColumnInfo(name = "pushes") var pushes: Int = 0) {
     fun improve(another: HighScore) {
-        if (hash != another.hash) {
-            throw DifferentLevelsException()
-        }
         time = Math.min(time, another.time)
         moves = Math.min(moves, another.moves)
         pushes = Math.min(pushes, another.pushes)
@@ -16,21 +17,19 @@ class HighScore(val hash: Int = 0, val levelNumber: Int = 0, var time: Int = 0, 
         if (other !is HighScore) {
             return false
         }
-        return levelNumber == other.levelNumber &&
-                time == other.time &&
+        return time == other.time &&
                 moves == other.moves &&
-                pushes == other.pushes &&
-                hash == other.hash
+                pushes == other.pushes
     }
 
     override fun toString(): String {
         return "HighScore(" +
-                "level=" + levelNumber + ", " +
-                "hash=" + hash + ", " +
                 "time=" + time + ", " +
                 "movesLive=" + moves + ", " +
                 "pushes=" + pushes + ")"
     }
 
-    inner class DifferentLevelsException : Exception()
+    override fun hashCode(): Int {
+        return toString().hashCode()
+    }
 }

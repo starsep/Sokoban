@@ -49,9 +49,9 @@ class LevelAdapter(private val size: Int, private val context: Context) : BaseAd
     }
 
     fun updateSolvedLevelsButton() {
-        val solved = DatabaseManager.instance(context).solvedLevels
-        for (levelNumber in solved) {
-            buttons[levelNumber - 1].background.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY)
-        }
+        DatabaseManager.instance(context).solvedLevels
+                .map { it - 1 }
+                .filter { it in buttons.indices }
+                .forEach { buttons[it].background.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY) }
     }
 }

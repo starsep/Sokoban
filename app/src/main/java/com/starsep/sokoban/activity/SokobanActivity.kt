@@ -20,7 +20,7 @@ abstract class SokobanActivity : FragmentActivity() {
                 taskDescription = ActivityManager.TaskDescription(
                         getString(R.string.app_name),
                         launcherIcon,
-                        ContextCompat.getColor(this, R.color.colorTitle)
+                        ContextCompat.getColor(this, R.color.colorPrimary)
                 )
             }
             setTaskDescription(taskDescription)

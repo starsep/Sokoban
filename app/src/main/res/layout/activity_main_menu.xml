@@ -24,7 +24,6 @@
             android:layout_gravity="center_horizontal"
             android:drawableLeft="@drawable/icon_continue"
             android:drawableStart="@drawable/icon_continue"
-            android:onClick="continueGameButtonClicked"
             android:text="@string/continue_game"
             android:visibility="gone"/>
 
@@ -35,7 +34,6 @@
             android:layout_gravity="center_horizontal"
             android:drawableLeft="@drawable/icon_play"
             android:drawableStart="@drawable/icon_play"
-            android:onClick="newGameButtonClicked"
             android:text="@string/new_game"/>
 
         <Button
@@ -44,8 +42,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_help"
             android:drawableStart="@drawable/icon_help"
-            android:text="@string/help"
-            android:onClick="helpButtonClicked"/>
+            android:text="@string/help"/>
 
         <Button
             android:id="@+id/settingsButton"
@@ -53,8 +50,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_settings"
             android:drawableStart="@drawable/icon_settings"
-            android:text="@string/settings"
-            android:onClick="settingsButtonClicked"/>
+            android:text="@string/settings"/>
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"

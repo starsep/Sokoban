@@ -11,13 +11,10 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 
 import com.starsep.sokoban.R
-import com.starsep.sokoban.Sokoban
 import com.starsep.sokoban.gamelogic.HighScore
-import com.starsep.sokoban.gamelogic.level.ImmutableLevel
 import com.starsep.sokoban.gamelogic.Position
 import com.starsep.sokoban.gamelogic.Tile
 import com.starsep.sokoban.gamelogic.level.Level
@@ -41,42 +38,46 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         size = Math.min(width, height) / 10
         dimension = Rect(0, 0, size, size)
 
-        gameModel.levelLive.observe(activity, Observer<Level> { level ->
-            level?.let {
-                val newSize = Math.min(width / level.width, height / level.height())
-                if (newSize != size) {
-                    size = newSize
-                    textPaint.textSize = size.toFloat()
-                    screenDelta = Position(
-                            (height - level.height() * size) / 2,
-                            (width - level.width * size) / 2
-                    )
-                }
+        gameModel.levelLive.observe(activity, Observer<Level> { level -> updateLevel(level) })
+        updateLevel(gameModel.level())
+        gameModel.wonLive.observe(activity, Observer<Boolean> {
+            if (it == true) {
+                showWinDialog(gameModel.highScore(context))
+                gameModel.sendHighScore(context)
             }
         })
     }
 
-    private fun setDrawingDimension(x: Int, y: Int) {
+    private fun updateLevel(level: Level?) {
+        level?.let {
+            size = Math.min(width / level.width, height / level.height())
+            textPaint.textSize = size.toFloat()
+            screenDelta = Position(
+                    (height - level.height() * size) / 2,
+                    (width - level.width * size) / 2
+            )
+            invalidate()
+        }
+    }
+
+    private fun setDrawingDimension(pos: Position) {
+        val (y, x) = pos
         dimension.set(screenDelta.x + x * size, screenDelta.y + y * size,
                 screenDelta.x + (x + 1) * size, screenDelta.y + (y + 1) * size)
     }
 
     private fun drawHero(canvas: Canvas) {
-        setDrawingDimension(gameModel.player().x, gameModel.player().y)
+        setDrawingDimension(gameModel.player())
         val bitmap = gameModel.lastMove()?.heroTexture() ?: Textures.heroDown()
         canvas.drawBitmap(bitmap, null, dimension, null)
     }
 
     private fun drawTiles(canvas: Canvas) {
         val level = gameModel.level()
-        Log.d(Sokoban.TAG, level.toString())
-        for (y in 0 until level.height()) {
-            for (x in 0 until level.width) {
-                setDrawingDimension(x, y)
-                Log.d(Sokoban.TAG, x.toString() + " asd " + y.toString())
-                if (!Tile.isGrass(level.tile(Position(y, x)))) {
-                    canvas.drawBitmap(level.texture(Position(y, x)), null, dimension, null)
-                }
+        for (pos in level.positions()) {
+            setDrawingDimension(pos)
+            if (!Tile.isGrass(level.tile(pos))) {
+                canvas.drawBitmap(level.texture(pos), null, dimension, null)
             }
         }
     }
@@ -85,6 +86,8 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         super.onDraw(canvas)
         drawTiles(canvas)
         drawHero(canvas)
+        // TODO: remove that
+        updateLevel(gameModel.level())
     }
 
     override fun onDetachedFromWindow() {
@@ -92,7 +95,9 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         winDialog?.dismiss()
     }
 
-    fun showWinDialog(levelNumber: Int, stats: HighScore, highScore: HighScore) {
+    private fun showWinDialog(_highScore: HighScore?) {
+        val stats = gameModel.stats()
+        val highScore: HighScore = _highScore ?: stats
         val minutes = stats.time / 60
         val seconds = stats.time % 60
         val minutesBest = highScore.time / 60
@@ -101,10 +106,10 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
                 stats.moves, highScore.moves, stats.pushes, highScore.pushes,
                 minutes, seconds, minutesBest, secondsBest)
         winDialog = AlertDialog.Builder(context)
-                .setTitle(String.format(resources.getString(R.string.win_title), levelNumber))
+                .setTitle(String.format(resources.getString(R.string.win_title), gameModel.levelNumber()))
                 .setMessage(msg)
                 .setPositiveButton(resources.getString(R.string.win_positive)) { _, _ -> gameModel.nextLevel(context) }
-                .setNegativeButton(resources.getString(R.string.win_negative)) { _, _ -> gameModel.repeatLevel(context) }
+                .setNegativeButton(resources.getString(R.string.win_negative)) { _, _ -> gameModel.resetLevel(context) }
                 .setOnCancelListener { gameModel.nextLevel(context) }
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .create()

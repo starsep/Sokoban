@@ -15,12 +15,15 @@ abstract class LevelAbstract {
         val (y, x) = pos
         return y * width + x
     }
+
     fun tile(pos: Position): Char {
         return tiles[tileIndex(pos)]
     }
+
     fun texture(pos: Position): Bitmap {
         return Textures.tile(tile(pos))
     }
+
     override fun toString(): String {
         var result = "" + height() + ' ' + width + '\n' +
                 player.y + ' ' + player.x + '\n'
@@ -70,15 +73,23 @@ abstract class LevelAbstract {
         return tiles.size / width
     }
 
-    override fun hashCode(): Int {
-        return toString().hashCode()
-    }
-
     override fun equals(other: Any?): Boolean {
-        if (other !is LevelAbstract) {
+        if (other !is ImmutableLevel) {
             return false
         }
         return width == other.width &&
                 Arrays.equals(tiles, other.tiles)
+    }
+
+    fun positions(): List<Position> {
+        val res = mutableListOf<Position>()
+        for (y in 0 until height()) {
+            (0 until width).mapTo(res) { Position(y, it) }
+        }
+        return res
+    }
+
+    override fun hashCode(): Int {
+        return toString().hashCode()
     }
 }

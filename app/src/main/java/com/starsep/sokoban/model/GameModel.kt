@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.util.Log
 import com.starsep.sokoban.Sokoban
+import com.starsep.sokoban.database.DatabaseManager
 import com.starsep.sokoban.gamelogic.*
 import com.starsep.sokoban.gamelogic.level.Level
 import com.starsep.sokoban.gamelogic.level.LevelLoader
@@ -19,22 +20,22 @@ class GameModel : ViewModel() {
     val wonLive: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-        statsLive.value = HighScore()
+        resetStats()
         levelNumberLive.value = 1
         levelLive.value = getDefaultLevel()
         movesLive.value = Moves()
-        wonLive.value = false
+        updateWon()
     }
 
-    fun stats() : HighScore {
+    fun stats(): HighScore {
         return statsLive.value ?: HighScore()
     }
 
-    fun levelNumber() : Int {
+    fun levelNumber(): Int {
         return levelNumberLive.value ?: 0
     }
 
-    fun level() : Level {
+    fun level(): Level {
         return levelLive.value ?: getDefaultLevel()
     }
 
@@ -47,7 +48,7 @@ class GameModel : ViewModel() {
     }
 
     private fun addMove(move: Move) {
-       movesLive.value = Moves(moves().plus(move))
+        movesLive.value = Moves(moves().plus(move))
     }
 
     fun lastMove(): Move? {
@@ -65,18 +66,37 @@ class GameModel : ViewModel() {
         }
     }
 
-    fun repeatLevel(ctx: Context) {
+    fun resetLevel(ctx: Context) {
         levelLive.value = try {
             Level(LevelLoader.load(ctx, levelNumber()))
         } catch (e: IOException) {
             Log.e(Sokoban.TAG, "Load error ${levelNumber()}.level) :<")
             getDefaultLevel()
         }
+        resetStats()
+    }
+
+    private fun resetStats() {
+        statsLive.value = HighScore()
     }
 
     fun undoMove() {
-        stats().moves--
-        stats().pushes--
+        val toUndo = lastMove()
+        toUndo?.let {
+            moves().removeAt(moves().lastIndex)
+            level().undo(toUndo)
+            stats().moves--
+            if (toUndo.push) {
+                stats().pushes--
+            }
+            afterMove()
+        }
+    }
+
+    private fun afterMove() {
+        updateWon()
+        updateStats()
+        updateLevel()
     }
 
     fun makeMove(move: Move) {
@@ -87,8 +107,14 @@ class GameModel : ViewModel() {
             if (moveMade.push) {
                 stats().pushes++
             }
-            updateStats()
-            updateLevel()
+            afterMove()
+        }
+    }
+
+    private fun updateWon() {
+        val won = level().won()
+        if (wonLive.value != won) {
+            wonLive.value = won
         }
     }
 
@@ -118,23 +144,30 @@ class GameModel : ViewModel() {
 
     fun nextLevel(ctx: Context) {
         levelNumberLive.value = levelNumber() + 1
-        repeatLevel(ctx)
+        resetLevel(ctx)
     }
 
-    private fun sendHighScore() {
-        // TODO
-//        val databaseManager = DatabaseManager.instance(viewListener!!.ctx)
-//        databaseManager.addHighScore(statsLive)
+    fun sendHighScore(ctx: Context) {
+        val databaseManager = DatabaseManager.instance(ctx)
+        databaseManager.addHighScore(levelHash(), levelNumber(), stats())
     }
 
-    private fun getHighScore(hash: Int): HighScore? {
-        // TODO
-//        val databaseManager = DatabaseManager.instance(viewListener!!.ctx)
-//        return databaseManager.getHighScore(hash)
-        return null
+    fun highScore(ctx: Context): HighScore? {
+        val databaseManager = DatabaseManager.instance(ctx)
+        return databaseManager.getHighScore(level().hashCode())
     }
 
     fun onSecondElapsed() {
-        statsLive.value = HighScore()
+        stats().time++
+        updateStats()
+    }
+
+    fun startLevel(ctx: Context, levelNumber: Int) {
+        levelNumberLive.value = levelNumber
+        resetLevel(ctx)
+    }
+
+    private fun levelHash(): Int {
+        return level().hashCode()
     }
 }

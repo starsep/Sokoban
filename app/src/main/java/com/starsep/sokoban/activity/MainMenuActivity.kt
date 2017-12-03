@@ -18,34 +18,34 @@ class MainMenuActivity : SokobanActivity() {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupUI()
+    }
+
+    private fun setupUI() {
         setContentView(R.layout.activity_main_menu)
         /*DatabaseManager.instance(this).getCurrentGame(baseContext)?.let {
             continueGameButton.visibility = View.VISIBLE
         }*/
+        newGameButton.setOnClickListener {
+            val intent = Intent(this, ChooseLevelActivity::class.java)
+            startActivity(intent)
+        }
+        helpButton.setOnClickListener {
+            helpDialog = HelpDialogBuilder.build(this)
+            helpDialog?.show()
+        }
+        settingsButton.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+        continueGameButton.setOnClickListener {
+            val intent = Intent(this, GameActivity::class.java)
+            intent.putExtra(Sokoban.NEW, false)
+            startActivity(intent)
+        }
     }
 
     override fun onStop() {
         super.onStop()
         helpDialog?.dismiss()
-    }
-
-    fun newGameButtonClicked(view: View) {
-        val intent = Intent(this, ChooseLevelActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun helpButtonClicked(view: View) {
-        helpDialog = HelpDialogBuilder.build(this)
-        helpDialog?.show()
-    }
-
-    fun settingsButtonClicked(view: View) {
-        // TODO: implement
-    }
-
-    fun continueGameButtonClicked(view: View) {
-        val intent = Intent(this, GameActivity::class.java)
-        intent.putExtra(Sokoban.NEW, false)
-        startActivity(intent)
     }
 }

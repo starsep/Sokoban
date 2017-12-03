@@ -49,7 +49,7 @@ public class LevelTest {
 		level.move(Move.Companion.getLEFT());
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(level);
-		ImmutableLevel fromJson = gson.fromJson(jsonString, ImmutableLevel.class);
+		Level fromJson = gson.fromJson(jsonString, Level.class);
 		assertTrue(level.equals(fromJson));
 	}
 }

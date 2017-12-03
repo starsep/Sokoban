@@ -87,29 +87,23 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
             val moves = cursor.getInt(cursor.getColumnIndex(COLUMN_MOVES))
             val pushes = cursor.getInt(cursor.getColumnIndex(COLUMN_PUSHES))
             val time = cursor.getInt(cursor.getColumnIndex(COLUMN_TIME))
-            val level = cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER))
-            result = HighScore(hash, level, time, moves, pushes)
+            result = HighScore(time, moves, pushes)
         }
         db.close()
         cursor.close()
         return result
     }
 
-    private fun updateHighScore(highScore: HighScore): Boolean {
-        val oldScore = getHighScore(highScore.hash)
+    private fun updateHighScore(hash: Int, highScore: HighScore): Boolean {
+        val oldScore = getHighScore(hash)
         if (oldScore != null) {
-            try {
-                oldScore.improve(highScore)
-            } catch (e: HighScore.DifferentLevelsException) {
-                Log.e(Sokoban.TAG, "Got result from another ImmutableLevel")
-                return false
-            }
+            oldScore.improve(highScore)
 
             val updateHighScore = "UPDATE " + TABLE_HIGH_SCORES + " SET " +
                     COLUMN_MOVES + "=" + highScore.moves + "," +
                     COLUMN_PUSHES + "=" + highScore.pushes + "," +
                     COLUMN_TIME + "=" + highScore.time +
-                    " WHERE " + COLUMN_HASH + " = " + highScore.hash
+                    " WHERE " + COLUMN_HASH + " = " + hash
             val db = writableDatabase
             db.execSQL(updateHighScore)
             return true
@@ -117,16 +111,16 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
         return false
     }
 
-    fun addHighScore(highScore: HighScore) {
-        if (updateHighScore(highScore)) {
+    fun addHighScore(hash: Int, levelNumber: Int, highScore: HighScore) {
+        if (updateHighScore(hash, highScore)) {
             return
         }
         val entry = ContentValues()
-        entry.put(COLUMN_HASH, highScore.hash)
+        entry.put(COLUMN_HASH, hash)
         entry.put(COLUMN_MOVES, highScore.moves)
         entry.put(COLUMN_TIME, highScore.time)
         entry.put(COLUMN_PUSHES, highScore.pushes)
-        entry.put(COLUMN_LEVEL_NUMBER, highScore.levelNumber)
+        entry.put(COLUMN_LEVEL_NUMBER, levelNumber)
         val db = writableDatabase
         db.insert(TABLE_HIGH_SCORES, null, entry)
         db.close()
@@ -139,7 +133,7 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
 
         //add new entry
         val entry = ContentValues()
-        entry.put(COLUMN_HASH, gameModel.stats().hash)
+        entry.put(COLUMN_HASH, gameModel.level().hashCode())
         entry.put(COLUMN_LEVEL_NUMBER, gameModel.levelNumber())
         entry.put(COLUMN_TIME, gameModel.stats().time)
         entry.put(COLUMN_MOVES_LIST, gameModel.moves().toString())
@@ -147,7 +141,7 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
         db.close()
     }
 
-    /*fun getCurrentGame(ctx: Context): Gameplay? {
+    /* fun getCurrentGame(ctx: Context): Gameplay? {
         val db = readableDatabase
         val selectCurrentGame = "SELECT * FROM " + TABLE_CURRENT_GAME +
                 " WHERE " + TRUE_CONDITION + ";"

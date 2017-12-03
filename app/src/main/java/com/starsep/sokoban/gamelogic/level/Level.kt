@@ -4,22 +4,23 @@ import com.starsep.sokoban.gamelogic.Move
 import com.starsep.sokoban.gamelogic.Position
 import com.starsep.sokoban.gamelogic.Tile
 
-class Level(original: ImmutableLevel) : LevelAbstract() {
+class Level(private val original: ImmutableLevel) : LevelAbstract() {
+    override val tiles: CharArray = original.tiles.copyOf()
     override var player: Position = original.player.copyOf()
     override val width: Int = original.width
-    override val tiles: CharArray = original.tiles.copyOf()
+
     private fun setTile(pos: Position, c: Char) {
         tiles[tileIndex(pos)] = c
     }
 
-    private fun push(from: Position, to: Position, undo: Boolean = false) {
+    private fun push(from: Position, to: Position) {
         val oldTile = tile(from)
         val newTile = tile(to)
         setTile(to, Tile.withCrate(newTile))
         setTile(from, Tile.withoutCrate(oldTile))
     }
 
-    fun move(move: Move) : Move? {
+    fun move(move: Move): Move? {
         val delta = move.toPosition()
         val movePos = player + delta
         val pushPos = movePos + delta
@@ -32,6 +33,27 @@ class Level(original: ImmutableLevel) : LevelAbstract() {
             return move
         }
         return null
+    }
+
+    fun undo(move: Move) {
+        val delta = move.toPosition()
+        if (move.push && isCrate(player + delta)) {
+            push(player + delta, player)
+        }
+        player += move.reverse().toPosition()
+    }
+
+    override fun hashCode(): Int {
+        return original.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Level) {
+            return false
+        }
+        return tiles.contentEquals(other.tiles) &&
+                player == other.player &&
+                width == other.width
     }
 }
 
