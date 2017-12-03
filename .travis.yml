@@ -27,6 +27,9 @@ android:
     # - sys-img-x86-android-17
 
 script:
-    - chmod +x gradlew
-    - ./gradlew build
-    - ./gradlew test
+  - chmod +x gradlew
+  - ./gradlew build
+  - ./gradlew test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t "$CODECOV_TOKEN"

@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import com.starsep.sokoban.res.Textures
 
 class Move private constructor(private val direction: Direction, val push: Boolean) {
-
     fun reverse(): Move {
         return when (direction) {
             Move.Direction.LEFT -> if (push) PUSH_RIGHT else RIGHT
@@ -53,7 +52,6 @@ class Move private constructor(private val direction: Direction, val push: Boole
         }
     }
 
-
     enum class Direction {
         LEFT,
         RIGHT,
@@ -96,5 +94,9 @@ class Move private constructor(private val direction: Direction, val push: Boole
                 else -> throw UnknownMoveException()
             }
         }
+    }
+
+    fun toPosition(): Position {
+        return Position(dy(), dx())
     }
 }

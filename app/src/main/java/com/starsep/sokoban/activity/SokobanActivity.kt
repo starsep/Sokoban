@@ -5,10 +5,11 @@ import android.app.ActivityManager
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.annotation.CallSuper
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import com.starsep.sokoban.R
 
-abstract class SokobanActivity : Activity() {
+abstract class SokobanActivity : FragmentActivity() {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

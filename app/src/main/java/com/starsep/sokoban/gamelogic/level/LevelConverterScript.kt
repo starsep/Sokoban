@@ -1,4 +1,4 @@
-package com.starsep.sokoban.gamelogic
+package com.starsep.sokoban.gamelogic.level
 
 import java.util.ArrayList
 import java.util.Scanner
@@ -23,7 +23,7 @@ object LevelConverterScript {
             }
         }
         try {
-            val l = LevelConverter.convert(level, width, 0)
+            val l = LevelConverter.convert(level, width)
             print(l)
         } catch (e: LevelConverter.LevelConverterException) {
             e.printStackTrace()

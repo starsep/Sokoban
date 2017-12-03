@@ -6,10 +6,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.starsep.sokoban.Sokoban
-import com.starsep.sokoban.fake.FakeGameController
-import com.starsep.sokoban.gamelogic.Gameplay
 import com.starsep.sokoban.gamelogic.HighScore
-import com.starsep.sokoban.gamelogic.Move
+import com.starsep.sokoban.model.GameModel
 import java.util.*
 
 class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -103,7 +101,7 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
             try {
                 oldScore.improve(highScore)
             } catch (e: HighScore.DifferentLevelsException) {
-                Log.e(Sokoban.TAG, "Got result from another Level")
+                Log.e(Sokoban.TAG, "Got result from another ImmutableLevel")
                 return false
             }
 
@@ -134,22 +132,22 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
         db.close()
     }
 
-    fun setCurrentGame(gameplay: Gameplay) {
+    fun setCurrentGame(gameModel: GameModel) {
         val db = writableDatabase
         // clear table
         db.delete(TABLE_CURRENT_GAME, TRUE_CONDITION, null)
 
         //add new entry
         val entry = ContentValues()
-        entry.put(COLUMN_HASH, gameplay.stats().hash)
-        entry.put(COLUMN_LEVEL_NUMBER, gameplay.level().number())
-        entry.put(COLUMN_TIME, gameplay.stats().time)
-        entry.put(COLUMN_MOVES_LIST, gameplay.movesString())
+        entry.put(COLUMN_HASH, gameModel.stats().hash)
+        entry.put(COLUMN_LEVEL_NUMBER, gameModel.levelNumber())
+        entry.put(COLUMN_TIME, gameModel.stats().time)
+        entry.put(COLUMN_MOVES_LIST, gameModel.moves().toString())
         db.insert(TABLE_CURRENT_GAME, null, entry)
         db.close()
     }
 
-    fun getCurrentGame(ctx: Context): Gameplay? {
+    /*fun getCurrentGame(ctx: Context): Gameplay? {
         val db = readableDatabase
         val selectCurrentGame = "SELECT * FROM " + TABLE_CURRENT_GAME +
                 " WHERE " + TRUE_CONDITION + ";"
@@ -158,8 +156,8 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
         if (cursor.moveToFirst()) {
             val time = cursor.getInt(cursor.getColumnIndex(COLUMN_TIME))
             val currentLevel = cursor.getInt(cursor.getColumnIndex(COLUMN_LEVEL_NUMBER))
-            result = Gameplay(currentLevel, FakeGameController(ctx))
-            result.stats().time = time
+            result = Gameplay(ctx, currentLevel, FakeGameController())
+            result.statsLive().time = time
             val movesList = cursor.getString(cursor.getColumnIndex(COLUMN_MOVES_LIST))
             try {
                 result.makeMoves(movesList)
@@ -171,7 +169,7 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
         db.close()
         cursor.close()
         return result
-    }
+    }*/
 
     companion object {
         private val DATABASE_VERSION = 5
@@ -190,7 +188,7 @@ class DatabaseManager private constructor(context: Context) : SQLiteOpenHelper(c
         private val COLUMN_ID = "_id"
         private val COLUMN_HASH = "hash"
         private val COLUMN_TIME = "time"
-        private val COLUMN_MOVES = "moves"
+        private val COLUMN_MOVES = "movesLive"
         private val COLUMN_PUSHES = "pushes"
         private val COLUMN_LEVEL_NUMBER = "level_number"
         private val COLUMN_MOVES_LIST = "moves_list"

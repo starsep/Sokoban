@@ -1,4 +1,7 @@
-package com.starsep.sokoban.gamelogic
+package com.starsep.sokoban.gamelogic.level
+
+import com.starsep.sokoban.gamelogic.Position
+import com.starsep.sokoban.gamelogic.Tile
 
 internal object LevelConverter {
     abstract class LevelConverterException : Exception()
@@ -9,14 +12,14 @@ internal object LevelConverter {
 
     class UnknownTileException : LevelConverterException()
 
-    @Throws(LevelConverter.LevelConverterException::class)
-    fun convert(data: CharArray, width: Int, number: Int): Level {
+    @Throws(LevelConverterException::class)
+    fun convert(data: CharArray, width: Int): ImmutableLevel {
         val player = findPlayer(data, width)
         convertTiles(data)
-        return Level(data, width, player, number)
+        return ImmutableLevel(data, width, player)
     }
 
-    @Throws(LevelConverter.LevelConverterException::class)
+    @Throws(LevelConverterException::class)
     private fun convertTiles(data: CharArray) {
         for (i in data.indices) {
             data[i] = tileMapping(data[i])
@@ -41,7 +44,7 @@ internal object LevelConverter {
         }
     }
 
-    @Throws(LevelConverter.LevelConverterException::class)
+    @Throws(LevelConverterException::class)
     private fun tileMapping(tile: Char): Char {
         return when (tile) {
             CommonLevelFormat.crate -> Tile.crate
@@ -57,7 +60,7 @@ internal object LevelConverter {
         return tileWithoutPlayer(tile) != tile
     }
 
-    @Throws(LevelConverter.NoPlayerTileException::class, LevelConverter.ManyPlayerTilesException::class)
+    @Throws(NoPlayerTileException::class, ManyPlayerTilesException::class)
     private fun findPlayer(data: CharArray, width: Int): Position {
         var result: Position? = null
         for (i in data.indices) {

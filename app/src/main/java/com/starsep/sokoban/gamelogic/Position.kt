@@ -1,3 +1,10 @@
 package com.starsep.sokoban.gamelogic
 
-class Position @JvmOverloads constructor(var y: Int = 0, var x: Int = 0)
+data class Position @JvmOverloads constructor(val y: Int = 0, val x: Int = 0) {
+    operator infix fun plus(other: Position) : Position {
+        return Position(y + other.y, x + other.x)
+    }
+    fun copyOf(): Position {
+        return Position(y, x)
+    }
+}

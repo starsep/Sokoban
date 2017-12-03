@@ -1,6 +1,6 @@
 package com.starsep.sokoban.gamelogic
 
-class HighScore(val hash: Int, val levelNumber: Int, var time: Int, var moves: Int, var pushes: Int) {
+class HighScore(val hash: Int = 0, val levelNumber: Int = 0, var time: Int = 0, var moves: Int = 0, var pushes: Int = 0) {
 
     @Throws(HighScore.DifferentLevelsException::class)
     fun improve(another: HighScore) {
@@ -28,7 +28,7 @@ class HighScore(val hash: Int, val levelNumber: Int, var time: Int, var moves: I
                 "level=" + levelNumber + ", " +
                 "hash=" + hash + ", " +
                 "time=" + time + ", " +
-                "moves=" + moves + ", " +
+                "movesLive=" + moves + ", " +
                 "pushes=" + pushes + ")"
     }
 

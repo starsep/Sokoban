@@ -19,11 +19,9 @@ class MainMenuActivity : SokobanActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        continueGameButton.visibility = if (DatabaseManager.instance(this).getCurrentGame(baseContext) == null) View.GONE else View.VISIBLE
+        /*DatabaseManager.instance(this).getCurrentGame(baseContext)?.let {
+            continueGameButton.visibility = View.VISIBLE
+        }*/
     }
 
     override fun onStop() {
