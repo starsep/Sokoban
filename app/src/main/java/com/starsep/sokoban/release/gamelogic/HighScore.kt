@@ -1,12 +1,15 @@
 package com.starsep.sokoban.release.gamelogic
 
-import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 
-@Entity
-data class HighScore(@ColumnInfo(name = "time") var time: Int = 0,
-                     @ColumnInfo(name = "moves") var moves: Int = 0,
-                     @ColumnInfo(name = "pushes") var pushes: Int = 0) {
+@Entity(primaryKeys = [("levelNumber"), ("levelHash")])
+data class HighScore(
+        var levelNumber: Int,
+        var time: Int = 0,
+        var moves: Int = 0,
+        var pushes: Int = 0,
+        var levelHash: Int = 0
+) {
     fun improve(another: HighScore) {
         time = Math.min(time, another.time)
         moves = Math.min(moves, another.moves)

@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.util.Log
 import com.starsep.sokoban.release.Sokoban
-import com.starsep.sokoban.release.database.DatabaseManager
+import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.*
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.gamelogic.level.LevelLoader
@@ -28,7 +28,7 @@ class GameModel : ViewModel() {
     }
 
     fun stats(): HighScore {
-        return statsLive.value ?: HighScore()
+        return statsLive.value ?: HighScore(levelNumber())
     }
 
     fun levelNumber(): Int {
@@ -77,7 +77,7 @@ class GameModel : ViewModel() {
     }
 
     private fun resetStats() {
-        statsLive.value = HighScore()
+        statsLive.value = HighScore(levelNumber())
     }
 
     fun undoMove() {
@@ -148,13 +148,13 @@ class GameModel : ViewModel() {
     }
 
     fun sendHighScore(ctx: Context) {
-        val databaseManager = DatabaseManager.instance(ctx)
-        databaseManager.addHighScore(levelHash(), levelNumber(), stats())
+        stats().levelHash = levelHash()
+        stats().levelNumber = levelNumber()
+        Database.addHighScore(ctx, stats())
     }
 
     fun highScore(ctx: Context): HighScore? {
-        val databaseManager = DatabaseManager.instance(ctx)
-        return databaseManager.getHighScore(level().hashCode())
+        return Database.highScore(ctx, level().hashCode(), levelNumber())
     }
 
     fun onSecondElapsed() {
@@ -169,5 +169,14 @@ class GameModel : ViewModel() {
 
     private fun levelHash(): Int {
         return level().hashCode()
+    }
+
+    fun setTime(time: Int) {
+        resetStats()
+        stats().time = time
+    }
+
+    fun gameState(): GameState {
+        return GameState(stats().time, levelNumber(), moves().toString())
     }
 }

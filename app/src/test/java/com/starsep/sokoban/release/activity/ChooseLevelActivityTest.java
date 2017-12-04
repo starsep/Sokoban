@@ -8,7 +8,9 @@ import android.widget.GridView;
 import com.starsep.sokoban.release.BuildConfig;
 import com.starsep.sokoban.release.R;
 import com.starsep.sokoban.release.activity.GameActivity;
+import com.starsep.sokoban.release.database.Database;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +35,11 @@ public class ChooseLevelActivityTest {
                 .create()
                 .resume()
                 .get();
+    }
+
+    @After
+    public void after() {
+        Database.INSTANCE.close();
     }
 
     @Test

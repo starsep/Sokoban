@@ -4,9 +4,11 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.CallSuper
+import android.view.View
 
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.Sokoban
+import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.view.HelpDialogBuilder
 import kotlinx.android.synthetic.main.activity_main_menu.*
 
@@ -21,9 +23,6 @@ class MainMenuActivity : SokobanActivity() {
 
     private fun setupUI() {
         setContentView(R.layout.activity_main_menu)
-        /*DatabaseManager.instance(this).getCurrentGame(baseContext)?.let {
-            continueGameButton.visibility = View.VISIBLE
-        }*/
         newGameButton.setOnClickListener {
             val intent = Intent(this, ChooseLevelActivity::class.java)
             startActivity(intent)
@@ -39,6 +38,13 @@ class MainMenuActivity : SokobanActivity() {
             val intent = Intent(this, GameActivity::class.java)
             intent.putExtra(Sokoban.NEW, false)
             startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Database.getCurrentGame(baseContext)?.let {
+            continueGameButton.visibility = View.VISIBLE
         }
     }
 

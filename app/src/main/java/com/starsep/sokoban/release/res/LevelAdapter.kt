@@ -12,7 +12,7 @@ import android.widget.Button
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.Sokoban
 import com.starsep.sokoban.release.activity.GameActivity
-import com.starsep.sokoban.release.database.DatabaseManager
+import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.view.SquareButton
 
 class LevelAdapter(private val size: Int, private val context: Context) : BaseAdapter() {
@@ -49,7 +49,7 @@ class LevelAdapter(private val size: Int, private val context: Context) : BaseAd
     }
 
     fun updateSolvedLevelsButton() {
-        DatabaseManager.instance(context).solvedLevels
+        Database.solvedLevels(context)
                 .map { it - 1 }
                 .filter { it in buttons.indices }
                 .forEach { buttons[it].background.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY) }

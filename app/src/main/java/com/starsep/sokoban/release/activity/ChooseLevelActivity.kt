@@ -17,8 +17,8 @@ class ChooseLevelActivity : SokobanActivity() {
         gridView.adapter = levelAdapter
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         levelAdapter.updateSolvedLevelsButton()
     }
 }

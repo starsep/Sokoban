@@ -4,10 +4,11 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.Sokoban
 import com.starsep.sokoban.release.controls.OnSwipeTouchListener
-import com.starsep.sokoban.release.database.DatabaseManager
+import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.gamelogic.Moves
 import com.starsep.sokoban.release.model.GameModel
@@ -80,7 +81,18 @@ class GameActivity : SokobanActivity()
     }
 
     private fun setupGameModel() {
-        gameModel.startLevel(baseContext, levelNumber)
+        if (newGame) {
+            gameModel.startLevel(baseContext, levelNumber)
+        } else {
+            val gameState = Database.getCurrentGame(baseContext)
+            if (gameState == null) {
+                gameModel.startLevel(baseContext, levelNumber)
+            } else {
+                gameModel.startLevel(baseContext, gameState.levelNumber)
+                gameModel.setTime(gameState.time)
+                gameModel.makeMoves(gameState.movesList)
+            }
+        }
         gameModel.statsLive.observe(this, Observer<HighScore> { highScore ->
             val levelNumber = gameModel.levelNumber()
             val minutes = highScore!!.time / 60
@@ -91,7 +103,7 @@ class GameActivity : SokobanActivity()
                     levelNumber, minutes, seconds, moves, pushes)
         })
         gameModel.movesLive.observe(this, Observer<Moves> {
-            DatabaseManager.instance(this).setCurrentGame(gameModel)
+            Database.setCurrentGame(baseContext, gameModel.gameState())
         })
         gameModel.wonLive.observe(this, Observer<Boolean> {
             timer?.let {
