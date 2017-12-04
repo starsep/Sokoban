@@ -5,12 +5,10 @@ import android.widget.Button;
 
 import com.starsep.sokoban.release.BuildConfig;
 import com.starsep.sokoban.release.R;
-import com.starsep.sokoban.release.activity.MainMenuActivity;
 import com.starsep.sokoban.release.database.Database;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
