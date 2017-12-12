@@ -19,13 +19,13 @@ android {
         javaMaxHeapSize "4g"
     }
 
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.starsep.sokoban.release"
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 10
         versionName "1.9"
     }
