@@ -6,12 +6,12 @@ import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.model.GameState
 
 object Database {
-    private lateinit var instance: AppDatabase
+    private lateinit var instance: DatabaseSchema
     private const val DATABASE_FILENAME = "Sokoban.sqlite"
 
-    private fun db(ctx: Context): AppDatabase {
+    private fun db(ctx: Context): DatabaseSchema {
         if (!::instance.isInitialized) {
-            instance = Room.databaseBuilder(ctx, AppDatabase::class.java, DATABASE_FILENAME)
+            instance = Room.databaseBuilder(ctx, DatabaseSchema::class.java, DATABASE_FILENAME)
                     .allowMainThreadQueries() // TODO: remove, make queries from other threads
                     .build()
         }
@@ -58,6 +58,8 @@ object Database {
     }
 
     fun close() {
-        instance.close()
+        if (::instance.isInitialized) {
+            instance.close()
+        }
     }
 }

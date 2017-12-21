@@ -6,7 +6,7 @@ import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.model.GameState
 
 @Database(entities = [(GameState::class), (HighScore::class)], version = 1)
-abstract class AppDatabase : RoomDatabase() {
+abstract class DatabaseSchema : RoomDatabase() {
     abstract fun gameStateDao(): GameStateDao
     abstract fun highScoreDao(): HighScoreDao
 }
