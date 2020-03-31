@@ -22,10 +22,10 @@ class GameActivity : SokobanActivity()
         ViewModelProviders.of(this).get(GameModel::class.java)
     }
     private val newGame: Boolean by lazy {
-        intent.extras.getBoolean(Sokoban.NEW, false)
+        intent.extras?.getBoolean(Sokoban.NEW, false) ?: false
     }
     private val levelNumber: Int by lazy {
-        intent.extras.getInt(Sokoban.LEVEL_NUMBER, 1)
+        intent.extras?.getInt(Sokoban.LEVEL_NUMBER, 1) ?: 1
     }
 
     private var timer: Timer? = null
