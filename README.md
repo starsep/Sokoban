@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/starsep/Sokoban.svg?branch=master)](https://travis-ci.org/starsep/Sokoban)
+![Build Status](https://github.com/starsep/Sokoban/workflows/Build%20and%20upload%20to%20Google%20Play%20(internal)/badge.svg)
 [![codecov](https://codecov.io/gh/starsep/Sokoban/branch/master/graph/badge.svg)](https://codecov.io/gh/starsep/Sokoban)
 
 ### Sokoban - game for JNP2
