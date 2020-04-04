@@ -1,23 +1,88 @@
-name: Upload to Google Play (internal)
+---
+
+name: Build and upload to Google Play (internal)
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Generate cache key
+        run: .github/checksum.sh checksum.txt
+
+      - name: Copy CI gradle.properties
+        run: |
+          mkdir -p ~/.gradle
+          cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches/modules-2
+          key: ${{ runner.os }}-gradlemodules-${{ hashFiles('checksum.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-gradlemodules-
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches/jars-3
+          key: ${{ runner.os }}-gradlejars-${{ hashFiles('checksum.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-gradlejars-
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches/build-cache-1
+          key: ${{ runner.os }}-gradlebuildcache-${{ hashFiles('checksum.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-gradlebuildcache-
+
+      - name: write keystore
+        run: echo '${{ secrets.GOOGLE_PLAY_KEY_JKS }}' | base64 -d > keystore.jks
+
+      - name: export keystore location
+        run: echo "::set-env name=KEYSTORE_LOCATION::$(realpath keystore.jks)"
+
+      - name: Build app bundle
+        run: ./gradlew :app:bundleBeta
+        env:
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+
+      - name: Upload app bundle
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-beta.aab
+          path: app/build/outputs/bundle/beta/app-beta.aab
+
   google-play:
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Create service_account.json FROM secrets.SERVICE_ACCOUNT_JSON
-      run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+      - name: Create service_account.json FROM secrets.SERVICE_ACCOUNT_JSON
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
 
-    - name: Upload bundle to Play Store (internal channel)
-      uses: r0adkll/upload-google-play@v1
-      with:
-        serviceAccountJson: service_account.json
-        packageName: com.starsep.sokoban.release
-        releaseFile: app/build/outputs/bundle/beta/app-beta.aab
-        track: internal
+      - name: Download app bundle
+        uses: actions/download-artifact@v1
+        with:
+          name: app-beta.aab
+
+      - name: Upload bundle to Play Store (internal channel)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: com.starsep.sokoban.release
+          releaseFile: app-beta.aab
+          track: internal
