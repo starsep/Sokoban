@@ -1,4 +1,4 @@
-package com.starsep.sokoban.release.activity
+package com.starsep.sokoban.release.fragment
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.preference.*
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.starsep.sokoban.release.R
 //import com.starsep.sokoban.release.settings.AppCompatPreferenceActivity
 
@@ -15,7 +16,7 @@ import com.starsep.sokoban.release.R
  * for more information on developing a Settings UI.
  */
 // AppCompatPreferenceActivity(),
-class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+class SettingsFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         // TODO: Fix Settings
     }

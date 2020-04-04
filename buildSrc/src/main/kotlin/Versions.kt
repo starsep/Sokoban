@@ -22,7 +22,7 @@ object Versions {
         const val constraintLayout = "1.1.3"
         const val coreKtx = "1.0.2"
         const val material = "1.1.0"
-        const val navigation = "2.0.0"
+        const val navigation = "2.2.1"
 
         // third party
         const val timber = "4.7.1"

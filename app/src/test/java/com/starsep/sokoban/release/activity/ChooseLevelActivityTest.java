@@ -7,8 +7,9 @@ import android.widget.GridView;
 
 import com.starsep.sokoban.release.BuildConfig;
 import com.starsep.sokoban.release.R;
-import com.starsep.sokoban.release.activity.GameActivity;
 import com.starsep.sokoban.release.database.Database;
+import com.starsep.sokoban.release.fragment.ChooseLevelFragment;
+import com.starsep.sokoban.release.fragment.GameFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,11 +28,11 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class ChooseLevelActivityTest {
-    private ChooseLevelActivity activity;
+    private ChooseLevelFragment activity;
 
     @Before
     public void setUp() throws Exception {
-        activity = Robolectric.buildActivity(ChooseLevelActivity.class)
+        activity = Robolectric.buildActivity(ChooseLevelFragment.class)
                 .create()
                 .resume()
                 .get();
@@ -65,6 +66,6 @@ public class ChooseLevelActivityTest {
         Button levelButton = (Button) gridView.getAdapter().getView(0, null, gridView);
         levelButton.performClick();
         Intent intent = Shadows.shadowOf(activity).peekNextStartedActivity();
-        assertEquals(GameActivity.class.getCanonicalName(), intent.getComponent().getClassName());
+        assertEquals(GameFragment.class.getCanonicalName(), intent.getComponent().getClassName());
     }
 }

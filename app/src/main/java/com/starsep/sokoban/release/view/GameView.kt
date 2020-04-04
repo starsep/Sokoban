@@ -20,15 +20,15 @@ import com.starsep.sokoban.release.gamelogic.Tile
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.model.GameModel
 import com.starsep.sokoban.release.res.Textures
+import timber.log.Timber
 
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
     private val dimension: Rect
     private val textPaint: Paint = Paint().apply { color = Color.BLACK }
     private var screenDelta: Position = Position(0, 0)
     private var size: Int = 0 // size of tile
-    private val activity: FragmentActivity = context as FragmentActivity
     private val gameModel: GameModel by lazy {
-        ViewModelProviders.of(activity).get(GameModel::class.java)
+        ViewModelProviders.of(context as FragmentActivity).get(GameModel::class.java)
     }
     private var winDialog: Dialog? = null
 
@@ -38,9 +38,9 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         size = Math.min(width, height) / 10
         dimension = Rect(0, 0, size, size)
 
-        gameModel.levelLive.observe(activity, Observer<Level> { level -> updateLevel(level) })
+        gameModel.levelLive.observe(context as FragmentActivity, Observer<Level> { level -> updateLevel(level) })
         updateLevel(gameModel.level())
-        gameModel.wonLive.observe(activity, Observer<Boolean> {
+        gameModel.wonLive.observe(context as FragmentActivity, Observer<Boolean> {
             if (it == true) {
                 showWinDialog(gameModel.highScore(context))
                 gameModel.sendHighScore(context)
@@ -49,6 +49,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     }
 
     private fun updateLevel(level: Level?) {
+        Timber.d("$level")
         level?.let {
             size = Math.min(width / level.width, height / level.height())
             textPaint.textSize = size.toFloat()

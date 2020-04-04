@@ -3,11 +3,10 @@ package com.starsep.sokoban.release.res
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 
 import com.starsep.sokoban.release.R
-import com.starsep.sokoban.release.Sokoban
 import com.starsep.sokoban.release.gamelogic.Tile
+import timber.log.Timber
 
 object Textures {
     private lateinit var wall: Bitmap
@@ -28,7 +27,7 @@ object Textures {
             Tile.crateOnEndpoint -> crateOnEndpoint
             Tile.ground -> ground
             else -> {
-                Log.e(Sokoban.TAG, "Textures.tile: " + "Unknown tile " + tile)
+                Timber.e("Textures.tile: Unknown tile $tile")
                 ground
             }
         }

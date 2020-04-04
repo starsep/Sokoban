@@ -10,7 +10,11 @@ dependencies {
     implementation(AndroidLibs.material)
     implementation(AndroidLibs.androidXAnnotations)
     implementation(AndroidLibs.playServicesGames)
+//    implementation(AndroidLibs.navigationRuntimeKtx)
+    implementation(AndroidLibs.navigationFragmentKtx)
+    implementation(AndroidLibs.navigationUIKtx)
     implementation(Libs.gson)
+    implementation(AndroidLibs.timber)
 
     kapt(AndroidLibs.roomKapt)
 

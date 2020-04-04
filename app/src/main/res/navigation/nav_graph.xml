@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MainMenuFragment">
+
+    <fragment
+        android:id="@+id/MainMenuFragment"
+        android:name="com.starsep.sokoban.release.fragment.MainMenuFragment"
+        android:label="@string/label_main_menu"
+        tools:layout="@layout/fragment_main_menu">
+
+        <action
+            android:id="@+id/action_choose_level"
+            app:destination="@id/ChooseLevelFragment" />
+
+        <action
+            android:id="@+id/action_continue_level"
+            app:destination="@id/GameFragment" />
+
+        <action
+            android:id="@+id/action_main_settings"
+            app:destination="@+id/SettingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ChooseLevelFragment"
+        android:name="com.starsep.sokoban.release.fragment.ChooseLevelFragment"
+        android:label="@string/label_choose_level"
+        tools:layout="@layout/fragment_choose_level">
+
+        <action
+            android:id="@+id/action_start_level"
+            app:destination="@id/GameFragment">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/GameFragment"
+        android:name="com.starsep.sokoban.release.fragment.GameFragment"
+        android:label="@string/label_game"
+        tools:layout="@layout/fragment_game">
+
+        <argument
+            android:name="newGame"
+            app:argType="boolean"
+            />
+        <argument
+            android:name="levelNumber"
+            app:argType="integer"
+            />
+
+        <action
+            android:id="@+id/action_game_settings"
+            app:destination="@+id/SettingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="com.starsep.sokoban.release.fragment.SettingsFragment"
+        android:label="label_settings" />
+</navigation>

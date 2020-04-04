@@ -3,8 +3,11 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
+//    id("androidx.navigation.safeargs.kotlin")
     // id("jacoco-android")
 }
+
+apply(plugin="androidx.navigation.safeargs.kotlin")
 
 android {
     /*testOptions {
@@ -19,6 +22,12 @@ android {
 
     compileSdkVersion(Versions.Android.compileSdk)
     buildToolsVersion = Versions.Android.buildTools
+    /*sourceSets {
+        getByName("main").java.srcDirs("src/main/kotlin")
+        getByName("test").java.srcDirs("src/test/kotlin")
+        getByName("androidTest").java.srcDirs("src/androidTest/kotlin")
+        getByName("androidTest").assets.srcDirs("$projectDir/schemas")
+    }*/
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId = "com.starsep.sokoban.release"
@@ -61,6 +70,13 @@ android {
         buildTypes.getByName("release") {
             signingConfig = signingConfigs.getByName("release")
         }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions.apply {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 

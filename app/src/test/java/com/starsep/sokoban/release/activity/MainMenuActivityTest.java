@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.widget.Button;
 
 import com.starsep.sokoban.release.BuildConfig;
+import com.starsep.sokoban.release.MainActivity;
 import com.starsep.sokoban.release.R;
 import com.starsep.sokoban.release.database.Database;
+import com.starsep.sokoban.release.fragment.ChooseLevelFragment;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,11 +25,11 @@ import static org.robolectric.Shadows.shadowOf;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class MainMenuActivityTest {
-    private MainMenuActivity activity;
+    private MainActivity activity;
 
     @Before
     public void setUp() throws Exception {
-        activity = Robolectric.buildActivity(MainMenuActivity.class)
+        activity = Robolectric.buildActivity(MainActivity.class)
                 .create()
                 .resume()
                 .get();
@@ -53,7 +55,7 @@ public class MainMenuActivityTest {
         Button newGameButton = activity.findViewById(R.id.newGameButton);
         newGameButton.performClick();
         Intent intent = shadowOf(activity).peekNextStartedActivity();
-        assertEquals(ChooseLevelActivity.class.getCanonicalName(), intent.getComponent().getClassName());
+        assertEquals(ChooseLevelFragment.class.getCanonicalName(), intent.getComponent().getClassName());
     }
 
     @Test

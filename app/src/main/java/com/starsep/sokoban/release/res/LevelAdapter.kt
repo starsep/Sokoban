@@ -8,24 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
+import androidx.navigation.findNavController
 
 import com.starsep.sokoban.release.R
-import com.starsep.sokoban.release.Sokoban
-import com.starsep.sokoban.release.activity.GameActivity
+import com.starsep.sokoban.release.fragment.GameFragment
 import com.starsep.sokoban.release.database.Database
+import com.starsep.sokoban.release.fragment.ChooseLevelFragment
+import com.starsep.sokoban.release.fragment.ChooseLevelFragmentDirections
 import com.starsep.sokoban.release.view.SquareButton
 
 class LevelAdapter(private val size: Int, private val context: Context) : BaseAdapter() {
-    private val buttons: Array<Button> = Array(size, { _ -> SquareButton(context) })
+    private val buttons: Array<Button> = Array(size) { SquareButton(context) }
 
     init {
         for (i in buttons.indices) {
             val levelNumber = i + 1
             buttons[i].setOnClickListener {
-                val intent = Intent(context, GameActivity::class.java)
-                intent.putExtra(Sokoban.NEW, true)
-                intent.putExtra(Sokoban.LEVEL_NUMBER, levelNumber)
-                context.startActivity(intent)
+                it.findNavController().navigate(ChooseLevelFragmentDirections.actionStartLevel(
+                    newGame = true,
+                    levelNumber = levelNumber
+                ))
             }
             buttons[i].text = String.format(context.getString(R.string.level), levelNumber)
         }

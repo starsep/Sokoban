@@ -1,15 +1,14 @@
 package com.starsep.sokoban.release.model
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.starsep.sokoban.release.Sokoban
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.*
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.gamelogic.level.LevelLoader
 import com.starsep.sokoban.release.gamelogic.level.getDefaultLevel
+import timber.log.Timber
 import java.io.IOException
 
 class GameModel : ViewModel() {
@@ -70,7 +69,7 @@ class GameModel : ViewModel() {
         levelLive.value = try {
             Level(LevelLoader.load(ctx, levelNumber()))
         } catch (e: IOException) {
-            Log.e(Sokoban.TAG, "Load error ${levelNumber()}.level) :<")
+            Timber.e("Load error ${levelNumber()}.level) :<")
             getDefaultLevel()
         }
         resetStats()
@@ -163,6 +162,7 @@ class GameModel : ViewModel() {
     }
 
     fun startLevel(ctx: Context, levelNumber: Int) {
+        Timber.d("$levelNumber")
         levelNumberLive.value = levelNumber
         resetLevel(ctx)
     }

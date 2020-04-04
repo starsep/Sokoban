@@ -12,6 +12,9 @@ object AndroidLibs {
     const val playServicesGames = "com.google.android.gms:play-services-games:15.0.1"
     const val room = "android.arch.persistence.room:runtime:1.1.1"
     const val roomKapt = "android.arch.persistence.room:compiler:1.1.1"
+    const val navigationRuntimeKtx = "androidx.navigation:navigation-runtime-ktx:${Versions.Libs.navigation}"
+    const val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.Libs.navigation}"
+    const val navigationUIKtx = "androidx.navigation:navigation-ui-ktx:${Versions.Libs.navigation}"
 }
 
 object BuildPlugins {
@@ -19,6 +22,8 @@ object BuildPlugins {
         "com.android.tools.build:gradle:${Versions.BuildPlugins.androidGradle}"
     const val jacocoAndroid =
         "com.dicedmelon.gradle:jacoco-android:${Versions.BuildPlugins.jacocoAndroid}"
+    const val navigation =
+        "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.Libs.navigation}"
 }
 
 object TestLibs {

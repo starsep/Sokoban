@@ -1,33 +1,42 @@
-package com.starsep.sokoban.release.activity
+package com.starsep.sokoban.release.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.starsep.sokoban.release.R
-import com.starsep.sokoban.release.Sokoban
 import com.starsep.sokoban.release.controls.OnSwipeTouchListener
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.gamelogic.Moves
 import com.starsep.sokoban.release.model.GameModel
-import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.android.synthetic.main.fragment_game.*
 import java.util.*
 
-class GameActivity : SokobanActivity()
+class GameFragment : Fragment()
 /*, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
     // private lateinit var googleApiClient: GoogleApiClient
     private val gameModel: GameModel by lazy {
         ViewModelProviders.of(this).get(GameModel::class.java)
     }
-    private val newGame: Boolean by lazy {
-        intent.extras?.getBoolean(Sokoban.NEW, false) ?: false
-    }
-    private val levelNumber: Int by lazy {
-        intent.extras?.getInt(Sokoban.LEVEL_NUMBER, 1) ?: 1
+    private val args: GameFragmentArgs by navArgs()
+    private var timer: Timer? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        setupGameModel()
+        return inflater.inflate(R.layout.fragment_game, container, false)
     }
 
-    private var timer: Timer? = null
 
     override fun onStart() {
         super.onStart()
@@ -39,16 +48,14 @@ class GameActivity : SokobanActivity()
         // googleApiClient.disconnect()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /* override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupGameModel()
         setupUI()
         // googleApiClient = GoogleApiClientBuilder.build(this, gameView)
-    }
-
-    private fun setupUI() {
-        setContentView(R.layout.activity_game)
-        gameView.setOnTouchListener(object : OnSwipeTouchListener(baseContext) {
+    }*/
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        gameView.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
             override fun onSwipeRight() {
                 gameModel.moveRight()
             }
@@ -75,24 +82,24 @@ class GameActivity : SokobanActivity()
         }
 
         settingsButton.setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
+            findNavController().navigate(GameFragmentDirections.actionGameSettings())
         }
     }
 
     private fun setupGameModel() {
-        if (newGame) {
-            gameModel.startLevel(baseContext, levelNumber)
+        if (args.newGame) {
+            gameModel.startLevel(requireContext(), args.levelNumber)
         } else {
-            val gameState = Database.getCurrentGame(baseContext)
+            val gameState = Database.getCurrentGame(requireContext())
             if (gameState == null) {
-                gameModel.startLevel(baseContext, levelNumber)
+                gameModel.startLevel(requireContext(), args.levelNumber)
             } else {
-                gameModel.startLevel(baseContext, gameState.levelNumber)
+                gameModel.startLevel(requireContext(), gameState.levelNumber)
                 gameModel.setTime(gameState.time)
                 gameModel.makeMoves(gameState.movesList)
             }
         }
-        gameModel.statsLive.observe(this, Observer<HighScore> { highScore ->
+        gameModel.statsLive.observe(viewLifecycleOwner, Observer<HighScore> { highScore ->
             val levelNumber = gameModel.levelNumber()
             val minutes = highScore!!.time / 60
             val seconds = highScore.time % 60
@@ -101,20 +108,20 @@ class GameActivity : SokobanActivity()
             statusTextView.text = String.format(getString(R.string.level_status),
                     levelNumber, minutes, seconds, moves, pushes)
         })
-        gameModel.movesLive.observe(this, Observer<Moves> {
-            Database.setCurrentGame(baseContext, gameModel.gameState())
+        gameModel.movesLive.observe(viewLifecycleOwner, Observer<Moves> {
+            Database.setCurrentGame(requireContext(), gameModel.gameState())
         })
-        gameModel.wonLive.observe(this, Observer<Boolean> {
+        gameModel.wonLive.observe(viewLifecycleOwner, Observer<Boolean> {
             timer?.let {
                 it.cancel()
                 timer = null
             }
         })
-        gameModel.levelNumberLive.observe(this, Observer<Int> {
+        gameModel.levelNumberLive.observe(viewLifecycleOwner, Observer<Int> {
             timer = Timer()
             timer?.schedule(object : TimerTask() {
                 override fun run() {
-                    runOnUiThread {
+                    activity?.runOnUiThread {
                         gameModel.onSecondElapsed()
                     }
                 }

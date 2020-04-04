@@ -1,8 +1,6 @@
 package com.starsep.sokoban.release.gamelogic
 
-import android.util.Log
-
-import com.starsep.sokoban.release.Sokoban
+import timber.log.Timber
 
 object Tile {
     val WALKABLE_MASK = 0
@@ -35,7 +33,7 @@ object Tile {
             grass -> GRASS_MASK
             crateOnEndpoint -> mask(endpoint) or mask(crate)
             else -> {
-                Log.e(Sokoban.TAG, "Tile.mask: " + "Unknown tile " + c)
+                Timber.e("Tile.mask: Unknown tile $c")
                 WALKABLE_MASK
             }
         }
@@ -46,7 +44,7 @@ object Tile {
         tiles
                 .filter { m == mask(it) }
                 .forEach { return it }
-        Log.e(Sokoban.TAG, "Tile.maskToChar: " + "Unknown mask " + m)
+        Timber.e("Tile.maskToChar: Unknown mask $m")
         return grass
     }
 
