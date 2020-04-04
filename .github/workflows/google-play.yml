@@ -49,7 +49,7 @@ jobs:
       run: echo "::set-env name=KEYSTORE_LOCATION::$(realpath keystore.jks)"
 
     - name: Build app bundle
-      run: ./gradlew :androidApp:bundleBeta
+      run: ./gradlew :app:bundleBeta
       env:
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -59,7 +59,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: sokoban.aab
-        path: androidApp/build/outputs/bundle/beta/androidApp-beta.aab
+        path: app/build/outputs/bundle/beta/app-beta.aab
 
     - name: Create service_account.json FROM secrets.SERVICE_ACCOUNT_JSON
       run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
@@ -69,5 +69,5 @@ jobs:
       with:
         serviceAccountJson: service_account.json
         packageName: com.starsep.sokoban.release
-        releaseFile: androidApp/build/outputs/bundle/beta/androidApp-beta.aab
+        releaseFile: app/build/outputs/bundle/beta/app-beta.aab
         track: internal
