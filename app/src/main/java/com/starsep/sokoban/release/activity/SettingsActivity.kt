@@ -5,16 +5,21 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.*
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.starsep.sokoban.release.R
-import com.starsep.sokoban.release.settings.AppCompatPreferenceActivity
+//import com.starsep.sokoban.release.settings.AppCompatPreferenceActivity
 
 /**
  * See [Android Design: Settings](http://developer.android.com/design/patterns/settings.html)
  * for design guidelines and the [Settings API Guide](http://developer.android.com/guide/topics/ui/settings.html)
  * for more information on developing a Settings UI.
  */
-class SettingsActivity : AppCompatPreferenceActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
-    override fun onCreate(savedInstanceState: Bundle?) {
+// AppCompatPreferenceActivity(),
+class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        // TODO: Fix Settings
+    }
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.pref_settings)
         supportActionBar.setDisplayHomeAsUpEnabled(true)
@@ -57,10 +62,10 @@ class SettingsActivity : AppCompatPreferenceActivity(), SharedPreferences.OnShar
         }
     }
 
-    /**
+    *//**
      * This method stops fragment injection in malicious applications.
      * Make sure to deny any unknown fragments here.
-     */
+     *//*
     override fun isValidFragment(fragmentName: String): Boolean {
         return PreferenceFragment::class.java.name == fragmentName
                 || GeneralPreferenceFragment::class.java.name == fragmentName
@@ -81,5 +86,5 @@ class SettingsActivity : AppCompatPreferenceActivity(), SharedPreferences.OnShar
             }
             return super.onOptionsItemSelected(item)
         }
-    }
+    }*/
 }

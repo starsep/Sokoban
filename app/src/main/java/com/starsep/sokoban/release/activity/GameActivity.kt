@@ -1,10 +1,9 @@
 package com.starsep.sokoban.release.activity
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.Sokoban
 import com.starsep.sokoban.release.controls.OnSwipeTouchListener

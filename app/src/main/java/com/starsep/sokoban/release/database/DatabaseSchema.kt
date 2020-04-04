@@ -1,7 +1,7 @@
 package com.starsep.sokoban.release.database
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.model.GameState
 

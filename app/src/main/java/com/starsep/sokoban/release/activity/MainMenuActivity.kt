@@ -3,8 +3,8 @@ package com.starsep.sokoban.release.activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.CallSuper
 import android.view.View
+import androidx.annotation.CallSuper
 
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.Sokoban
@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_main_menu.*
 
 class MainMenuActivity : SokobanActivity() {
     private var helpDialog: Dialog? = null
+
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

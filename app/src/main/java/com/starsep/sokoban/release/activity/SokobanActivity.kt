@@ -3,9 +3,9 @@ package com.starsep.sokoban.release.activity
 import android.app.ActivityManager
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.v4.app.FragmentActivity
-import android.support.v4.content.ContextCompat
+import androidx.annotation.CallSuper
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.starsep.sokoban.release.R
 
 abstract class SokobanActivity : FragmentActivity() {

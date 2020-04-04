@@ -1,6 +1,6 @@
 package com.starsep.sokoban.release.model
 
-import android.arch.persistence.room.Entity
+import androidx.room.Entity
 
 @Entity(tableName = "gameState", primaryKeys = [("levelNumber")])
 data class GameState(

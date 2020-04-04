@@ -2,16 +2,16 @@ package com.starsep.sokoban.release.view
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.View
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.gamelogic.HighScore

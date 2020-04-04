@@ -1,9 +1,9 @@
 package com.starsep.sokoban.release.model
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.starsep.sokoban.release.Sokoban
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.*

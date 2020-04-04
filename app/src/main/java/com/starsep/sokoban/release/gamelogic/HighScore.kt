@@ -1,6 +1,6 @@
 package com.starsep.sokoban.release.gamelogic
 
-import android.arch.persistence.room.Entity
+import androidx.room.Entity
 
 @Entity(primaryKeys = [("levelNumber"), ("levelHash")])
 data class HighScore(
