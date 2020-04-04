@@ -78,11 +78,12 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: app-beta.aab
+          path: bundle
 
       - name: Upload bundle to Play Store (internal channel)
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: service_account.json
           packageName: com.starsep.sokoban.release
-          releaseFile: app-beta.aab
+          releaseFile: ./bundle/app-beta.aab
           track: internal
