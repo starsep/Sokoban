@@ -1,6 +1,5 @@
 object Versions {
     const val kotlin = "1.3.71"
-    const val supportLibrary = "28.0.0" // TODO: remove
 
     object App {
         val code = (System.getenv("GITHUB_RUN_ID") ?: "1").toInt()
@@ -18,10 +17,11 @@ object Versions {
 
     object Libs {
         // AndroidX
+        const val androidXAnnotations = "1.1.0"
         const val appCompat = "1.0.2"
         const val constraintLayout = "1.1.3"
         const val coreKtx = "1.0.2"
-        const val material = "1.0.0"
+        const val material = "1.1.0"
         const val navigation = "2.0.0"
 
         // third party

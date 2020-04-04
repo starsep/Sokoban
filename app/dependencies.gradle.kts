@@ -7,8 +7,8 @@ dependencies {
     implementation(AndroidLibs.lifecycle)
     implementation(AndroidLibs.room)
     implementation(AndroidLibs.appCompat)
-    implementation(AndroidLibs.supportDesign)
-    implementation(AndroidLibs.supportAnnotations)
+    implementation(AndroidLibs.material)
+    implementation(AndroidLibs.androidXAnnotations)
     implementation(AndroidLibs.playServicesGames)
     implementation(Libs.gson)
 

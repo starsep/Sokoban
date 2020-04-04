@@ -4,10 +4,9 @@ object Libs {
 }
 
 object AndroidLibs {
-    const val appCompat = "com.android.support:appcompat-v7:${Versions.supportLibrary}"
-//    // const val appCompat = "android.appcompat:appcompat:${Versions.Libs.appCompat}"
-    const val supportDesign =  "com.android.support:design:${Versions.supportLibrary}"
-    const val supportAnnotations = "com.android.support:support-annotations:${Versions.supportLibrary}"
+    const val appCompat = "androidx.appcompat:appcompat:${Versions.Libs.appCompat}"
+    const val material =  "com.google.android.material:material:${Versions.Libs.material}"
+    const val androidXAnnotations = "androidx.annotation:annotation:${Versions.Libs.androidXAnnotations}"
     const val lifecycle = "android.arch.lifecycle:extensions:1.1.1"
     const val timber = "com.jakewharton.timber:timber:${Versions.Libs.timber}"
     const val playServicesGames = "com.google.android.gms:play-services-games:15.0.1"
