@@ -43,6 +43,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("beta") {
+            initWith(getByName("release"))
+            versionNameSuffix = "-beta"
+        }
     }
     if (System.getenv("KEYSTORE_LOCATION") != null) {
         signingConfigs.create("release") {
@@ -50,6 +54,9 @@ android {
             storePassword = System.getenv("KEYSTORE_PASSWORD")
             keyAlias = System.getenv("KEY_ALIAS")
             keyPassword = System.getenv("KEY_PASSWORD")
+        }
+        buildTypes.getByName("beta") {
+            signingConfig = signingConfigs.getByName("release")
         }
         buildTypes.getByName("release") {
             signingConfig = signingConfigs.getByName("release")
