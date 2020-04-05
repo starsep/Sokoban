@@ -88,7 +88,7 @@ class GameFragment : Fragment()
         if (args.newGame) {
             gameModel.startLevel(requireContext(), args.levelNumber)
         } else {
-            val gameState = Database.getCurrentGame(requireContext())
+            val gameState = Database.getCurrentGame()
             if (gameState == null) {
                 gameModel.startLevel(requireContext(), args.levelNumber)
             } else {

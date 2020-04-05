@@ -9,53 +9,48 @@ object Database {
     private lateinit var instance: DatabaseSchema
     private const val DATABASE_FILENAME = "Sokoban.sqlite"
 
-    private fun db(ctx: Context): DatabaseSchema {
+    fun initDb(ctx: Context) {
         if (!::instance.isInitialized) {
             instance = Room.databaseBuilder(ctx, DatabaseSchema::class.java, DATABASE_FILENAME)
                     .allowMainThreadQueries() // TODO: remove, make queries from other threads
                     .build()
         }
-        return instance
     }
 
-    fun highScore(ctx: Context, levelHash: Int, levelNumber: Int): HighScore? {
-        return db(ctx)
-                .highScoreDao()
-                .getHighScore(levelHash, levelNumber)
-                .firstOrNull()
-    }
+    private val db: DatabaseSchema get() = instance
 
-    private fun updateHighScore(ctx: Context, highScore: HighScore): Boolean {
-        val oldScore = highScore(ctx, highScore.levelHash, highScore.levelNumber)
+    fun highScore(levelHash: Int, levelNumber: Int) = db
+        .highScoreDao()
+        .getHighScore(levelHash, levelNumber)
+        .firstOrNull()
+
+    private fun updateHighScore(highScore: HighScore): Boolean {
+        val oldScore = highScore(highScore.levelHash, highScore.levelNumber)
         if (oldScore != null) {
             oldScore.improve(highScore)
-            db(ctx).highScoreDao().updateHighScore(highScore)
+            db.highScoreDao().updateHighScore(highScore)
             return true
         }
         return false
     }
 
-    fun addHighScore(ctx: Context, highScore: HighScore) {
-        if (updateHighScore(ctx, highScore)) {
+    fun addHighScore(highScore: HighScore) {
+        if (updateHighScore(highScore)) {
             return
         }
-        db(ctx).highScoreDao().insertHighScore(highScore)
+        db.highScoreDao().insertHighScore(highScore)
     }
 
-    fun solvedLevels(ctx: Context): List<Int> {
-        return db(ctx).highScoreDao().solvedLevels()
-    }
+    fun solvedLevels() = db.highScoreDao().solvedLevels()
 
     fun setCurrentGame(ctx: Context, gameState: GameState) {
-        with(db(ctx).gameStateDao()) {
+        with(db.gameStateDao()) {
             deleteAllGameState()
             insertGameState(gameState)
         }
     }
 
-    fun getCurrentGame(ctx: Context): GameState? {
-        return db(ctx).gameStateDao().getGameState().firstOrNull()
-    }
+    fun getCurrentGame() = db.gameStateDao().getGameState().firstOrNull()
 
     fun close() {
         if (::instance.isInitialized) {

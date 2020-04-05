@@ -23,16 +23,9 @@ class MainActivity : FragmentActivity() {
             setTaskDescription(taskDescription)
         }
         setContentView(R.layout.activity_main_menu)
-        setupTimber()
     }
 
     companion object {
         private var taskDescription: ActivityManager.TaskDescription? = null
-    }
-
-    private fun setupTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        }
     }
 }

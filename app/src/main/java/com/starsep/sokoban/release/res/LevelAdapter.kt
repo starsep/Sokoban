@@ -2,7 +2,6 @@ package com.starsep.sokoban.release.res
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -30,26 +29,15 @@ class LevelAdapter(private val size: Int, private val context: Context) : BaseAd
         updateSolvedLevelsButton()
     }
 
-    override fun getCount(): Int {
-        return size
-    }
-
-    override fun getItem(i: Int): Any? {
-        return null
-    }
-
-    override fun getItemId(i: Int): Long {
-        return 0
-    }
-
-    override fun getView(i: Int, view: View?, viewGroup: ViewGroup): View {
-        return buttons[i]
-    }
+    override fun getCount() = size
+    override fun getItem(i: Int): Any? = null
+    override fun getItemId(i: Int) = 0L
+    override fun getView(i: Int, view: View?, viewGroup: ViewGroup): View = buttons[i]
 
     fun updateSolvedLevelsButton() {
-        Database.solvedLevels(context)
-                .map { it - 1 }
-                .filter { it in buttons.indices }
-                .forEach { buttons[it].background.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY) }
+        Database.solvedLevels()
+            .map { it - 1 }
+            .filter { it in buttons.indices }
+            .forEach { buttons[it].setBackgroundColor(Color.rgb(0, 221, 12)) }
     }
 }

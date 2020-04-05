@@ -43,7 +43,7 @@ class MainMenuFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Database.getCurrentGame(requireContext())?.let {
+        Database.getCurrentGame()?.let {
             continueGameButton.visibility = View.VISIBLE
         }
     }

@@ -45,7 +45,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         updateLevel(gameModel.level())
         gameModel.wonLive.observe(fragment, Observer {
             if (it == true) {
-                showWinDialog(gameModel.highScore(context))
+                showWinDialog(gameModel.highScore())
                 gameModel.sendHighScore(context)
             }
         })

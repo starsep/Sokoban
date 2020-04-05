@@ -26,37 +26,17 @@ class GameModel : ViewModel() {
         updateWon()
     }
 
-    fun stats(): HighScore {
-        return statsLive.value ?: HighScore(levelNumber())
-    }
-
-    fun levelNumber(): Int {
-        return levelNumberLive.value ?: 0
-    }
-
-    fun level(): Level {
-        return levelLive.value ?: getDefaultLevel()
-    }
-
-    fun player(): Position {
-        return level().player
-    }
-
-    fun moves(): Moves {
-        return movesLive.value ?: Moves()
-    }
+    fun stats() = statsLive.value ?: HighScore(levelNumber())
+    fun levelNumber() = levelNumberLive.value ?: 0
+    fun level() = levelLive.value ?: getDefaultLevel()
+    fun player() = level().player
+    fun moves() = movesLive.value ?: Moves()
 
     private fun addMove(move: Move) {
         movesLive.value = Moves(moves().plus(move))
     }
 
-    fun lastMove(): Move? {
-        return if (moves().isNotEmpty()) {
-            moves().last()
-        } else {
-            null
-        }
-    }
+    fun lastMove() = moves().lastOrNull()
 
     @Throws(Move.UnknownMoveException::class)
     fun makeMoves(movesList: String) {
@@ -117,21 +97,10 @@ class GameModel : ViewModel() {
         }
     }
 
-    fun moveUp() {
-        makeMove(Move.UP)
-    }
-
-    fun moveDown() {
-        makeMove(Move.DOWN)
-    }
-
-    fun moveLeft() {
-        makeMove(Move.LEFT)
-    }
-
-    fun moveRight() {
-        makeMove(Move.RIGHT)
-    }
+    fun moveUp() = makeMove(Move.UP)
+    fun moveDown() = makeMove(Move.DOWN)
+    fun moveLeft() = makeMove(Move.LEFT)
+    fun moveRight() = makeMove(Move.RIGHT)
 
     private fun updateStats() {
         statsLive.value = stats()
@@ -149,12 +118,10 @@ class GameModel : ViewModel() {
     fun sendHighScore(ctx: Context) {
         stats().levelHash = levelHash()
         stats().levelNumber = levelNumber()
-        Database.addHighScore(ctx, stats())
+        Database.addHighScore(stats())
     }
 
-    fun highScore(ctx: Context): HighScore? {
-        return Database.highScore(ctx, level().hashCode(), levelNumber())
-    }
+    fun highScore() = Database.highScore(level().hashCode(), levelNumber())
 
     fun onSecondElapsed() {
         stats().time++
@@ -166,16 +133,12 @@ class GameModel : ViewModel() {
         resetLevel(ctx)
     }
 
-    private fun levelHash(): Int {
-        return level().hashCode()
-    }
+    private fun levelHash() = level().hashCode()
 
     fun setTime(time: Int) {
         resetStats()
         stats().time = time
     }
 
-    fun gameState(): GameState {
-        return GameState(stats().time, levelNumber(), moves().toString())
-    }
+    fun gameState() = GameState(stats().time, levelNumber(), moves().toString())
 }
