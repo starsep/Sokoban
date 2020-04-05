@@ -1,6 +1,7 @@
 package com.starsep.sokoban.release.gamelogic
 
 import androidx.room.Entity
+import kotlin.math.min
 
 @Entity(primaryKeys = [("levelNumber"), ("levelHash")])
 data class HighScore(
@@ -11,9 +12,9 @@ data class HighScore(
     var levelHash: Int = 0
 ) {
     fun improve(another: HighScore) {
-        time = Math.min(time, another.time)
-        moves = Math.min(moves, another.moves)
-        pushes = Math.min(pushes, another.pushes)
+        time = min(time, another.time)
+        moves = min(moves, another.moves)
+        pushes = min(pushes, another.pushes)
     }
 
     override fun equals(other: Any?): Boolean {

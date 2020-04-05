@@ -5,6 +5,7 @@ object Libs {
 
 object AndroidLibs {
     const val appCompat = "androidx.appcompat:appcompat:${Versions.Libs.appCompat}"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.Libs.constraintLayout}"
     const val material =  "com.google.android.material:material:${Versions.Libs.material}"
     const val androidXAnnotations = "androidx.annotation:annotation:${Versions.Libs.androidXAnnotations}"
     const val lifecycle = "android.arch.lifecycle:extensions:1.1.1"
@@ -12,7 +13,6 @@ object AndroidLibs {
     const val playServicesGames = "com.google.android.gms:play-services-games:15.0.1"
     const val room = "android.arch.persistence.room:runtime:1.1.1"
     const val roomKapt = "android.arch.persistence.room:compiler:1.1.1"
-    const val navigationRuntimeKtx = "androidx.navigation:navigation-runtime-ktx:${Versions.Libs.navigation}"
     const val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.Libs.navigation}"
     const val navigationUIKtx = "androidx.navigation:navigation-ui-ktx:${Versions.Libs.navigation}"
 }

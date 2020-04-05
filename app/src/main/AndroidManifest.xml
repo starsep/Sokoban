@@ -24,11 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".fragment.GameFragment"/>
-        <activity android:name=".fragment.ChooseLevelFragment"/>
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

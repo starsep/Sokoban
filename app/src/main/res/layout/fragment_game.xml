@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,51 +8,42 @@
     tools:context=".fragment.GameFragment"
     tools:ignore="Overdraw">
 
-    <RelativeLayout
-        android:id="@+id/buttonGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/undoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:drawableLeft="@drawable/icon_undo"
-            android:drawableStart="@drawable/icon_undo"
-            android:text="@string/undo"/>
-
-        <Button
-            android:id="@+id/resetButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/icon_reset"
-            android:drawableStart="@drawable/icon_reset"
-            android:text="@string/reset"/>
-
-        <Button
-            android:id="@+id/settingsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:drawableLeft="@drawable/icon_settings"
-            android:drawableStart="@drawable/icon_settings"
-            android:text="@string/settings"
-            tools:ignore="RelativeOverlap"/>
-    </RelativeLayout>
-
-    <com.starsep.sokoban.release.view.GameView
-        android:id="@+id/gameView"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/undoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/statusTextView"
-        android:layout_below="@+id/buttonGroup"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/undo"
+        app:icon="@drawable/icon_undo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/reset"
+        app:icon="@drawable/icon_reset"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/undoButton"
+        app:layout_constraintRight_toLeftOf="@id/settingsButton"
         />
 
-    <TextView
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/settings"
+        app:icon="@drawable/icon_settings"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/statusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,6 +51,20 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom"
         android:gravity="center_horizontal"
-        android:textColor="#fff"/>
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</RelativeLayout>
+    <com.starsep.sokoban.release.view.GameView
+        android:id="@+id/gameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/statusTextView"
+        android:layout_below="@+id/buttonGroup"
+        app:layout_constraintBottom_toTopOf="@id/statusTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonGroup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

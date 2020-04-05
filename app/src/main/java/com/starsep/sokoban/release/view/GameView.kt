@@ -20,6 +20,7 @@ import com.starsep.sokoban.release.gamelogic.Tile
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.model.GameModel
 import com.starsep.sokoban.release.res.Textures
+import kotlin.math.min
 
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
     private val dimension: Rect
@@ -32,7 +33,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     init {
         Textures.init(context)
 
-        size = Math.min(width, height) / 10
+        size = min(width, height) / 10
         dimension = Rect(0, 0, size, size)
     }
 
@@ -53,7 +54,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     private fun updateLevel(level: Level?) {
         if (level == null) return
 
-        size = Math.min(width / level.width, height / level.height())
+        size = min(width / level.width, height / level.height())
         textPaint.textSize = size.toFloat()
         screenDelta = Position(
                 (height - level.height() * size) / 2,
