@@ -1,6 +1,6 @@
 package com.starsep.sokoban.release.playservices
 
-//object GoogleApiClientBuilder {
+// object GoogleApiClientBuilder {
 //    fun build(gameActivity: GameActivity, view: View): GoogleApiClient {
 //        return GoogleApiClient.Builder(gameActivity)
 //                .addConnectionCallbacks(gameActivity)
@@ -9,4 +9,4 @@ package com.starsep.sokoban.release.playservices
 //                .setViewForPopups(view)
 //                .build()
 //    }
-//}
+// }

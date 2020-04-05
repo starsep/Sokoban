@@ -3,7 +3,6 @@ package com.starsep.sokoban.release.res
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.gamelogic.Tile
 import timber.log.Timber

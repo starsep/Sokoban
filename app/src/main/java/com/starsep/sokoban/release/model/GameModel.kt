@@ -8,8 +8,8 @@ import com.starsep.sokoban.release.gamelogic.*
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.gamelogic.level.LevelLoader
 import com.starsep.sokoban.release.gamelogic.level.getDefaultLevel
-import timber.log.Timber
 import java.io.IOException
+import timber.log.Timber
 
 class GameModel : ViewModel() {
     val statsLive: MutableLiveData<HighScore> = MutableLiveData()

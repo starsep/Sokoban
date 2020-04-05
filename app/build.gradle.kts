@@ -7,7 +7,7 @@ plugins {
     // id("jacoco-android")
 }
 
-apply(plugin="androidx.navigation.safeargs.kotlin")
+apply(plugin = "androidx.navigation.safeargs.kotlin")
 
 android {
     /*testOptions {
@@ -81,4 +81,4 @@ android {
 }
 
 // apply(from="jacoco.gradle")
-apply(from="dependencies.gradle.kts")
+apply(from = "dependencies.gradle.kts")

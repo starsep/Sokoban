@@ -10,11 +10,9 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.gamelogic.Position
@@ -53,15 +51,15 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     }
 
     private fun updateLevel(level: Level?) {
-        level?.let {
-            size = Math.min(width / level.width, height / level.height())
-            textPaint.textSize = size.toFloat()
-            screenDelta = Position(
-                    (height - level.height() * size) / 2,
-                    (width - level.width * size) / 2
-            )
-            invalidate()
-        }
+        if (level == null) return
+
+        size = Math.min(width / level.width, height / level.height())
+        textPaint.textSize = size.toFloat()
+        screenDelta = Position(
+                (height - level.height() * size) / 2,
+                (width - level.width * size) / 2
+        )
+        invalidate()
     }
 
     private fun setDrawingDimension(pos: Position) {

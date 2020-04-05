@@ -4,11 +4,11 @@ import androidx.room.Entity
 
 @Entity(primaryKeys = [("levelNumber"), ("levelHash")])
 data class HighScore(
-        var levelNumber: Int,
-        var time: Int = 0,
-        var moves: Int = 0,
-        var pushes: Int = 0,
-        var levelHash: Int = 0
+    var levelNumber: Int,
+    var time: Int = 0,
+    var moves: Int = 0,
+    var pushes: Int = 0,
+    var levelHash: Int = 0
 ) {
     fun improve(another: HighScore) {
         time = Math.min(time, another.time)

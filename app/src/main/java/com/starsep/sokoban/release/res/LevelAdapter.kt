@@ -1,7 +1,6 @@
 package com.starsep.sokoban.release.res
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.view.View
@@ -9,11 +8,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import androidx.navigation.findNavController
-
 import com.starsep.sokoban.release.R
-import com.starsep.sokoban.release.fragment.GameFragment
 import com.starsep.sokoban.release.database.Database
-import com.starsep.sokoban.release.fragment.ChooseLevelFragment
 import com.starsep.sokoban.release.fragment.ChooseLevelFragmentDirections
 import com.starsep.sokoban.release.view.SquareButton
 

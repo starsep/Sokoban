@@ -8,7 +8,7 @@ import com.starsep.sokoban.release.model.GameState
 @Dao
 interface GameStateDao {
     @Query("SELECT * FROM gameState")
-    fun getGameState() : List<GameState>
+    fun getGameState(): List<GameState>
 
     @Insert
     fun insertGameState(gameState: GameState)

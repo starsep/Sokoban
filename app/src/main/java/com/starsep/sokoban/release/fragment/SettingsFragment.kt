@@ -1,14 +1,9 @@
 package com.starsep.sokoban.release.fragment
 
-import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Bundle
 import android.preference.*
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.starsep.sokoban.release.R
-//import com.starsep.sokoban.release.settings.AppCompatPreferenceActivity
+// import com.starsep.sokoban.release.settings.AppCompatPreferenceActivity
 
 /**
  * See [Android Design: Settings](http://developer.android.com/design/patterns/settings.html)

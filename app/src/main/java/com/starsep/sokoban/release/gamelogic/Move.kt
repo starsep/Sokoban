@@ -1,7 +1,6 @@
 package com.starsep.sokoban.release.gamelogic
 
 import android.graphics.Bitmap
-
 import com.starsep.sokoban.release.res.Textures
 
 class Move private constructor(private val direction: Direction, val push: Boolean) {

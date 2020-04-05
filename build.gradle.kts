@@ -41,7 +41,7 @@ subprojects {
 
 detekt {
     toolVersion = Versions.BuildPlugins.detekt
-    input = files("$projectDir/src/main/kotlin")
+    input = files("$projectDir/src/main/java")
 }
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates") {

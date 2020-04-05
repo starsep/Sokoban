@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 

@@ -47,7 +47,6 @@ abstract class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
                     }
                 }
                 result = true
-
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }

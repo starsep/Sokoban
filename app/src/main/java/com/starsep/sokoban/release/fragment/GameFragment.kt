@@ -1,6 +1,5 @@
 package com.starsep.sokoban.release.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +15,8 @@ import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.gamelogic.Moves
 import com.starsep.sokoban.release.model.GameModel
-import kotlinx.android.synthetic.main.fragment_game.*
 import java.util.*
+import kotlinx.android.synthetic.main.fragment_game.*
 
 class GameFragment : Fragment()
 /*, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
@@ -36,7 +35,6 @@ class GameFragment : Fragment()
         setupGameModel()
         return inflater.inflate(R.layout.fragment_game, container, false)
     }
-
 
     override fun onStart() {
         super.onStart()

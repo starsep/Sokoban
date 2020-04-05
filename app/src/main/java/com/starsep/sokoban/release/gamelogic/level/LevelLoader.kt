@@ -1,14 +1,11 @@
 package com.starsep.sokoban.release.gamelogic.level
 
 import android.content.Context
-import android.util.Log
-
 import com.starsep.sokoban.release.gamelogic.Position
-import timber.log.Timber
-
 import java.io.IOException
 import java.io.InputStream
 import java.util.Scanner
+import timber.log.Timber
 
 internal object LevelLoader {
     @Throws(IOException::class)

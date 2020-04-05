@@ -63,6 +63,4 @@ object Tile {
     fun withCrate(tile: Char): Char {
         return maskToChar(mask(tile) or crateMask())
     }
-
-
 }
