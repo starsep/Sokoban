@@ -162,7 +162,6 @@ class GameModel : ViewModel() {
     }
 
     fun startLevel(ctx: Context, levelNumber: Int) {
-        Timber.d("$levelNumber")
         levelNumberLive.value = levelNumber
         resetLevel(ctx)
     }

@@ -9,7 +9,9 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
@@ -20,16 +22,13 @@ import com.starsep.sokoban.release.gamelogic.Tile
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.model.GameModel
 import com.starsep.sokoban.release.res.Textures
-import timber.log.Timber
 
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
     private val dimension: Rect
     private val textPaint: Paint = Paint().apply { color = Color.BLACK }
     private var screenDelta: Position = Position(0, 0)
     private var size: Int = 0 // size of tile
-    private val gameModel: GameModel by lazy {
-        ViewModelProviders.of(context as FragmentActivity).get(GameModel::class.java)
-    }
+    private lateinit var gameModel: GameModel
     private var winDialog: Dialog? = null
 
     init {
@@ -37,10 +36,15 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
 
         size = Math.min(width, height) / 10
         dimension = Rect(0, 0, size, size)
+    }
 
-        gameModel.levelLive.observe(context as FragmentActivity, Observer<Level> { level -> updateLevel(level) })
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        val fragment = findFragment<Fragment>()
+        gameModel = ViewModelProviders.of(fragment).get(GameModel::class.java)
+        gameModel.levelLive.observe(fragment, Observer { level -> updateLevel(level) })
         updateLevel(gameModel.level())
-        gameModel.wonLive.observe(context as FragmentActivity, Observer<Boolean> {
+        gameModel.wonLive.observe(fragment, Observer {
             if (it == true) {
                 showWinDialog(gameModel.highScore(context))
                 gameModel.sendHighScore(context)
@@ -49,7 +53,6 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     }
 
     private fun updateLevel(level: Level?) {
-        Timber.d("$level")
         level?.let {
             size = Math.min(width / level.width, height / level.height())
             textPaint.textSize = size.toFloat()
@@ -85,6 +88,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (!::gameModel.isInitialized) return
         drawTiles(canvas)
         drawHero(canvas)
         // TODO: remove that
