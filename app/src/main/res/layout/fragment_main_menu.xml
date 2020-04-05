@@ -14,8 +14,9 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@drawable/grass_repeat"
-    tools:ignore="Overdraw">
-<!--    tools:context=".release.activity.MainMenuActivity"-->
+    tools:ignore="Overdraw"
+    tools:context=".fragment.MainMenuFragment"
+    >
     <Button
         android:id="@+id/continueGameButton"
         android:layout_width="wrap_content"

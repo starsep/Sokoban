@@ -10,11 +10,7 @@ plugins {
 apply(plugin = "androidx.navigation.safeargs.kotlin")
 
 android {
-    /*testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }*/
+    testOptions.unitTests.isIncludeAndroidResources = true
 
     dexOptions {
         javaMaxHeapSize = "4g"
