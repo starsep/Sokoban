@@ -5,12 +5,21 @@ name: Build and upload to Google Play (internal)
 on:
   push:
     branches: [master]
+  create:
+    tag:
+      - v*
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: export variant, Variant, track
+        run: |
+          echo "::set-env name=variant::$(python .github/variant.py variant $GITHUB_REF)"
+          echo "::set-env name=Variant::$(python .github/variant.py Variant $GITHUB_REF)"
+          echo "::set-env name=track::$(python .github/variant.py track $GITHUB_REF)"
 
       - name: set up JDK 1.8
         uses: actions/setup-java@v1
@@ -53,7 +62,7 @@ jobs:
         run: echo "::set-env name=KEYSTORE_LOCATION::$(realpath keystore.jks)"
 
       - name: Build app bundle
-        run: ./gradlew :app:bundleBeta
+        run: ./gradlew :app:bundle"$Variant"
         env:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -62,28 +71,16 @@ jobs:
       - name: Upload app bundle
         uses: actions/upload-artifact@v1
         with:
-          name: app-beta.aab
-          path: app/build/outputs/bundle/beta/app-beta.aab
-
-  google-play:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
+          name: 'app-${{ env.variant }}.aab'
+          path: 'app/build/outputs/bundle/${{ env.variant }}/app-${{ env.variant }}.aab'
 
       - name: Create service_account.json FROM secrets.SERVICE_ACCOUNT_JSON
         run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
 
-      - name: Download app bundle
-        uses: actions/download-artifact@v1
-        with:
-          name: app-beta.aab
-          path: bundle
-
-      - name: Upload bundle to Play Store (internal channel)
+      - name: Upload bundle to Play Store
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: service_account.json
           packageName: com.starsep.sokoban.release
-          releaseFile: ./bundle/app-beta.aab
-          track: internal
+          releaseFile: 'app/build/outputs/bundle/${{ env.variant }}/app-${{ env.variant }}.aab'
+          track: '${{ env.track }}'
