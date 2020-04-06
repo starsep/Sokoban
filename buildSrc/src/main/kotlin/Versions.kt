@@ -2,8 +2,13 @@ object Versions {
     const val kotlin = "1.3.71"
 
     object App {
-        val code = (System.getenv("GITHUB_RUN_ID") ?: "1").toInt()
-        val name = "1.0.$code"
+        private val githubRunId = (System.getenv("GITHUB_RUN_ID") ?: "1").toInt()
+        private val githubRunNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
+        private val isBetaBuild = (System.getenv("track") ?: "") == "internal"
+        private val buildOffset = 71943397
+        private val betaOffset = if (isBetaBuild) 100000000 else 0
+        val code = githubRunId + buildOffset + betaOffset
+        val name = "1.0.$code-gh$githubRunId"
     }
 
     object BuildPlugins {
