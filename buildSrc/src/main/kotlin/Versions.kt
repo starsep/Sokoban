@@ -8,7 +8,7 @@ object Versions {
         private val buildOffset = 143896282
         private val betaOffset = if (isBetaBuild) 100000000 else 0
         val code = githubRunNumber + buildOffset + betaOffset
-        val name = "1.0.$code-gh$githubRunId"
+        val name = "1.10.$code-gh$githubRunId"
     }
 
     object BuildPlugins {
