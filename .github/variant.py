@@ -4,7 +4,7 @@ import sys
 
 requested, githubRef = sys.argv[1:]
 isRelease = "refs/tags/v" in githubRef
-track = "production" if isRelease else "internal"
+track = "alpha" if isRelease else "internal"
 variant = "release" if isRelease else "beta"
 
 if requested == "track":
