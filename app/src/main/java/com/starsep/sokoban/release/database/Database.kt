@@ -43,7 +43,7 @@ object Database {
 
     fun solvedLevels() = db.highScoreDao().solvedLevels()
 
-    fun setCurrentGame(ctx: Context, gameState: GameState) {
+    fun setCurrentGame(gameState: GameState) {
         with(db.gameStateDao()) {
             deleteAllGameState()
             insertGameState(gameState)

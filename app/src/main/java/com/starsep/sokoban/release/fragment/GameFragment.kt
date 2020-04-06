@@ -107,7 +107,7 @@ class GameFragment : Fragment()
                     levelNumber, minutes, seconds, moves, pushes)
         })
         gameModel.movesLive.observe(viewLifecycleOwner, Observer<Moves> {
-            Database.setCurrentGame(requireContext(), gameModel.gameState())
+            Database.setCurrentGame(gameModel.gameState())
         })
         gameModel.wonLive.observe(viewLifecycleOwner, Observer<Boolean> {
             timer?.let {

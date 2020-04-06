@@ -115,7 +115,7 @@ class GameModel : ViewModel() {
         resetLevel(ctx)
     }
 
-    fun sendHighScore(ctx: Context) {
+    fun sendHighScore() {
         stats().levelHash = levelHash()
         stats().levelNumber = levelNumber()
         Database.addHighScore(stats())
