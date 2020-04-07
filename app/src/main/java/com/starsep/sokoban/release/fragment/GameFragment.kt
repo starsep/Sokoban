@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starsep.sokoban.release.R
+import com.starsep.sokoban.release.controls.ControlListener
 import com.starsep.sokoban.release.controls.OnSwipeTouchListener
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.HighScore
@@ -51,12 +52,6 @@ class GameFragment : Fragment()
     }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        gameView.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
-            override fun onSwipeRight() = gameModel.moveRight()
-            override fun onSwipeLeft() = gameModel.moveLeft()
-            override fun onSwipeTop() = gameModel.moveUp()
-            override fun onSwipeBottom() = gameModel.moveDown()
-        })
 
         resetButton.setOnClickListener {
             gameModel.resetLevel(it.context)

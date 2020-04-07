@@ -3,6 +3,7 @@ package com.starsep.sokoban.release.model
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.starsep.sokoban.release.controls.ControlListener
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.*
 import com.starsep.sokoban.release.gamelogic.level.Level
@@ -11,7 +12,7 @@ import com.starsep.sokoban.release.gamelogic.level.getDefaultLevel
 import java.io.IOException
 import timber.log.Timber
 
-class GameModel : ViewModel() {
+class GameModel : ViewModel(), ControlListener {
     val statsLive: MutableLiveData<HighScore> = MutableLiveData()
     val levelNumberLive: MutableLiveData<Int> = MutableLiveData()
     val levelLive: MutableLiveData<Level> = MutableLiveData()
@@ -97,10 +98,10 @@ class GameModel : ViewModel() {
         }
     }
 
-    fun moveUp() = makeMove(Move.UP)
-    fun moveDown() = makeMove(Move.DOWN)
-    fun moveLeft() = makeMove(Move.LEFT)
-    fun moveRight() = makeMove(Move.RIGHT)
+    override fun onMoveUp() = makeMove(Move.UP)
+    override fun onMoveDown() = makeMove(Move.DOWN)
+    override fun onMoveLeft() = makeMove(Move.LEFT)
+    override fun onMoveRight() = makeMove(Move.RIGHT)
 
     private fun updateStats() {
         statsLive.value = stats()

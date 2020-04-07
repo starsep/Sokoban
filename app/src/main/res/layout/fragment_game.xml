@@ -10,6 +10,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/undoButton"
+        android:focusable="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -21,6 +22,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/resetButton"
+        android:focusable="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -36,6 +38,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/settingsButton"
+        android:focusable="false"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,6 +52,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/statusTextView"
+        android:focusable="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -62,6 +66,7 @@
 
     <com.starsep.sokoban.release.view.GameView
         android:id="@+id/gameView"
+        android:focusable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/statusTextView"

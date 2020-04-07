@@ -8,18 +8,21 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.starsep.sokoban.release.R
+import com.starsep.sokoban.release.controls.OnSwipeTouchListener
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.gamelogic.Position
 import com.starsep.sokoban.release.gamelogic.Tile
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.model.GameModel
 import com.starsep.sokoban.release.res.Textures
+import timber.log.Timber
 import kotlin.math.min
 
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
@@ -49,6 +52,27 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
                 gameModel.sendHighScore()
             }
         })
+        setOnTouchListener(OnSwipeTouchListener(context, gameModel))
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent) = when (keyCode) {
+        KeyEvent.KEYCODE_DPAD_RIGHT -> {
+            gameModel.onMoveRight()
+            true
+        }
+        KeyEvent.KEYCODE_DPAD_LEFT -> {
+            gameModel.onMoveLeft()
+            true
+        }
+        KeyEvent.KEYCODE_DPAD_DOWN -> {
+            gameModel.onMoveDown()
+            true
+        }
+        KeyEvent.KEYCODE_DPAD_UP -> {
+            gameModel.onMoveUp()
+            true
+        }
+        else -> super.onKeyUp(keyCode, event)
     }
 
     private fun updateLevel(level: Level?) {
