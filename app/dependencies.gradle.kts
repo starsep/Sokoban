@@ -4,7 +4,7 @@ val testImplementation by configurations
 
 dependencies {
     implementation(Libs.kotlinStdlib)
-    implementation(AndroidLibs.lifecycle)
+    implementation(AndroidLibs.lifecycleViewModel)
     implementation(AndroidLibs.room)
     implementation(AndroidLibs.appCompat)
     implementation(AndroidLibs.constraintLayout)
@@ -14,6 +14,7 @@ dependencies {
 //    implementation(AndroidLibs.navigationRuntimeKtx)
     implementation(AndroidLibs.navigationFragmentKtx)
     implementation(AndroidLibs.navigationUIKtx)
+    implementation(AndroidLibs.preference)
     implementation(Libs.gson)
     implementation(AndroidLibs.timber)
 

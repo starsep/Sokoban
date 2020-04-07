@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starsep.sokoban.release.R
@@ -22,7 +22,7 @@ class GameFragment : Fragment()
 /*, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
     // private lateinit var googleApiClient: GoogleApiClient
     private val gameModel: GameModel by lazy {
-        ViewModelProviders.of(this).get(GameModel::class.java)
+        ViewModelProvider(this).get(GameModel::class.java)
     }
     private val args: GameFragmentArgs by navArgs()
     private var timer: Timer? = null
@@ -47,28 +47,15 @@ class GameFragment : Fragment()
     }
 
     /* override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setupGameModel()
-        setupUI()
         // googleApiClient = GoogleApiClientBuilder.build(this, gameView)
     }*/
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         gameView.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
-            override fun onSwipeRight() {
-                gameModel.moveRight()
-            }
-
-            override fun onSwipeLeft() {
-                gameModel.moveLeft()
-            }
-
-            override fun onSwipeTop() {
-                gameModel.moveUp()
-            }
-
-            override fun onSwipeBottom() {
-                gameModel.moveDown()
-            }
+            override fun onSwipeRight() = gameModel.moveRight()
+            override fun onSwipeLeft() = gameModel.moveLeft()
+            override fun onSwipeTop() = gameModel.moveUp()
+            override fun onSwipeBottom() = gameModel.moveDown()
         })
 
         resetButton.setOnClickListener {
@@ -79,6 +66,7 @@ class GameFragment : Fragment()
             gameModel.undoMove()
         }
 
+        settingsButton.visibility = View.GONE
         settingsButton.setOnClickListener {
             findNavController().navigate(GameFragmentDirections.actionGameSettings())
         }
@@ -97,7 +85,7 @@ class GameFragment : Fragment()
                 gameModel.makeMoves(gameState.movesList)
             }
         }
-        gameModel.statsLive.observe(viewLifecycleOwner, Observer<HighScore> { highScore ->
+        gameModel.statsLive.observe(viewLifecycleOwner, Observer { highScore ->
             val levelNumber = gameModel.levelNumber()
             val minutes = highScore!!.time / 60
             val seconds = highScore.time % 60
@@ -106,16 +94,16 @@ class GameFragment : Fragment()
             statusTextView.text = String.format(getString(R.string.level_status),
                     levelNumber, minutes, seconds, moves, pushes)
         })
-        gameModel.movesLive.observe(viewLifecycleOwner, Observer<Moves> {
+        gameModel.movesLive.observe(viewLifecycleOwner, Observer {
             Database.setCurrentGame(gameModel.gameState())
         })
-        gameModel.wonLive.observe(viewLifecycleOwner, Observer<Boolean> {
+        gameModel.wonLive.observe(viewLifecycleOwner, Observer {
             timer?.let {
                 it.cancel()
                 timer = null
             }
         })
-        gameModel.levelNumberLive.observe(viewLifecycleOwner, Observer<Int> {
+        gameModel.levelNumberLive.observe(viewLifecycleOwner, Observer {
             timer = Timer()
             timer?.schedule(object : TimerTask() {
                 override fun run() {
@@ -125,10 +113,6 @@ class GameFragment : Fragment()
                 }
             }, 0, 1000)
         })
-    }
-
-    fun isInEditMode(): Boolean {
-        return gameView.isInEditMode
     }
 
     /*override fun onConnected(bundle: Bundle?) {

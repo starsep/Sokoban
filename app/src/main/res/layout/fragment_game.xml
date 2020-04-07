@@ -27,12 +27,16 @@
         android:text="@string/reset"
         app:icon="@drawable/icon_reset"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/undoButton"
-        app:layout_constraintRight_toLeftOf="@id/settingsButton"
+        app:layout_constraintRight_toRightOf="parent"
         />
+    <!--
+    app:layout_constraintRight_toLeftOf="@id/settingsButton"
+    app:layout_constraintLeft_toRightOf="@id/undoButton"
+    -->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/settingsButton"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -61,10 +65,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/statusTextView"
-        android:layout_below="@+id/buttonGroup"
         app:layout_constraintBottom_toTopOf="@id/statusTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonGroup" />
+        app:layout_constraintTop_toBottomOf="@id/resetButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

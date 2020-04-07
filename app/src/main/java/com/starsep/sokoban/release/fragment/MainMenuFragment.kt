@@ -32,18 +32,13 @@ class MainMenuFragment : Fragment() {
         settingsButton.setOnClickListener {
             findNavController().navigate(MainMenuFragmentDirections.actionMainSettings())
         }
-        continueGameButton.setOnClickListener {
-            val levelNumber = 4 // TODO
-            findNavController().navigate(MainMenuFragmentDirections.actionContinueLevel(
-                newGame = false,
-                levelNumber = levelNumber
-            ))
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Database.getCurrentGame()?.let {
+        Database.getCurrentGame()?.let { gameState ->
+            continueGameButton.setOnClickListener {
+                findNavController().navigate(MainMenuFragmentDirections.actionContinueLevel(
+                        newGame = false,
+                        levelNumber = gameState.levelNumber
+                ))
+            }
             continueGameButton.visibility = View.VISIBLE
         }
     }

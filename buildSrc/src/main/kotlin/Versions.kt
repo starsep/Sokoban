@@ -26,8 +26,12 @@ object Versions {
         const val appCompat = "1.0.2"
         const val constraintLayout = "1.1.3"
         const val coreKtx = "1.0.2"
+        const val lifecycle = "2.2.0"
         const val material = "1.1.0"
         const val navigation = "2.2.1"
+        const val playServicesGames = "15.0.1"
+        const val preference = "1.1.0"
+        const val room = "2.2.5"
 
         // third party
         const val timber = "4.7.1"

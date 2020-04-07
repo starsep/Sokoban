@@ -12,7 +12,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.gamelogic.Position
@@ -40,7 +40,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         val fragment = findFragment<Fragment>()
-        gameModel = ViewModelProviders.of(fragment).get(GameModel::class.java)
+        gameModel = ViewModelProvider(fragment).get(GameModel::class.java)
         gameModel.levelLive.observe(fragment, Observer { level -> updateLevel(level) })
         updateLevel(gameModel.level())
         gameModel.wonLive.observe(fragment, Observer {
