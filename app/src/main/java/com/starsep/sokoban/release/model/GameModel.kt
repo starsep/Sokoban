@@ -12,7 +12,7 @@ import com.starsep.sokoban.release.gamelogic.level.getDefaultLevel
 import java.io.IOException
 import timber.log.Timber
 
-class GameModel : ViewModel(), ControlListener {
+class GameModel(private val context: Context) : ViewModel(), ControlListener {
     val statsLive: MutableLiveData<HighScore> = MutableLiveData()
     val levelNumberLive: MutableLiveData<Int> = MutableLiveData()
     val levelLive: MutableLiveData<Level> = MutableLiveData()
@@ -46,9 +46,9 @@ class GameModel : ViewModel(), ControlListener {
         }
     }
 
-    fun resetLevel(ctx: Context) {
+    override fun onResetLevel() {
         levelLive.value = try {
-            Level(LevelLoader.load(ctx, levelNumber()))
+            Level(LevelLoader.load(context, levelNumber()))
         } catch (e: IOException) {
             Timber.e("Load error ${levelNumber()}.level) :<")
             getDefaultLevel()
@@ -60,7 +60,7 @@ class GameModel : ViewModel(), ControlListener {
         statsLive.value = HighScore(levelNumber())
     }
 
-    fun undoMove() {
+    override fun onUndoMove() {
         val toUndo = lastMove()
         toUndo?.let {
             moves().removeAt(moves().lastIndex)
@@ -111,9 +111,9 @@ class GameModel : ViewModel(), ControlListener {
         levelLive.value = level()
     }
 
-    fun nextLevel(ctx: Context) {
+    fun nextLevel() {
         levelNumberLive.value = levelNumber() + 1
-        resetLevel(ctx)
+        onResetLevel()
     }
 
     fun sendHighScore() {
@@ -129,9 +129,9 @@ class GameModel : ViewModel(), ControlListener {
         updateStats()
     }
 
-    fun startLevel(ctx: Context, levelNumber: Int) {
+    fun startLevel(levelNumber: Int) {
         levelNumberLive.value = levelNumber
-        resetLevel(ctx)
+        onResetLevel()
     }
 
     private fun levelHash() = level().hashCode()

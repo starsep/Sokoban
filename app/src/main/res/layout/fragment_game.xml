@@ -67,6 +67,8 @@
     <com.starsep.sokoban.release.view.GameView
         android:id="@+id/gameView"
         android:focusable="true"
+        android:focusedByDefault="true"
+        android:defaultFocusHighlightEnabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/statusTextView"

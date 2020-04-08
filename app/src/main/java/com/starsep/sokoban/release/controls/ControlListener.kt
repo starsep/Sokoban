@@ -5,4 +5,6 @@ interface ControlListener {
     fun onMoveRight()
     fun onMoveUp()
     fun onMoveDown()
+    fun onResetLevel()
+    fun onUndoMove()
 }

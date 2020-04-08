@@ -16,6 +16,8 @@ dependencies {
     implementation(Libs.preference)
     implementation(Libs.gson)
     implementation(Libs.timber)
+    implementation(Libs.koin)
+    implementation(Libs.koinViewModel)
 
     kapt(Libs.roomKapt)
 

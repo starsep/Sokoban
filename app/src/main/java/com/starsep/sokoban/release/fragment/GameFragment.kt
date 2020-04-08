@@ -6,25 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starsep.sokoban.release.R
-import com.starsep.sokoban.release.controls.ControlListener
-import com.starsep.sokoban.release.controls.OnSwipeTouchListener
 import com.starsep.sokoban.release.database.Database
-import com.starsep.sokoban.release.gamelogic.HighScore
-import com.starsep.sokoban.release.gamelogic.Moves
 import com.starsep.sokoban.release.model.GameModel
 import java.util.*
 import kotlinx.android.synthetic.main.fragment_game.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GameFragment : Fragment()
 /*, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
     // private lateinit var googleApiClient: GoogleApiClient
-    private val gameModel: GameModel by lazy {
-        ViewModelProvider(this).get(GameModel::class.java)
-    }
+    private val gameModel by viewModel<GameModel>()
     private val args: GameFragmentArgs by navArgs()
     private var timer: Timer? = null
 
@@ -54,11 +48,11 @@ class GameFragment : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         resetButton.setOnClickListener {
-            gameModel.resetLevel(it.context)
+            gameModel.onResetLevel()
         }
 
         undoButton.setOnClickListener {
-            gameModel.undoMove()
+            gameModel.onUndoMove()
         }
 
         settingsButton.visibility = View.GONE
@@ -69,13 +63,13 @@ class GameFragment : Fragment()
 
     private fun setupGameModel() {
         if (args.newGame) {
-            gameModel.startLevel(requireContext(), args.levelNumber)
+            gameModel.startLevel(args.levelNumber)
         } else {
             val gameState = Database.getCurrentGame()
             if (gameState == null) {
-                gameModel.startLevel(requireContext(), args.levelNumber)
+                gameModel.startLevel(args.levelNumber)
             } else {
-                gameModel.startLevel(requireContext(), gameState.levelNumber)
+                gameModel.startLevel(gameState.levelNumber)
                 gameModel.setTime(gameState.time)
                 gameModel.makeMoves(gameState.movesList)
             }

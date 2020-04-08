@@ -19,6 +19,8 @@ object Libs {
 
     // other
     const val gson = "com.google.code.gson:gson:2.8.6"
+    const val koin = "org.koin:koin-android:${Versions.Libs.koin}"
+    const val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.Libs.koin}"
     const val timber = "com.jakewharton.timber:timber:${Versions.Libs.timber}"
 }
 

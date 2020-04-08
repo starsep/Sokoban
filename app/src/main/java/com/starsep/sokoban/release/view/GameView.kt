@@ -15,6 +15,7 @@ import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.starsep.sokoban.release.R
+import com.starsep.sokoban.release.controls.ControlListener
 import com.starsep.sokoban.release.controls.OnSwipeTouchListener
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.gamelogic.Position
@@ -22,7 +23,6 @@ import com.starsep.sokoban.release.gamelogic.Tile
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.model.GameModel
 import com.starsep.sokoban.release.res.Textures
-import timber.log.Timber
 import kotlin.math.min
 
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
@@ -30,8 +30,8 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
     private val textPaint: Paint = Paint().apply { color = Color.BLACK }
     private var screenDelta: Position = Position(0, 0)
     private var size: Int = 0 // size of tile
-    private lateinit var gameModel: GameModel
     private var winDialog: Dialog? = null
+    private lateinit var gameModel: GameModel
 
     init {
         Textures.init(context)
@@ -70,6 +70,14 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         }
         KeyEvent.KEYCODE_DPAD_UP -> {
             gameModel.onMoveUp()
+            true
+        }
+        KeyEvent.KEYCODE_R -> {
+            gameModel.onResetLevel()
+            true
+        }
+        KeyEvent.KEYCODE_Z -> {
+            gameModel.onUndoMove()
             true
         }
         else -> super.onKeyUp(keyCode, event)
@@ -136,9 +144,9 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         winDialog = AlertDialog.Builder(context)
                 .setTitle(String.format(resources.getString(R.string.win_title), gameModel.levelNumber()))
                 .setMessage(msg)
-                .setPositiveButton(resources.getString(R.string.win_positive)) { _, _ -> gameModel.nextLevel(context) }
-                .setNegativeButton(resources.getString(R.string.win_negative)) { _, _ -> gameModel.resetLevel(context) }
-                .setOnCancelListener { gameModel.nextLevel(context) }
+                .setPositiveButton(resources.getString(R.string.win_positive)) { _, _ -> gameModel.nextLevel() }
+                .setNegativeButton(resources.getString(R.string.win_negative)) { _, _ -> gameModel.onResetLevel() }
+                .setOnCancelListener { gameModel.nextLevel() }
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .create()
         winDialog?.show()
