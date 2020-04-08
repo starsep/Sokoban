@@ -1,21 +1,25 @@
 object Libs {
-    const val gson = "com.google.code.gson:gson:2.8.6"
+    // Kotlin
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-}
 
-object AndroidLibs {
+    // AndroidX
     const val appCompat = "androidx.appcompat:appcompat:${Versions.Libs.appCompat}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.Libs.constraintLayout}"
-    const val material =  "com.google.android.material:material:${Versions.Libs.material}"
     const val androidXAnnotations = "androidx.annotation:annotation:${Versions.Libs.androidXAnnotations}"
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.Libs.lifecycle}"
-    const val timber = "com.jakewharton.timber:timber:${Versions.Libs.timber}"
-    const val playServicesGames = "com.google.android.gms:play-services-games:${Versions.Libs.playServicesGames}"
     const val preference = "androidx.preference:preference-ktx:${Versions.Libs.preference}"
     const val room = "androidx.room:room-runtime:${Versions.Libs.room}"
     const val roomKapt = "androidx.room:room-compiler:${Versions.Libs.room}"
     const val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.Libs.navigation}"
     const val navigationUIKtx = "androidx.navigation:navigation-ui-ktx:${Versions.Libs.navigation}"
+
+    // Google
+    const val material =  "com.google.android.material:material:${Versions.Libs.material}"
+    const val playServicesGames = "com.google.android.gms:play-services-games:${Versions.Libs.playServicesGames}"
+
+    // other
+    const val gson = "com.google.code.gson:gson:2.8.6"
+    const val timber = "com.jakewharton.timber:timber:${Versions.Libs.timber}"
 }
 
 object BuildPlugins {
