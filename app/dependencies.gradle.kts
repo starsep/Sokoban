@@ -22,14 +22,7 @@ dependencies {
     kapt(Libs.roomKapt)
 
     testImplementation(TestLibs.junit)
-    testImplementation(TestLibs.mockito)
-    testImplementation(TestLibs.powerMock) {
-        exclude(module = "hamcrest-core")
-        exclude(module = "objenesis-core")
-    }
-    testImplementation(TestLibs.powerMockJunit) {
-        exclude(module = "hamcrest-core")
-        exclude(module = "objenesis-core")
-    }
+    testImplementation(TestLibs.mockitoKotlin)
     testImplementation(AndroidTestLibs.robolectric)
+    testImplementation(AndroidTestLibs.coreArch)
 }

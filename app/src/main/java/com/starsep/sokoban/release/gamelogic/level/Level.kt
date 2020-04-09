@@ -57,8 +57,9 @@ class Level(private val original: ImmutableLevel) : LevelAbstract() {
     }
 }
 
-fun getDefaultLevel(): Level {
-    return Level(ImmutableLevel(("###" + "#.#" + "###").toCharArray(),
-            3,
-            Position(1, 1)))
-}
+fun getDefaultImmutableLevel() = ImmutableLevel(
+    tiles = ("####" + "#..#" + "####").toCharArray(),
+    width = 4,
+    player = Position(1, 1))
+
+fun getDefaultLevel() = Level(getDefaultImmutableLevel())

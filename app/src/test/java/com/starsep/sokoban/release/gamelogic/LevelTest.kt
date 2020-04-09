@@ -82,6 +82,6 @@ class LevelTest {
                 jsonString,
                 Level::class.java
             )
-        Assert.assertTrue(level.equals(fromJson))
+        Assert.assertEquals(level, fromJson)
     }
 }

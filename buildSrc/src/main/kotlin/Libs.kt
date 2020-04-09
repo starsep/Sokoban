@@ -35,12 +35,11 @@ object BuildPlugins {
 
 object TestLibs {
     const val junit = "junit:junit:${Versions.TestLibs.junit}"
-    const val mockito = "org.mockito:mockito-core:1.10.19"
-    const val powerMock = "org.powermock:powermock-api-mockito:1.6.2"
-    const val powerMockJunit = "org.powermock:powermock-module-junit4:1.6.2"
+    const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 }
 
 object AndroidTestLibs {
+    const val coreArch = "androidx.arch.core:core-testing:2.1.0"
     const val androidJunit = "androidx.test.ext:junit:${Versions.TestLibs.androidJunit}"
     const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.TestLibs.espresso}"
     const val robolectric = "org.robolectric:robolectric:${Versions.TestLibs.robolectric}"

@@ -15,7 +15,6 @@ import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.starsep.sokoban.release.R
-import com.starsep.sokoban.release.controls.ControlListener
 import com.starsep.sokoban.release.controls.OnSwipeTouchListener
 import com.starsep.sokoban.release.gamelogic.HighScore
 import com.starsep.sokoban.release.gamelogic.Position

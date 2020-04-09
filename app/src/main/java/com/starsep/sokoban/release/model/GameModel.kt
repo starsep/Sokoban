@@ -8,22 +8,23 @@ import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.*
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.gamelogic.level.LevelLoader
+import com.starsep.sokoban.release.gamelogic.level.ResourceLevelLoader
 import com.starsep.sokoban.release.gamelogic.level.getDefaultLevel
 import java.io.IOException
 import timber.log.Timber
 
-class GameModel(private val context: Context) : ViewModel(), ControlListener {
+class GameModel(private val context: Context, private val levelLoader: LevelLoader = ResourceLevelLoader) : ViewModel(), ControlListener {
     val statsLive: MutableLiveData<HighScore> = MutableLiveData()
     val levelNumberLive: MutableLiveData<Int> = MutableLiveData()
     val levelLive: MutableLiveData<Level> = MutableLiveData()
-    val movesLive: MutableLiveData<Moves> = MutableLiveData()
+    val movesLive: MutableLiveData<ArrayList<Move>> = MutableLiveData()
     val wonLive: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         resetStats()
         levelNumberLive.value = 1
         levelLive.value = getDefaultLevel()
-        movesLive.value = Moves()
+        movesLive.value = ArrayList()
         updateWon()
     }
 
@@ -31,10 +32,10 @@ class GameModel(private val context: Context) : ViewModel(), ControlListener {
     fun levelNumber() = levelNumberLive.value ?: 0
     fun level() = levelLive.value ?: getDefaultLevel()
     fun player() = level().player
-    fun moves() = movesLive.value ?: Moves()
+    fun moves() = movesLive.value ?: ArrayList()
 
     private fun addMove(move: Move) {
-        movesLive.value = Moves(moves().plus(move))
+        movesLive.value = ArrayList(moves().plus(move))
     }
 
     fun lastMove() = moves().lastOrNull()
@@ -48,12 +49,13 @@ class GameModel(private val context: Context) : ViewModel(), ControlListener {
 
     override fun onResetLevel() {
         levelLive.value = try {
-            Level(LevelLoader.load(context, levelNumber()))
+            Level(levelLoader.load(context, levelNumber()))
         } catch (e: IOException) {
             Timber.e("Load error ${levelNumber()}.level) :<")
             getDefaultLevel()
         }
         resetStats()
+        movesLive.value = ArrayList()
     }
 
     private fun resetStats() {
@@ -80,15 +82,13 @@ class GameModel(private val context: Context) : ViewModel(), ControlListener {
     }
 
     fun makeMove(move: Move) {
-        val moveMade = level().move(move)
-        moveMade?.let {
-            addMove(moveMade)
-            stats().moves++
-            if (moveMade.push) {
-                stats().pushes++
-            }
-            afterMove()
+        val moveMade = level().move(move) ?: return
+        addMove(moveMade)
+        stats().moves++
+        if (moveMade.push) {
+            stats().pushes++
         }
+        afterMove()
     }
 
     private fun updateWon() {

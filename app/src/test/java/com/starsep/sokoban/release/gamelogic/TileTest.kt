@@ -1,6 +1,5 @@
 package com.starsep.sokoban.release.gamelogic
 
-import android.util.Log
 import com.starsep.sokoban.release.gamelogic.Tile.WALKABLE_MASK
 import com.starsep.sokoban.release.gamelogic.Tile.crate
 import com.starsep.sokoban.release.gamelogic.Tile.crateOnEndpoint
@@ -14,13 +13,7 @@ import com.starsep.sokoban.release.gamelogic.Tile.maskToChar
 import com.starsep.sokoban.release.gamelogic.Tile.wall
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.powermock.api.mockito.PowerMockito
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(Log::class)
 class TileTest {
     @Test
     fun crateIsCrate() {
@@ -61,21 +54,17 @@ class TileTest {
 
     @Test
     fun defaultMaskWalkable() {
-        PowerMockito.mockStatic(Log::class.java)
         Assert.assertEquals(
             mask('~').toLong(),
             WALKABLE_MASK
         )
-        PowerMockito.verifyStatic()
     }
 
     @Test
     fun defaultMaskToCharGrass() {
-        PowerMockito.mockStatic(Log::class.java)
         Assert.assertEquals(
             maskToChar(1337).toLong(),
             grass
         )
-        PowerMockito.verifyStatic()
     }
 }
