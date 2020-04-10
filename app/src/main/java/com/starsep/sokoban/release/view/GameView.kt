@@ -25,19 +25,12 @@ import com.starsep.sokoban.release.res.Textures
 import kotlin.math.min
 
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
-    private val dimension: Rect
-    private val textPaint: Paint = Paint().apply { color = Color.BLACK }
-    private var screenDelta: Position = Position(0, 0)
-    private var size: Int = 0 // size of tile
+    private var size = min(width, height) / 10
+    private val dimension = Rect(0, 0, size, size)
+    private val textPaint = Paint().apply { color = Color.BLACK }
+    private var screenDelta = Position(0, 0)
     private var winDialog: Dialog? = null
     private lateinit var gameModel: GameModel
-
-    init {
-        Textures.init(context)
-
-        size = min(width, height) / 10
-        dimension = Rect(0, 0, size, size)
-    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -102,7 +95,7 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
 
     private fun drawHero(canvas: Canvas) {
         setDrawingDimension(gameModel.player())
-        val bitmap = gameModel.lastMove()?.heroTexture() ?: Textures.heroDown()
+        val bitmap = gameModel.lastMove()?.heroTexture() ?: Textures.heroDown
         canvas.drawBitmap(bitmap, null, dimension, null)
     }
 

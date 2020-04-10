@@ -27,38 +27,32 @@ internal object LevelConverter {
     }
 
     object CommonLevelFormat {
-        val wall = '#'
-        val player = '@'
-        val playerOnEndpoint = '+'
-        val crate = '$'
-        val crateOnEndpoint = '*'
-        val endpoint = '.'
-        val floor = ' '
+        const val wall = '#'
+        const val player = '@'
+        const val playerOnEndpoint = '+'
+        const val crate = '$'
+        const val crateOnEndpoint = '*'
+        const val endpoint = '.'
+        const val floor = ' '
     }
 
-    private fun tileWithoutPlayer(tile: Char): Char {
-        return when (tile) {
-            CommonLevelFormat.player -> CommonLevelFormat.floor
-            CommonLevelFormat.playerOnEndpoint -> CommonLevelFormat.endpoint
-            else -> tile
-        }
+    private fun tileWithoutPlayer(tile: Char) = when (tile) {
+        CommonLevelFormat.player -> CommonLevelFormat.floor
+        CommonLevelFormat.playerOnEndpoint -> CommonLevelFormat.endpoint
+        else -> tile
     }
 
     @Throws(LevelConverterException::class)
-    private fun tileMapping(tile: Char): Char {
-        return when (tile) {
-            CommonLevelFormat.crate -> Tile.crate
-            CommonLevelFormat.crateOnEndpoint -> Tile.crateOnEndpoint
-            CommonLevelFormat.endpoint -> Tile.endpoint
-            CommonLevelFormat.floor -> Tile.ground
-            CommonLevelFormat.wall -> Tile.wall
-            else -> throw UnknownTileException()
-        }
+    private fun tileMapping(tile: Char) = when (tile) {
+        CommonLevelFormat.crate -> Tile.crate
+        CommonLevelFormat.crateOnEndpoint -> Tile.crateOnEndpoint
+        CommonLevelFormat.endpoint -> Tile.endpoint
+        CommonLevelFormat.floor -> Tile.ground
+        CommonLevelFormat.wall -> Tile.wall
+        else -> throw UnknownTileException()
     }
 
-    private fun isPlayerTile(tile: Char): Boolean {
-        return tileWithoutPlayer(tile) != tile
-    }
+    private fun isPlayerTile(tile: Char) = tileWithoutPlayer(tile) != tile
 
     @Throws(NoPlayerTileException::class, ManyPlayerTilesException::class)
     private fun findPlayer(data: CharArray, width: Int): Position {

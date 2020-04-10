@@ -13,7 +13,7 @@ class GameModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Test
-    fun testX() {
+    fun `undo after reset is no op`() {
         val gameModel = GameModel(mock(), DefaultLevelLoader)
         gameModel.onMoveRight()
 

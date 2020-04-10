@@ -7,7 +7,7 @@ import android.view.View
 import kotlin.math.abs
 
 class OnSwipeTouchListener(ctx: Context, private val listener: ControlListener) : View.OnTouchListener {
-    private val gestureDetector  = GestureDetector(ctx, GestureListener())
+    private val gestureDetector = GestureDetector(ctx, GestureListener())
     override fun onTouch(v: View, event: MotionEvent) = gestureDetector.onTouchEvent(event)
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {

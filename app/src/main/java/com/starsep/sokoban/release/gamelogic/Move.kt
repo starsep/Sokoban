@@ -11,10 +11,10 @@ class Move private constructor(private val direction: Direction, val push: Boole
     }
 
     fun heroTexture() = when (direction) {
-        Direction.LEFT -> Textures.heroLeft()
-        Direction.RIGHT -> Textures.heroRight()
-        Direction.UP -> Textures.heroUp()
-        Direction.DOWN -> Textures.heroDown()
+        Direction.LEFT -> Textures.heroLeft
+        Direction.RIGHT -> Textures.heroRight
+        Direction.UP -> Textures.heroUp
+        Direction.DOWN -> Textures.heroDown
     }
 
     fun dx() = when (direction) {
@@ -65,7 +65,7 @@ class Move private constructor(private val direction: Direction, val push: Boole
         }
 
         @Throws(UnknownMoveException::class)
-        fun fromChar(c: Char) =  when (c) {
+        fun fromChar(c: Char) = when (c) {
             'l' -> LEFT
             'L' -> PUSH_LEFT
             'r' -> RIGHT

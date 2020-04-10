@@ -6,7 +6,7 @@ import com.starsep.sokoban.release.gamelogic.Tile
 
 class Level(private val original: ImmutableLevel) : LevelAbstract() {
     override val tiles: CharArray = original.tiles.copyOf()
-    override var player: Position = original.player.copyOf()
+    override var player: Position = original.player.copy()
     override val width: Int = original.width
 
     private fun setTile(pos: Position, c: Char) {
@@ -43,17 +43,13 @@ class Level(private val original: ImmutableLevel) : LevelAbstract() {
         player += move.reverse().toPosition()
     }
 
-    override fun hashCode(): Int {
-        return original.hashCode()
-    }
+    override fun hashCode() = original.hashCode()
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is Level) {
-            return false
-        }
-        return tiles.contentEquals(other.tiles) &&
-                player == other.player &&
-                width == other.width
+    override fun equals(other: Any?) = when (other) {
+        is Level -> tiles.contentEquals(other.tiles) &&
+            player == other.player &&
+            width == other.width
+        else -> false
     }
 }
 

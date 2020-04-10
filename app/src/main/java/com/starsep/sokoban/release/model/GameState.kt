@@ -16,5 +16,3 @@ data class GameState(
             movesList = moves.joinToString("") { it.toString() })
     }
 }
-
-

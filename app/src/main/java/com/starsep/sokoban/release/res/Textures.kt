@@ -12,23 +12,21 @@ object Textures {
     private lateinit var crate: Bitmap
     private lateinit var ground: Bitmap
     private lateinit var endpoint: Bitmap
-    private lateinit var heroDown: Bitmap
-    private lateinit var heroUp: Bitmap
-    private lateinit var heroLeft: Bitmap
-    private lateinit var heroRight: Bitmap
+    lateinit var heroDown: Bitmap
+    lateinit var heroUp: Bitmap
+    lateinit var heroLeft: Bitmap
+    lateinit var heroRight: Bitmap
     private lateinit var crateOnEndpoint: Bitmap
 
-    fun tile(tile: Char): Bitmap {
-        return when (tile) {
-            Tile.wall -> wall
-            Tile.crate -> crate
-            Tile.endpoint -> endpoint
-            Tile.crateOnEndpoint -> crateOnEndpoint
-            Tile.ground -> ground
-            else -> {
-                Timber.e("Textures.tile: Unknown tile $tile")
-                ground
-            }
+    fun tile(tile: Char) = when (tile) {
+        Tile.wall -> wall
+        Tile.crate -> crate
+        Tile.endpoint -> endpoint
+        Tile.crateOnEndpoint -> crateOnEndpoint
+        Tile.ground -> ground
+        else -> {
+            Timber.e("Textures.tile: Unknown tile $tile")
+            ground
         }
     }
 
@@ -42,21 +40,5 @@ object Textures {
         heroLeft = BitmapFactory.decodeResource(context.resources, R.drawable.hero_left)
         heroRight = BitmapFactory.decodeResource(context.resources, R.drawable.hero_right)
         crateOnEndpoint = BitmapFactory.decodeResource(context.resources, R.drawable.crate_on_endpoint)
-    }
-
-    fun heroDown(): Bitmap {
-        return heroDown
-    }
-
-    fun heroUp(): Bitmap {
-        return heroUp
-    }
-
-    fun heroLeft(): Bitmap {
-        return heroLeft
-    }
-
-    fun heroRight(): Bitmap {
-        return heroRight
     }
 }

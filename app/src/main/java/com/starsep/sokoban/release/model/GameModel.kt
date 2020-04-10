@@ -1,7 +1,6 @@
 package com.starsep.sokoban.release.model
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.starsep.sokoban.release.controls.ControlListener

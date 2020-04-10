@@ -47,7 +47,7 @@ class TileTest {
                     mask(
                         tile
                     )
-                ).toLong(), tile.toLong()
+                ), tile
             )
         }
     }
@@ -55,7 +55,7 @@ class TileTest {
     @Test
     fun defaultMaskWalkable() {
         Assert.assertEquals(
-            mask('~').toLong(),
+            mask('~'),
             WALKABLE_MASK
         )
     }
@@ -63,7 +63,7 @@ class TileTest {
     @Test
     fun defaultMaskToCharGrass() {
         Assert.assertEquals(
-            maskToChar(1337).toLong(),
+            maskToChar(1337),
             grass
         )
     }
