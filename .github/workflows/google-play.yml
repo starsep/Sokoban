@@ -55,6 +55,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradlebuildcache-
 
+      - name: test app
+        run: ./gradlew :app:check
+
+      - name: upload lint results
+        uses: actions/upload-artifact@v1
+        with:
+          name: "lint-results.html"
+          path: "app/build/reports/lint-results.html"
+
+      - name: upload code coverage
+        uses: codecov/codecov-action@v1
+
       - name: write keystore
         run: echo '${{ secrets.GOOGLE_PLAY_KEY_JKS }}' | base64 -d > keystore.jks
 

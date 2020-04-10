@@ -28,8 +28,7 @@ object Libs {
 object BuildPlugins {
     const val androidGradle =
         "com.android.tools.build:gradle:${Versions.BuildPlugins.androidGradle}"
-    const val jacocoAndroid =
-        "com.dicedmelon.gradle:jacoco-android:${Versions.BuildPlugins.jacocoAndroid}"
+    const val jacocoAndroid = "com.hiya:jacoco-android:${Versions.BuildPlugins.jacocoAndroid}"
     const val navigation =
         "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.Libs.navigation}"
 }

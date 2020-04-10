@@ -3,11 +3,9 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
-//    id("androidx.navigation.safeargs.kotlin")
-    // id("jacoco-android")
+    id("androidx.navigation.safeargs.kotlin")
+    id("com.hiya.jacoco-android")
 }
-
-apply(plugin = "androidx.navigation.safeargs.kotlin")
 
 android {
     testOptions.unitTests.isIncludeAndroidResources = true
@@ -77,5 +75,5 @@ android {
     }
 }
 
-// apply(from="jacoco.gradle")
+apply(from = "jacoco.gradle.kts")
 apply(from = "dependencies.gradle.kts")

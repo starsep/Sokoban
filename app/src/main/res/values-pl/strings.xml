@@ -13,4 +13,7 @@
     <string name="continue_game">Kontynuuj grę</string>
     <string name="help_msg">Sokoban to gra logiczna.\nTwoim celem jest przesunięcie skrzynek na ich miejsca docelowe.\n\nPoruszaj się używając swipe\'a.</string>
     <string name="levels_title">Poziomy</string>
+    <string name="label_main_menu">Menu Główne</string>
+    <string name="label_choose_level">Wybierz Poziom</string>
+    <string name="label_game">Gra</string>
 </resources>

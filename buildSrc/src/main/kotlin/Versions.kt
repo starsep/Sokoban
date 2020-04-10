@@ -15,7 +15,8 @@ object Versions {
         const val androidGradle = "3.6.2"
         const val detekt = "1.7.2"
         const val gradleVersions = "0.28.0"
-        const val jacocoAndroid = "0.1.4"
+        const val jacoc = "0.8.5"
+        const val jacocoAndroid = "0.2"
         const val ktlint = "0.36.0"
         const val ktlintGradle = "9.2.1"
     }
