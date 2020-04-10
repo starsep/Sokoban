@@ -1,6 +1,7 @@
 val implementation by configurations
 val kapt by configurations
 val testImplementation by configurations
+val debugImplementation by configurations
 
 dependencies {
     implementation(Libs.kotlinStdlib)
@@ -18,6 +19,7 @@ dependencies {
     implementation(Libs.timber)
     implementation(Libs.koin)
     implementation(Libs.koinViewModel)
+    debugImplementation(Libs.leakCanary)
 
     kapt(Libs.roomKapt)
 

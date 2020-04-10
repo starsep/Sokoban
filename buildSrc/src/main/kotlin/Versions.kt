@@ -36,6 +36,7 @@ object Versions {
         const val playServicesGames = "15.0.1"
 
         // third party
+        const val leakCanary = "2.2"
         const val timber = "4.7.1"
         const val koin = "2.1.5"
     }

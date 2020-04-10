@@ -21,6 +21,7 @@ object Libs {
     const val gson = "com.google.code.gson:gson:2.8.6"
     const val koin = "org.koin:koin-android:${Versions.Libs.koin}"
     const val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.Libs.koin}"
+    const val leakCanary = "com.squareup.leakcanary:leakcanary-android:${Versions.Libs.leakCanary}"
     const val timber = "com.jakewharton.timber:timber:${Versions.Libs.timber}"
 }
 
