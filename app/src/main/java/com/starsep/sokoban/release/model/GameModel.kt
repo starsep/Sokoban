@@ -1,6 +1,7 @@
 package com.starsep.sokoban.release.model
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.starsep.sokoban.release.controls.ControlListener
@@ -10,6 +11,7 @@ import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.gamelogic.level.LevelLoader
 import com.starsep.sokoban.release.gamelogic.level.ResourceLevelLoader
 import com.starsep.sokoban.release.gamelogic.level.getDefaultLevel
+import com.starsep.sokoban.release.model.GameState.Companion.createGameState
 import java.io.IOException
 import timber.log.Timber
 
@@ -141,5 +143,5 @@ class GameModel(private val context: Context, private val levelLoader: LevelLoad
         stats().time = time
     }
 
-    fun gameState() = GameState(stats().time, levelNumber(), moves().toString())
+    fun gameState() = createGameState(stats().time, levelNumber(), moves())
 }

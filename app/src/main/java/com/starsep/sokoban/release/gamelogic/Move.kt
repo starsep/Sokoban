@@ -1,54 +1,41 @@
 package com.starsep.sokoban.release.gamelogic
 
-import android.graphics.Bitmap
 import com.starsep.sokoban.release.res.Textures
 
 class Move private constructor(private val direction: Direction, val push: Boolean) {
-    fun reverse(): Move {
-        return when (direction) {
-            Move.Direction.LEFT -> if (push) PUSH_RIGHT else RIGHT
-            Move.Direction.RIGHT -> if (push) PUSH_LEFT else LEFT
-            Move.Direction.DOWN -> if (push) PUSH_UP else UP
-            Move.Direction.UP -> if (push) PUSH_DOWN else DOWN
-        }
+    fun reverse() = when (direction) {
+        Direction.LEFT -> if (push) PUSH_RIGHT else RIGHT
+        Direction.RIGHT -> if (push) PUSH_LEFT else LEFT
+        Direction.DOWN -> if (push) PUSH_UP else UP
+        Direction.UP -> if (push) PUSH_DOWN else DOWN
     }
 
-    fun heroTexture(): Bitmap {
-        return when (direction) {
-            Move.Direction.LEFT -> Textures.heroLeft()
-            Move.Direction.RIGHT -> Textures.heroRight()
-            Move.Direction.UP -> Textures.heroUp()
-            Move.Direction.DOWN -> Textures.heroDown()
-        }
+    fun heroTexture() = when (direction) {
+        Direction.LEFT -> Textures.heroLeft()
+        Direction.RIGHT -> Textures.heroRight()
+        Direction.UP -> Textures.heroUp()
+        Direction.DOWN -> Textures.heroDown()
     }
 
-    fun dx(): Int {
-        return when (direction) {
-            Move.Direction.LEFT -> -1
-            Move.Direction.RIGHT -> 1
-            Move.Direction.UP, Move.Direction.DOWN -> 0
-        }
+    fun dx() = when (direction) {
+        Direction.LEFT -> -1
+        Direction.RIGHT -> 1
+        Direction.UP, Direction.DOWN -> 0
     }
 
-    fun dy(): Int {
-        return when (direction) {
-            Move.Direction.LEFT, Move.Direction.RIGHT -> 0
-            Move.Direction.UP -> -1
-            Move.Direction.DOWN -> 1
-        }
+    fun dy() = when (direction) {
+        Direction.LEFT, Direction.RIGHT -> 0
+        Direction.UP -> -1
+        Direction.DOWN -> 1
     }
 
-    override fun toString(): String {
-        return "" + toChar()
-    }
+    override fun toString() = "" + toChar()
 
-    fun toChar(): Char {
-        return when (direction) {
-            Move.Direction.LEFT -> if (push) 'L' else 'l'
-            Move.Direction.RIGHT -> if (push) 'R' else 'r'
-            Move.Direction.DOWN -> if (push) 'D' else 'd'
-            Move.Direction.UP -> if (push) 'U' else 'u'
-        }
+    fun toChar() = when (direction) {
+        Direction.LEFT -> if (push) 'L' else 'l'
+        Direction.RIGHT -> if (push) 'R' else 'r'
+        Direction.DOWN -> if (push) 'D' else 'd'
+        Direction.UP -> if (push) 'U' else 'u'
     }
 
     enum class Direction {
@@ -70,32 +57,28 @@ class Move private constructor(private val direction: Direction, val push: Boole
         val PUSH_LEFT = Move(Direction.LEFT, true)
         val PUSH_RIGHT = Move(Direction.RIGHT, true)
 
-        fun makePush(move: Move): Move {
-            return when (move.direction) {
-                Move.Direction.LEFT -> PUSH_LEFT
-                Move.Direction.RIGHT -> PUSH_RIGHT
-                Move.Direction.UP -> PUSH_UP
-                Move.Direction.DOWN -> PUSH_DOWN
-            }
+        fun makePush(move: Move) = when (move.direction) {
+            Direction.LEFT -> PUSH_LEFT
+            Direction.RIGHT -> PUSH_RIGHT
+            Direction.UP -> PUSH_UP
+            Direction.DOWN -> PUSH_DOWN
         }
 
         @Throws(UnknownMoveException::class)
-        fun fromChar(c: Char): Move {
-            return when (c) {
-                'l' -> LEFT
-                'L' -> PUSH_LEFT
-                'r' -> RIGHT
-                'R' -> PUSH_RIGHT
-                'u' -> UP
-                'U' -> PUSH_UP
-                'd' -> DOWN
-                'D' -> PUSH_DOWN
-                else -> throw UnknownMoveException()
+        fun fromChar(c: Char) =  when (c) {
+            'l' -> LEFT
+            'L' -> PUSH_LEFT
+            'r' -> RIGHT
+            'R' -> PUSH_RIGHT
+            'u' -> UP
+            'U' -> PUSH_UP
+            'd' -> DOWN
+            'D' -> PUSH_DOWN
+            else -> throw UnknownMoveException().also {
+                println("ASDASDSADASD $c")
             }
         }
     }
 
-    fun toPosition(): Position {
-        return Position(dy(), dx())
-    }
+    fun toPosition() = Position(dy(), dx())
 }

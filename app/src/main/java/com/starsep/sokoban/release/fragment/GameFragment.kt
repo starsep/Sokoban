@@ -61,6 +61,13 @@ class GameFragment : Fragment()
         }
     }
 
+    private fun resetTimer() {
+        timer?.let {
+            it.cancel()
+            timer = null
+        }
+    }
+
     private fun setupGameModel() {
         if (args.newGame) {
             gameModel.startLevel(args.levelNumber)
@@ -87,10 +94,7 @@ class GameFragment : Fragment()
             Database.setCurrentGame(gameModel.gameState())
         })
         gameModel.wonLive.observe(viewLifecycleOwner, Observer {
-            timer?.let {
-                it.cancel()
-                timer = null
-            }
+            resetTimer()
         })
         gameModel.levelNumberLive.observe(viewLifecycleOwner, Observer {
             timer = Timer()
@@ -121,4 +125,9 @@ class GameFragment : Fragment()
             e.printStackTrace()
         }
     }*/
+
+    override fun onDestroy() {
+        resetTimer()
+        super.onDestroy()
+    }
 }
