@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.database.Database
-import com.starsep.sokoban.release.view.HelpDialogBuilder
 import kotlinx.android.synthetic.main.fragment_main_menu.*
 
 class MainMenuFragment : Fragment() {
@@ -26,7 +26,11 @@ class MainMenuFragment : Fragment() {
             findNavController().navigate(MainMenuFragmentDirections.actionChooseLevel())
         }
         helpButton.setOnClickListener {
-            helpDialog = HelpDialogBuilder.build(requireContext())
+            helpDialog = MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.help))
+                .setMessage(getString(R.string.help_msg))
+                .setPositiveButton(getString(R.string.ok)) { _, _ -> }
+                .create()
             helpDialog?.show()
         }
         settingsButton.setOnClickListener {

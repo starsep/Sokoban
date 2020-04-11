@@ -17,23 +17,17 @@ data class HighScore(
         pushes = min(pushes, another.pushes)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is HighScore) {
-            return false
-        }
-        return time == other.time &&
-                moves == other.moves &&
-                pushes == other.pushes
+    override fun equals(other: Any?) = when (other) {
+        is HighScore -> time == other.time &&
+            moves == other.moves &&
+            pushes == other.pushes
+        else -> false
     }
 
-    override fun toString(): String {
-        return "HighScore(" +
-                "time=" + time + ", " +
-                "movesLive=" + moves + ", " +
-                "pushes=" + pushes + ")"
-    }
+    override fun toString() = "HighScore(" +
+        "time=" + time + ", " +
+        "movesLive=" + moves + ", " +
+        "pushes=" + pushes + ")"
 
-    override fun hashCode(): Int {
-        return toString().hashCode()
-    }
+    override fun hashCode() = toString().hashCode()
 }

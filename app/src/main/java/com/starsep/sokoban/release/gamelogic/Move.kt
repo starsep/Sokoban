@@ -74,9 +74,7 @@ class Move private constructor(private val direction: Direction, val push: Boole
             'U' -> PUSH_UP
             'd' -> DOWN
             'D' -> PUSH_DOWN
-            else -> throw UnknownMoveException().also {
-                println("ASDASDSADASD $c")
-            }
+            else -> throw UnknownMoveException()
         }
     }
 

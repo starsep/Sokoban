@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="@drawable/grass_repeat"
-              tools:ignore="Overdraw">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/grass_repeat"
+    tools:ignore="Overdraw">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/levels_title"
         android:gravity="center_horizontal"/>
-    <GridView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="@integer/level_select_columns"
-        android:verticalSpacing="10dp">
-    </GridView>
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="@integer/level_select_columns">
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

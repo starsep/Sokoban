@@ -82,7 +82,7 @@ class GameModel(private val context: Context, private val levelLoader: LevelLoad
         updateLevel()
     }
 
-    fun makeMove(move: Move) {
+    private fun makeMove(move: Move) {
         val moveMade = level().move(move) ?: return
         addMove(moveMade)
         stats().moves++

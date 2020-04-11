@@ -4,13 +4,15 @@ import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import kotlin.math.abs
 
 class OnSwipeTouchListener(ctx: Context, private val listener: ControlListener) : View.OnTouchListener {
     private val gestureDetector = GestureDetector(ctx, GestureListener())
     override fun onTouch(v: View, event: MotionEvent) = gestureDetector.onTouchEvent(event)
 
-    private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             val diffY = e2.y - e1.y
             val diffX = e2.x - e1.x
@@ -31,7 +33,7 @@ class OnSwipeTouchListener(ctx: Context, private val listener: ControlListener) 
         override fun onDown(e: MotionEvent) = true
     }
     companion object {
-        private const val SWIPE_THRESHOLD = 100
-        private const val SWIPE_VELOCITY_THRESHOLD = 100
+        private const val SWIPE_THRESHOLD = 100f
+        private const val SWIPE_VELOCITY_THRESHOLD = 100f
     }
 }

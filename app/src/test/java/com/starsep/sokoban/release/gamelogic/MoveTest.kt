@@ -9,8 +9,7 @@ import com.starsep.sokoban.release.gamelogic.Move.Companion.PUSH_UP
 import com.starsep.sokoban.release.gamelogic.Move.Companion.RIGHT
 import com.starsep.sokoban.release.gamelogic.Move.Companion.UP
 import com.starsep.sokoban.release.gamelogic.Move.Companion.fromChar
-import com.starsep.sokoban.release.gamelogic.Move.UnknownMoveException
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class MoveTest {
@@ -27,16 +26,44 @@ class MoveTest {
                 PUSH_RIGHT,
                 PUSH_UP
             )
-        for (m in moves) {
-            try {
-                Assert.assertEquals(
-                    fromChar(
-                        m.toChar()
-                    ), m
-                )
-            } catch (e: UnknownMoveException) {
-                Assert.assertTrue(false)
-            }
+        moves.forEach { move ->
+            assertEquals(move, fromChar(move.toChar()))
+        }
+    }
+
+    @Test
+    fun `test reverse`() {
+        val cases = arrayOf(
+            DOWN to UP,
+            LEFT to RIGHT,
+            RIGHT to LEFT,
+            UP to DOWN,
+            PUSH_DOWN to PUSH_UP,
+            PUSH_LEFT to PUSH_RIGHT,
+            PUSH_RIGHT to PUSH_LEFT,
+            PUSH_UP to PUSH_DOWN
+        )
+
+        cases.forEach { (move, expected) ->
+            assertEquals(expected, move.reverse())
+        }
+    }
+
+    @Test
+    fun `test toPosition`() {
+        val cases = arrayOf(
+            DOWN to Position(y = 1, x = 0),
+            LEFT to Position(y = 0, x = -1),
+            RIGHT to Position(y = 0, x = 1),
+            UP to Position(y = -1, x = 0),
+            PUSH_DOWN to Position(y = 1, x = 0),
+            PUSH_LEFT to Position(y = 0, x = -1),
+            PUSH_RIGHT to Position(y = 0, x = 1),
+            PUSH_UP to Position(y = -1, x = 0)
+        )
+
+        cases.forEach { (move, expected) ->
+            assertEquals(expected, move.toPosition())
         }
     }
 }
