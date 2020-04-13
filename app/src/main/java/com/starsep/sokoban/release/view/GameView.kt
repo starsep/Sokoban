@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.controls.OnSwipeTouchListener
 import com.starsep.sokoban.release.gamelogic.HighScore
@@ -23,6 +24,7 @@ import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.model.GameModel
 import com.starsep.sokoban.release.res.Textures
 import kotlin.math.min
+import kotlinx.coroutines.*
 
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
     private var size = min(width, height) / 10
@@ -40,7 +42,12 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         updateLevel(gameModel.level())
         gameModel.wonLive.observe(fragment, Observer {
             if (it == true) {
-                showWinDialog(gameModel.highScore())
+                fragment.lifecycleScope.launch(Dispatchers.IO) {
+                    val highScore = gameModel.highScore()
+                    withContext(Dispatchers.Main) {
+                        showWinDialog(highScore)
+                    }
+                }
                 gameModel.sendHighScore()
             }
         })

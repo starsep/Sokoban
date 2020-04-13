@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.database.Database
 import kotlinx.android.synthetic.main.fragment_main_menu.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainMenuFragment : Fragment() {
     private var helpDialog: Dialog? = null
@@ -36,14 +40,17 @@ class MainMenuFragment : Fragment() {
         settingsButton.setOnClickListener {
             findNavController().navigate(MainMenuFragmentDirections.actionMainSettings())
         }
-        Database.getCurrentGame()?.let { gameState ->
-            continueGameButton.setOnClickListener {
-                findNavController().navigate(MainMenuFragmentDirections.actionContinueLevel(
-                        newGame = false,
-                        levelNumber = gameState.levelNumber
-                ))
+        lifecycleScope.launch(Dispatchers.IO) {
+            val gameState = Database.gameStateDao.getCurrentGame() ?: return@launch
+            withContext(Dispatchers.Main) {
+                continueGameButton.setOnClickListener {
+                    findNavController().navigate(MainMenuFragmentDirections.actionContinueLevel(
+                            newGame = false,
+                            levelNumber = gameState.levelNumber
+                    ))
+                }
+                continueGameButton.visibility = View.VISIBLE
             }
-            continueGameButton.visibility = View.VISIBLE
         }
     }
 

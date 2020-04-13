@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.starsep.sokoban.release.R
@@ -13,6 +14,8 @@ import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.model.GameModel
 import java.util.*
 import kotlinx.android.synthetic.main.fragment_game.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GameFragment : Fragment()
@@ -72,18 +75,21 @@ class GameFragment : Fragment()
         if (args.newGame) {
             gameModel.startLevel(args.levelNumber)
         } else {
-            val gameState = Database.getCurrentGame()
-            if (gameState == null) {
-                gameModel.startLevel(args.levelNumber)
-            } else {
-                gameModel.startLevel(gameState.levelNumber)
-                gameModel.setTime(gameState.time)
-                gameModel.makeMoves(gameState.movesList)
+            lifecycleScope.launchWhenStarted {
+                when (val gameState = Database.gameStateDao.getCurrentGame()) {
+                    null -> gameModel.startLevel(args.levelNumber)
+                    else -> {
+                        gameModel.startLevel(gameState.levelNumber)
+                        gameModel.setTime(gameState.time)
+                        gameModel.makeMoves(gameState.movesList)
+                    }
+                }
             }
         }
         gameModel.statsLive.observe(viewLifecycleOwner, Observer { highScore ->
+            if (highScore == null) return@Observer
             val levelNumber = gameModel.levelNumber()
-            val minutes = highScore!!.time / 60
+            val minutes = highScore.time / 60
             val seconds = highScore.time % 60
             val moves = highScore.moves
             val pushes = highScore.pushes
@@ -91,7 +97,10 @@ class GameFragment : Fragment()
                     levelNumber, minutes, seconds, moves, pushes)
         })
         gameModel.movesLive.observe(viewLifecycleOwner, Observer {
-            Database.setCurrentGame(gameModel.gameState())
+            val gameState = gameModel.gameState()
+            lifecycleScope.launch(Dispatchers.IO) {
+                Database.gameStateDao.setCurrentGame(gameState)
+            }
         })
         gameModel.wonLive.observe(viewLifecycleOwner, Observer {
             resetTimer()

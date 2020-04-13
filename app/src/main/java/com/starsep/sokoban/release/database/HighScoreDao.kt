@@ -1,22 +1,38 @@
 package com.starsep.sokoban.release.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.starsep.sokoban.release.gamelogic.HighScore
 
 @Dao
 interface HighScoreDao {
     @Query("SELECT * FROM highscore WHERE levelHash = :levelHash AND levelNumber = :levelNumber")
-    fun getHighScore(levelHash: Int, levelNumber: Int): List<HighScore>
+    suspend fun getHighScore(levelHash: Int, levelNumber: Int): List<HighScore>
+
+    suspend fun highScore(levelHash: Int, levelNumber: Int) =
+        getHighScore(levelHash, levelNumber).firstOrNull()
 
     @Query("SELECT levelNumber FROM highscore")
-    fun solvedLevels(): List<Int>
+    suspend fun solvedLevels(): List<Int>
 
     @Update
-    fun updateHighScore(highScore: HighScore)
+    suspend fun updateHighScore(highScore: HighScore)
 
     @Insert
-    fun insertHighScore(highScore: HighScore)
+    suspend fun insertHighScore(highScore: HighScore)
+
+    private suspend fun updateHighScoreIfPossible(highScore: HighScore): Boolean {
+        val oldScore = highScore(highScore.levelHash, highScore.levelNumber)
+        if (oldScore != null) {
+            oldScore.improve(highScore)
+            updateHighScore(highScore)
+            return true
+        }
+        return false
+    }
+
+    @Transaction
+    suspend fun addHighScore(highScore: HighScore) {
+        if (updateHighScoreIfPossible(highScore)) return
+        insertHighScore(highScore)
+    }
 }

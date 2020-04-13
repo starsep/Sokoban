@@ -2,12 +2,18 @@ package com.starsep.sokoban.release.res
 
 import android.graphics.Color
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.fragment.ChooseLevelFragmentDirections
 import com.starsep.sokoban.release.view.SquareButton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LevelIconsAdapter(private val size: Int) : RecyclerView.Adapter<LevelIconsAdapter.ViewHolder>() {
     class ViewHolder(val button: SquareButton) : RecyclerView.ViewHolder(button)
@@ -30,8 +36,19 @@ class LevelIconsAdapter(private val size: Int) : RecyclerView.Adapter<LevelIcons
         }
         button.layoutParams
         button.text = String.format(button.context.getString(R.string.level), levelNumber)
-        if (levelNumber in Database.solvedLevels()) {
-            button.setBackgroundColor(Color.rgb(0, 221, 12))
+    }
+
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        val button = holder.button
+        button.findFragment<Fragment>().lifecycleScope.launch(Dispatchers.IO) {
+            val solvedLevels = Database.highScoreDao.solvedLevels()
+            val levelNumber = holder.adapterPosition + 1
+            if (levelNumber in solvedLevels) {
+                withContext(Dispatchers.Main) {
+                    button.setBackgroundColor(Color.rgb(0, 221, 12))
+                }
+            }
         }
     }
 }

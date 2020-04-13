@@ -3,6 +3,7 @@ package com.starsep.sokoban.release.model
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.starsep.sokoban.release.controls.ControlListener
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.gamelogic.*
@@ -12,6 +13,8 @@ import com.starsep.sokoban.release.gamelogic.level.ResourceLevelLoader
 import com.starsep.sokoban.release.gamelogic.level.getDefaultLevel
 import com.starsep.sokoban.release.model.GameState.Companion.createGameState
 import java.io.IOException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class GameModel(private val context: Context, private val levelLoader: LevelLoader = ResourceLevelLoader) : ViewModel(), ControlListener {
@@ -120,10 +123,12 @@ class GameModel(private val context: Context, private val levelLoader: LevelLoad
     fun sendHighScore() {
         stats().levelHash = levelHash()
         stats().levelNumber = levelNumber()
-        Database.addHighScore(stats())
+        viewModelScope.launch(Dispatchers.IO) {
+            Database.highScoreDao.addHighScore(stats())
+        }
     }
 
-    fun highScore() = Database.highScore(level().hashCode(), levelNumber())
+    suspend fun highScore() = Database.highScoreDao.highScore(level().hashCode(), levelNumber())
 
     fun onSecondElapsed() {
         stats().time++

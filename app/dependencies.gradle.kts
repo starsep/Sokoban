@@ -6,7 +6,9 @@ val debugImplementation by configurations
 dependencies {
     implementation(Libs.kotlinStdlib)
     implementation(Libs.lifecycleViewModel)
+    implementation(Libs.lifecycleScope)
     implementation(Libs.room)
+    implementation(Libs.roomKtx)
     implementation(Libs.appCompat)
     implementation(Libs.constraintLayout)
     implementation(Libs.material)

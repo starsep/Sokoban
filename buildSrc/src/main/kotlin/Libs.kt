@@ -7,9 +7,11 @@ object Libs {
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.Libs.constraintLayout}"
     const val androidXAnnotations = "androidx.annotation:annotation:${Versions.Libs.androidXAnnotations}"
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.Libs.lifecycle}"
+    const val lifecycleScope = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Libs.lifecycle}"
     const val preference = "androidx.preference:preference-ktx:${Versions.Libs.preference}"
     const val room = "androidx.room:room-runtime:${Versions.Libs.room}"
     const val roomKapt = "androidx.room:room-compiler:${Versions.Libs.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.Libs.room}"
     const val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.Libs.navigation}"
     const val navigationUIKtx = "androidx.navigation:navigation-ui-ktx:${Versions.Libs.navigation}"
 
