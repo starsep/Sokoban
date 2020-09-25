@@ -18,9 +18,10 @@ data class HighScore(
     }
 
     override fun equals(other: Any?) = when (other) {
-        is HighScore -> time == other.time &&
-            moves == other.moves &&
-            pushes == other.pushes
+        is HighScore ->
+            time == other.time &&
+                moves == other.moves &&
+                pushes == other.pushes
         else -> false
     }
 

@@ -17,7 +17,8 @@ class OnSwipeTouchListener(ctx: Context, private val listener: ControlListener) 
             val diffY = e2.y - e1.y
             val diffX = e2.x - e1.x
             if (abs(diffX) > abs(diffY) &&
-                    abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
+            ) {
                 when {
                     diffX > 0 -> listener.onMoveRight()
                     else -> listener.onMoveLeft()

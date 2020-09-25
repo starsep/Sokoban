@@ -47,7 +47,8 @@ class TileTest {
                     mask(
                         tile
                     )
-                ), tile
+                ),
+                tile
             )
         }
     }

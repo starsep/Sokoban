@@ -23,8 +23,8 @@ import com.starsep.sokoban.release.gamelogic.Tile
 import com.starsep.sokoban.release.gamelogic.level.Level
 import com.starsep.sokoban.release.model.GameModel
 import com.starsep.sokoban.release.res.Textures
-import kotlin.math.min
 import kotlinx.coroutines.*
+import kotlin.math.min
 
 class GameView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
     private var size = min(width, height) / 10
@@ -40,17 +40,20 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         gameModel = ViewModelProvider(fragment).get(GameModel::class.java)
         gameModel.levelLive.observe(fragment, Observer { level -> updateLevel(level) })
         updateLevel(gameModel.level())
-        gameModel.wonLive.observe(fragment, Observer {
-            if (it == true) {
-                fragment.lifecycleScope.launch(Dispatchers.IO) {
-                    val highScore = gameModel.highScore()
-                    withContext(Dispatchers.Main) {
-                        showWinDialog(highScore)
+        gameModel.wonLive.observe(
+            fragment,
+            Observer {
+                if (it == true) {
+                    fragment.lifecycleScope.launch(Dispatchers.IO) {
+                        val highScore = gameModel.highScore()
+                        withContext(Dispatchers.Main) {
+                            showWinDialog(highScore)
+                        }
                     }
+                    gameModel.sendHighScore()
                 }
-                gameModel.sendHighScore()
             }
-        })
+        )
         setOnTouchListener(OnSwipeTouchListener(context, gameModel))
     }
 
@@ -88,16 +91,18 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         size = min(width / level.width, height / level.height())
         textPaint.textSize = size.toFloat()
         screenDelta = Position(
-                (height - level.height() * size) / 2,
-                (width - level.width * size) / 2
+            (height - level.height() * size) / 2,
+            (width - level.width * size) / 2
         )
         invalidate()
     }
 
     private fun setDrawingDimension(pos: Position) {
         val (y, x) = pos
-        dimension.set(screenDelta.x + x * size, screenDelta.y + y * size,
-                screenDelta.x + (x + 1) * size, screenDelta.y + (y + 1) * size)
+        dimension.set(
+            screenDelta.x + x * size, screenDelta.y + y * size,
+            screenDelta.x + (x + 1) * size, screenDelta.y + (y + 1) * size
+        )
     }
 
     private fun drawHero(canvas: Canvas) {
@@ -137,17 +142,19 @@ class GameView(context: Context, attributeSet: AttributeSet) : View(context, att
         val seconds = stats.time % 60
         val minutesBest = highScore.time / 60
         val secondsBest = highScore.time % 60
-        val msg = String.format(resources.getString(R.string.win_msg),
-                stats.moves, highScore.moves, stats.pushes, highScore.pushes,
-                minutes, seconds, minutesBest, secondsBest)
+        val msg = String.format(
+            resources.getString(R.string.win_msg),
+            stats.moves, highScore.moves, stats.pushes, highScore.pushes,
+            minutes, seconds, minutesBest, secondsBest
+        )
         winDialog = AlertDialog.Builder(context)
-                .setTitle(String.format(resources.getString(R.string.win_title), gameModel.levelNumber()))
-                .setMessage(msg)
-                .setPositiveButton(resources.getString(R.string.win_positive)) { _, _ -> gameModel.nextLevel() }
-                .setNegativeButton(resources.getString(R.string.win_negative)) { _, _ -> gameModel.onResetLevel() }
-                .setOnCancelListener { gameModel.nextLevel() }
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .create()
+            .setTitle(String.format(resources.getString(R.string.win_title), gameModel.levelNumber()))
+            .setMessage(msg)
+            .setPositiveButton(resources.getString(R.string.win_positive)) { _, _ -> gameModel.nextLevel() }
+            .setNegativeButton(resources.getString(R.string.win_negative)) { _, _ -> gameModel.onResetLevel() }
+            .setOnCancelListener { gameModel.nextLevel() }
+            .setIcon(android.R.drawable.ic_dialog_info)
+            .create()
         winDialog?.show()
     }
 }

@@ -1,6 +1,6 @@
 package com.starsep.sokoban.release
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.model.GameModel
 import com.starsep.sokoban.release.res.Textures
@@ -10,7 +10,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import timber.log.Timber
 
-class MainApplication : Application() {
+class MainApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         setupTimber()

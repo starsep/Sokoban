@@ -1,4 +1,4 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
 
 buildscript {
     repositories {
@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(BuildPlugins.androidGradle)
+        classpath("com.android.tools.build:gradle:4.0.1")
         classpath(BuildPlugins.navigation)
         classpath(BuildPlugins.jacocoAndroid)
 
@@ -44,6 +44,7 @@ detekt {
     input = files("$projectDir/src/main/java")
 }
 
+/*
 tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
     resolutionStrategy {
         componentSelection {
@@ -59,3 +60,4 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
         }
     }
 }
+*/

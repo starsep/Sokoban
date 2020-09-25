@@ -46,9 +46,10 @@ class Level(private val original: ImmutableLevel) : LevelAbstract() {
     override fun hashCode() = original.hashCode()
 
     override fun equals(other: Any?) = when (other) {
-        is Level -> tiles.contentEquals(other.tiles) &&
-            player == other.player &&
-            width == other.width
+        is Level ->
+            tiles.contentEquals(other.tiles) &&
+                player == other.player &&
+                width == other.width
         else -> false
     }
 }
@@ -56,6 +57,7 @@ class Level(private val original: ImmutableLevel) : LevelAbstract() {
 fun getDefaultImmutableLevel() = ImmutableLevel(
     tiles = ("####" + "#..#" + "####").toCharArray(),
     width = 4,
-    player = Position(1, 1))
+    player = Position(1, 1)
+)
 
 fun getDefaultLevel() = Level(getDefaultImmutableLevel())

@@ -12,10 +12,10 @@ import com.starsep.sokoban.release.gamelogic.level.LevelLoader
 import com.starsep.sokoban.release.gamelogic.level.ResourceLevelLoader
 import com.starsep.sokoban.release.gamelogic.level.getDefaultLevel
 import com.starsep.sokoban.release.model.GameState.Companion.createGameState
-import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 
 class GameModel(private val context: Context, private val levelLoader: LevelLoader = ResourceLevelLoader) : ViewModel(), ControlListener {
     val statsLive: MutableLiveData<HighScore> = MutableLiveData()

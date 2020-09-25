@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
-    id("kotlin-kapt")
+    kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("com.hiya.jacoco-android")
 }
@@ -27,6 +27,7 @@ android {
         applicationId = "com.starsep.sokoban.release"
         minSdkVersion(Versions.Android.minSdk)
         targetSdkVersion(Versions.Android.targetSdk)
+        multiDexEnabled = true
         versionCode = Versions.App.code
         versionName = Versions.App.name
     }

@@ -13,6 +13,7 @@ data class GameState(
         fun createGameState(time: Int, levelNumber: Int, moves: List<Move>) = GameState(
             time = time,
             levelNumber = levelNumber,
-            movesList = moves.joinToString("") { it.toString() })
+            movesList = moves.joinToString("") { it.toString() }
+        )
     }
 }

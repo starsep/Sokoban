@@ -1,52 +1,27 @@
 object Versions {
-    const val kotlin = "1.3.71"
+    const val kotlin = "1.4.10"
 
     object App {
         private val githubRunId = (System.getenv("GITHUB_RUN_ID") ?: "1").toInt()
         private val githubRunNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
         private val isBetaBuild = (System.getenv("track") ?: "") == "internal"
-        private val buildOffset = 143896282
+        private const val buildOffset = 143896282
         private val betaOffset = if (isBetaBuild) 100000000 else 0
         val code = githubRunNumber + buildOffset + betaOffset
         val name = "1.10.$code-gh$githubRunId"
     }
 
     object BuildPlugins {
-        const val androidGradle = "3.6.2"
-        const val detekt = "1.7.2"
-        const val gradleVersions = "0.28.0"
-        const val jacoc = "0.8.5"
+        const val detekt = "1.13.1"
+        const val gradleVersions = "0.33.0"
         const val jacocoAndroid = "0.2"
-        const val ktlint = "0.36.0"
-        const val ktlintGradle = "9.2.1"
+        const val ktlint = "0.39.0"
+        const val ktlintGradle = "9.4.0"
     }
 
     object Libs {
         // AndroidX
-        const val androidXAnnotations = "1.1.0"
-        const val appCompat = "1.0.2"
-        const val constraintLayout = "1.1.3"
-        const val coreKtx = "1.0.2"
-        const val lifecycle = "2.2.0"
-        const val material = "1.1.0"
-        const val navigation = "2.2.1"
-        const val preference = "1.1.0"
-        const val room = "2.2.5"
-
-        // Google
-        const val playServicesGames = "15.0.1"
-
-        // third party
-        const val leakCanary = "2.2"
-        const val timber = "4.7.1"
-        const val koin = "2.1.5"
-    }
-
-    object TestLibs {
-        const val androidJunit = "1.1.1"
-        const val espresso = "3.2.0"
-        const val junit = "4.12"
-        const val robolectric = "4.3.1"
+        const val navigation = "2.3.0"
     }
 
     object Android {

@@ -29,10 +29,12 @@ class LevelIconsAdapter(private val size: Int) : RecyclerView.Adapter<LevelIcons
         val levelNumber = position + 1
         val button = holder.button
         button.setOnClickListener {
-            it.findNavController().navigate(ChooseLevelFragmentDirections.actionStartLevel(
-                newGame = true,
-                levelNumber = levelNumber
-            ))
+            it.findNavController().navigate(
+                ChooseLevelFragmentDirections.actionStartLevel(
+                    newGame = true,
+                    levelNumber = levelNumber
+                )
+            )
         }
         button.layoutParams
         button.text = String.format(button.context.getString(R.string.level), levelNumber)

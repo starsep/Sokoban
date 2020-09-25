@@ -44,10 +44,12 @@ class MainMenuFragment : Fragment() {
             val gameState = Database.gameStateDao.getCurrentGame() ?: return@launch
             withContext(Dispatchers.Main) {
                 continueGameButton.setOnClickListener {
-                    findNavController().navigate(MainMenuFragmentDirections.actionContinueLevel(
+                    findNavController().navigate(
+                        MainMenuFragmentDirections.actionContinueLevel(
                             newGame = false,
                             levelNumber = gameState.levelNumber
-                    ))
+                        )
+                    )
                 }
                 continueGameButton.visibility = View.VISIBLE
             }

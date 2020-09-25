@@ -12,11 +12,11 @@ import androidx.navigation.fragment.navArgs
 import com.starsep.sokoban.release.R
 import com.starsep.sokoban.release.database.Database
 import com.starsep.sokoban.release.model.GameModel
-import java.util.*
 import kotlinx.android.synthetic.main.fragment_game.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class GameFragment : Fragment()
 /*, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
@@ -86,35 +86,52 @@ class GameFragment : Fragment()
                 }
             }
         }
-        gameModel.statsLive.observe(viewLifecycleOwner, Observer { highScore ->
-            if (highScore == null) return@Observer
-            val levelNumber = gameModel.levelNumber()
-            val minutes = highScore.time / 60
-            val seconds = highScore.time % 60
-            val moves = highScore.moves
-            val pushes = highScore.pushes
-            statusTextView.text = String.format(getString(R.string.level_status),
-                    levelNumber, minutes, seconds, moves, pushes)
-        })
-        gameModel.movesLive.observe(viewLifecycleOwner, Observer {
-            val gameState = gameModel.gameState()
-            lifecycleScope.launch(Dispatchers.IO) {
-                Database.gameStateDao.setCurrentGame(gameState)
+        gameModel.statsLive.observe(
+            viewLifecycleOwner,
+            Observer { highScore ->
+                if (highScore == null) return@Observer
+                val levelNumber = gameModel.levelNumber()
+                val minutes = highScore.time / 60
+                val seconds = highScore.time % 60
+                val moves = highScore.moves
+                val pushes = highScore.pushes
+                statusTextView.text = String.format(
+                    getString(R.string.level_status),
+                    levelNumber, minutes, seconds, moves, pushes
+                )
             }
-        })
-        gameModel.wonLive.observe(viewLifecycleOwner, Observer {
-            resetTimer()
-        })
-        gameModel.levelNumberLive.observe(viewLifecycleOwner, Observer {
-            timer = Timer()
-            timer?.schedule(object : TimerTask() {
-                override fun run() {
-                    activity?.runOnUiThread {
-                        gameModel.onSecondElapsed()
-                    }
+        )
+        gameModel.movesLive.observe(
+            viewLifecycleOwner,
+            Observer {
+                val gameState = gameModel.gameState()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    Database.gameStateDao.setCurrentGame(gameState)
                 }
-            }, 0, 1000)
-        })
+            }
+        )
+        gameModel.wonLive.observe(
+            viewLifecycleOwner,
+            Observer {
+                resetTimer()
+            }
+        )
+        gameModel.levelNumberLive.observe(
+            viewLifecycleOwner,
+            Observer {
+                timer = Timer()
+                timer?.schedule(
+                    object : TimerTask() {
+                        override fun run() {
+                            activity?.runOnUiThread {
+                                gameModel.onSecondElapsed()
+                            }
+                        }
+                    },
+                    0, 1000
+                )
+            }
+        )
     }
 
     /*override fun onConnected(bundle: Bundle?) {

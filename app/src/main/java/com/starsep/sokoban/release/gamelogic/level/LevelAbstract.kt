@@ -15,7 +15,7 @@ abstract class LevelAbstract {
 
     override fun toString(): String {
         var result = "" + height() + ' ' + width + '\n' +
-                player.y + ' ' + player.x + '\n'
+            player.y + ' ' + player.x + '\n'
         for (i in 0 until height()) {
             for (j in 0 until width) {
                 result += tile(Position(i, j))
@@ -40,8 +40,9 @@ abstract class LevelAbstract {
     fun height() = tiles.size / width
 
     override fun equals(other: Any?) = when (other) {
-        is ImmutableLevel -> width == other.width &&
-            tiles.contentEquals(other.tiles)
+        is ImmutableLevel ->
+            width == other.width &&
+                tiles.contentEquals(other.tiles)
         else -> false
     }
 
